@@ -1,10 +1,9 @@
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTeams } from "../context/TeamsContext";
 import { useInvites } from "../context/InviteContext";
 import CreateIssueModal from "./CreateIssueModal";
-import { useEffect } from "react";
 import {
   Inbox,
   CircleDot,
@@ -16,6 +15,7 @@ import {
   LogOut,
   Plus,
   Hash,
+  ChevronDown,
 } from "lucide-react";
 
 const Sidebar = () => {
@@ -44,40 +44,44 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-64 h-screen bg-[#0F1115] border-r border-[#1F2328] flex flex-col">
+    <aside className="w-64 h-screen bg-[#0F1115] border-r border-[#1F2328] flex flex-col font-sans">
       {/* Workspace Header */}
-      <div className="p-4 border-b border-[#1F2328]">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">W</span>
+      <div className="p-4 border-b border-white/[0.04]">
+        <div className="flex items-center gap-2 px-2 py-2 mb-4 hover:bg-white/[0.04] rounded-md cursor-pointer transition-colors group">
+          <div className="w-5 h-5 bg-gradient-to-br from-[#5E6AD2] to-[#8C98F2] rounded flex items-center justify-center flex-shrink-0 shadow-sm border border-white/10">
+            <span className="text-white font-medium text-[11px] leading-none">
+              W
+            </span>
           </div>
-          <div className="flex-1">
-            <h2 className="text-white font-semibold text-sm truncate">
+          <div className="flex-1 min-w-0 flex flex-col justify-center">
+            <h2 className="text-[#E8E8E8] font-medium text-[13px] truncate leading-tight group-hover:text-white transition-colors">
               {user?.workspaceId?.name || "Workspace"}
             </h2>
-            <p className="text-gray-500 text-xs">{user?.name}</p>
+            <p className="text-[#8A8F98] text-[11px] truncate leading-tight mt-1">
+              {user?.name}
+            </p>
           </div>
         </div>
 
         {/* Search Bar */}
-        <button className="w-full bg-[#1A1D24] hover:bg-[#2D3139] rounded-lg py-2 px-3 flex items-center gap-2 text-gray-400 text-sm transition-colors">
-          <Search className="w-4 h-4" />
-          <span className="flex-1 text-left">Search</span>
-          <div className="flex items-center gap-1 text-xs">
-            <Command className="w-3 h-3" />
+        <button className="w-full bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05] rounded-md py-2 px-2 flex items-center gap-2 text-[#8A8F98] text-[13px] transition-all shadow-sm">
+          <Search className="w-3.5 h-3.5 text-[#8A8F98]" />
+          <span className="flex-1 text-left font-medium">Search</span>
+          <div className="flex items-center gap-1 text-[10px] font-medium text-[#8A8F98] border border-white/[0.05] bg-white/[0.02] px-2 py-1 rounded">
+            <Command className="w-2.5 h-2.5" />
             <span>K</span>
           </div>
         </button>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-2">
-        <div className="mb-4">
+      <nav className="flex-1 p-4 overflow-y-auto">
+        <div className="mb-4 px-1">
           <button
             onClick={() => setShowCreateModal(true)}
-            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mb-4"
+            className="w-full bg-[#5E6AD2] hover:bg-[#6F7BF7] text-white font-medium py-2 px-4 rounded-md transition-all shadow-sm flex items-center justify-center gap-2 text-[13px]"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-3.5 h-3.5" />
             New issue
           </button>
         </div>
@@ -88,17 +92,17 @@ const Sidebar = () => {
               <NavLink
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  `group flex items-center gap-2 px-2 py-2 rounded-md text-[13px] font-medium transition-colors ${
                     isActive
-                      ? "bg-[#2D3139] text-white"
-                      : "text-gray-400 hover:bg-[#1A1D24] hover:text-gray-200"
+                      ? "bg-white/[0.06] text-[#E8E8E8]"
+                      : "text-[#8A8F98] hover:bg-white/[0.04] hover:text-[#D1D5DB]"
                   }`
                 }
               >
-                <item.icon className="w-5 h-5" />
-                <span className="flex-1">{item.label}</span>
+                <item.icon className="w-4 h-4 flex-shrink-0" />
+                <span className="flex-1 truncate">{item.label}</span>
                 {item.badge > 0 && (
-                  <span className="bg-purple-500 text-white text-xs font-medium px-2 py-0.5 rounded-full">
+                  <span className="bg-[#5E6AD2] text-white text-[10px] font-semibold px-2 py-1 rounded-full leading-none">
                     {item.badge}
                   </span>
                 )}
@@ -109,55 +113,70 @@ const Sidebar = () => {
 
         {/* Your Teams Section */}
         <div className="mt-6">
-          <div className="flex items-center justify-between px-3 mb-2">
-            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              Your Teams
-            </span>
+          <div className="flex items-center justify-between px-2 mb-1 group cursor-pointer">
+            <div className="flex items-center gap-1 text-[#8A8F98] group-hover:text-[#D1D5DB] transition-colors">
+              <ChevronDown className="w-3.5 h-3.5" />
+              <span className="text-[11px] font-semibold uppercase tracking-wider">
+                Your Teams
+              </span>
+            </div>
             <NavLink
               to="/teams"
-              className="text-gray-500 hover:text-white transition-colors"
+              className="text-[#8A8F98] hover:text-[#D1D5DB] opacity-0 group-hover:opacity-100 transition-all"
+              onClick={(e) => e.stopPropagation()}
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-3.5 h-3.5" />
             </NavLink>
           </div>
-          <ul className="space-y-1">
+          <ul className="space-y-1 mt-2">
             {teams.map((team) => (
               <li key={team._id}>
                 <NavLink
                   to={`/teams/${team._id}`}
                   className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                    `group flex items-center gap-2 px-2 py-2 rounded-md text-[13px] font-medium transition-colors ${
                       isActive
-                        ? "bg-[#2D3139] text-white"
-                        : "text-gray-400 hover:bg-[#1A1D24] hover:text-gray-200"
+                        ? "bg-white/[0.06] text-[#E8E8E8]"
+                        : "text-[#8A8F98] hover:bg-white/[0.04] hover:text-[#D1D5DB]"
                     }`
                   }
                 >
-                  <div className="w-5 h-5 rounded bg-purple-500/20 flex items-center justify-center">
-                    <Hash className="w-3 h-3 text-purple-400" />
+                  <div className="w-4 h-4 rounded-[4px] flex items-center justify-center flex-shrink-0 bg-white/[0.03] border border-white/[0.06] group-hover:border-white/[0.12] transition-colors">
+                    <Hash className="w-2.5 h-2.5 text-current opacity-70 group-hover:opacity-100" />
                   </div>
-                  <span className="truncate">{team.name}</span>
+                  <span className="truncate flex-1">{team.name}</span>
                 </NavLink>
               </li>
             ))}
             {teams.length === 0 && (
-              <li className="px-3 py-2 text-sm text-gray-500">No teams yet</li>
+              <li className="px-2 py-2 text-[13px] text-[#8A8F98] font-medium">
+                No teams yet
+              </li>
             )}
           </ul>
         </div>
       </nav>
 
       {/* Bottom Actions */}
-      <div className="p-2 border-t border-[#1F2328]">
-        <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-400 hover:bg-[#1A1D24] hover:text-gray-200 transition-colors mb-1">
-          <Settings className="w-5 h-5" />
+      <div className="p-4 border-t border-white/[0.04]">
+        <NavLink
+          to="/settings"
+          className={({ isActive }) =>
+            `w-full flex items-center gap-2 px-2 py-2 rounded-md text-[13px] font-medium transition-colors mb-1 ${
+              isActive
+                ? "bg-white/[0.06] text-[#E5E7EB]"
+                : "text-[#8A8F98] hover:bg-white/[0.04] hover:text-[#D1D5DB]"
+            }`
+          }
+        >
+          <Settings className="w-4 h-4 flex-shrink-0" />
           <span>Settings</span>
-        </button>
+        </NavLink>
         <button
           onClick={logout}
-          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-400 hover:bg-[#1A1D24] hover:text-red-400 transition-colors"
+          className="w-full flex items-center gap-2 px-2 py-2 rounded-md text-[13px] font-medium text-[#8A8F98] hover:bg-red-500/10 hover:text-red-400 transition-colors"
         >
-          <LogOut className="w-5 h-5" />
+          <LogOut className="w-4 h-4 flex-shrink-0" />
           <span>Logout</span>
         </button>
       </div>

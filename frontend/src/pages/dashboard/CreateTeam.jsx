@@ -69,7 +69,7 @@ const CreateTeam = () => {
 
       <div className="bg-[#161922] rounded-xl border border-[#1F2328] p-6">
         {error && (
-          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-3 text-red-400">
+          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-4 text-red-400">
             <AlertCircle className="w-5 h-5" />
             <span>{error}</span>
           </div>
@@ -89,7 +89,7 @@ const CreateTeam = () => {
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, name: e.target.value }))
                 }
-                className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:border-purple-500 transition-colors"
+                className="input-field input-field-icon"
                 placeholder="e.g., Frontend Team"
                 required
               />
@@ -107,7 +107,7 @@ const CreateTeam = () => {
                 type="text"
                 value={formData.key}
                 onChange={handleKeyChange}
-                className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:border-purple-500 transition-colors uppercase"
+                className="input-field input-field-icon uppercase"
                 placeholder="e.g., FRO"
                 maxLength={5}
                 required
@@ -134,7 +134,7 @@ const CreateTeam = () => {
                     description: e.target.value,
                   }))
                 }
-                className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:border-purple-500 transition-colors resize-none"
+                className="input-field input-field-icon min-h-[100px] py-2 resize-none"
                 placeholder="What does this team work on?"
                 rows={4}
               />
@@ -146,14 +146,14 @@ const CreateTeam = () => {
             <button
               type="button"
               onClick={() => navigate("/teams")}
-              className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+              className="btn-secondary"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-6 rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2"
+              className="btn-primary"
             >
               {loading ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>

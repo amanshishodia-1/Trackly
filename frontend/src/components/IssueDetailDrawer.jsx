@@ -181,7 +181,7 @@ const IssueDetailDrawer = ({ issue, isOpen, onClose, onIssueUpdated }) => {
       <div className="fixed right-0 top-0 h-full w-[500px] bg-[#0F1115] border-l border-[#1F2328] z-50 flex flex-col shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-[#1F2328]">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <span className="text-gray-500 font-mono text-sm">
               {issue.identifier}
             </span>
@@ -196,10 +196,10 @@ const IssueDetailDrawer = ({ issue, isOpen, onClose, onIssueUpdated }) => {
 
         {/* Issue Info */}
         <div className="p-4 border-b border-[#1F2328]">
-          <h2 className="text-white text-lg font-semibold mb-3">
+          <h2 className="text-white text-lg font-semibold mb-4">
             {issue.title}
           </h2>
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-4 flex-wrap">
             <span
               className={`text-xs font-medium px-2 py-1 rounded-full border ${getStatusColor(issue.status)}`}
             >
@@ -222,7 +222,7 @@ const IssueDetailDrawer = ({ issue, isOpen, onClose, onIssueUpdated }) => {
             )}
           </div>
           {issue.description && (
-            <p className="text-gray-400 text-sm mt-3">{issue.description}</p>
+            <p className="text-gray-400 text-sm mt-4">{issue.description}</p>
           )}
         </div>
 
@@ -230,7 +230,7 @@ const IssueDetailDrawer = ({ issue, isOpen, onClose, onIssueUpdated }) => {
         <div className="flex border-b border-[#1F2328]">
           <button
             onClick={() => setActiveTab("comments")}
-            className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors ${
+            className={`flex items-center gap-2 px-4 py-4 text-sm font-medium transition-colors ${
               activeTab === "comments"
                 ? "text-purple-400 border-b-2 border-purple-400"
                 : "text-gray-400 hover:text-gray-200"
@@ -241,7 +241,7 @@ const IssueDetailDrawer = ({ issue, isOpen, onClose, onIssueUpdated }) => {
           </button>
           <button
             onClick={() => setActiveTab("activity")}
-            className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors ${
+            className={`flex items-center gap-2 px-4 py-4 text-sm font-medium transition-colors ${
               activeTab === "activity"
                 ? "text-purple-400 border-b-2 border-purple-400"
                 : "text-gray-400 hover:text-gray-200"
@@ -263,7 +263,7 @@ const IssueDetailDrawer = ({ issue, isOpen, onClose, onIssueUpdated }) => {
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
                   placeholder="Add a comment..."
-                  className="flex-1 bg-[#161922] border border-[#1F2328] rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-purple-500/50"
+                  className="flex-1 bg-[#161922] border border-[#1F2328] rounded-lg px-4 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-purple-500/50"
                 />
                 <button
                   type="submit"
@@ -283,7 +283,7 @@ const IssueDetailDrawer = ({ issue, isOpen, onClose, onIssueUpdated }) => {
                 comments.map((comment) => (
                   <div
                     key={comment._id}
-                    className="bg-[#161922] rounded-lg p-3 border border-[#1F2328]"
+                    className="bg-[#161922] rounded-lg p-4 border border-[#1F2328]"
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-2">
@@ -320,14 +320,14 @@ const IssueDetailDrawer = ({ issue, isOpen, onClose, onIssueUpdated }) => {
               )}
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {activities.length === 0 ? (
                 <p className="text-gray-500 text-sm text-center py-8">
                   No activity yet
                 </p>
               ) : (
                 activities.map((activity) => (
-                  <div key={activity._id} className="flex items-start gap-3">
+                  <div key={activity._id} className="flex items-start gap-4">
                     <div className="w-6 h-6 bg-gradient-to-br from-gray-600 to-gray-700 rounded-full flex items-center justify-center flex-shrink-0">
                       <span className="text-white text-xs font-semibold">
                         {activity.user?.name?.charAt(0) || "?"}

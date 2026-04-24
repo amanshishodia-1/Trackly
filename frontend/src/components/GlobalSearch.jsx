@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, X, FileText, FolderKanban, Command } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import api from "../lib/axios";
 
 const GlobalSearch = () => {
@@ -125,34 +126,44 @@ const GlobalSearch = () => {
     }
   };
 
-  if (!isOpen) {
-    return (
+  return (
+    <>
+      {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 px-3 py-1.5 bg-[#161922] hover:bg-[#1A1D24] border border-[#1F2328] rounded-md text-gray-400 text-sm transition-colors"
+        className="flex items-center gap-2 px-4 py-2 bg-[#161922] hover:bg-[#1A1D24] border border-[#1F2328] rounded-md text-gray-400 text-sm transition-colors"
       >
         <Search className="w-4 h-4" />
         <span>Search...</span>
-        <div className="flex items-center gap-0.5 ml-2 text-xs">
+        <div className="flex items-center gap-1 ml-2 text-xs">
           <Command className="w-3 h-3" />
           <span>K</span>
         </div>
       </button>
-    );
-  }
 
-  return (
-    <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/50 z-50"
-        onClick={() => setIsOpen(false)}
-      />
+      <AnimatePresence>
+        {isOpen && (
+          <div className="fixed inset-0 z-50 flex justify-center">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              onClick={() => setIsOpen(false)}
+            />
 
-      {/* Search Modal */}
-      <div className="fixed top-20 left-1/2 transform -translate-x-1/2 w-[600px] max-w-[90vw] bg-[#161922] border border-[#1F2328] rounded-xl shadow-2xl z-50 overflow-hidden">
+            {/* Search Modal */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.97, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.97, y: 8 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              className="relative top-[15vh] w-[600px] max-w-[90vw] h-fit bg-[#131518] border border-white/[0.08] rounded-xl shadow-2xl overflow-hidden"
+            >
         {/* Search Input */}
-        <div className="flex items-center gap-3 p-4 border-b border-[#1F2328]">
+        <div className="flex items-center gap-4 p-4 border-b border-white/[0.04]">
           <Search className="w-5 h-5 text-gray-400" />
           <input
             type="text"
@@ -189,7 +200,7 @@ const GlobalSearch = () => {
                   <button
                     key={issue._id}
                     onClick={() => handleSelect("issue", issue)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
+                    className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${
                       isSelected ? "bg-purple-500/20" : "hover:bg-[#1A1D24]"
                     }`}
                   >
@@ -205,7 +216,7 @@ const GlobalSearch = () => {
                       </div>
                       <div className="flex items-center gap-2 mt-1">
                         <span
-                          className={`text-xs px-1.5 py-0.5 rounded border ${getStatusColor(issue.status)}`}
+                          className={`text-xs px-2 py-1 rounded border ${getStatusColor(issue.status)}`}
                         >
                           {issue.status}
                         </span>
@@ -239,7 +250,7 @@ const GlobalSearch = () => {
                   <button
                     key={project._id}
                     onClick={() => handleSelect("project", project)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
+                    className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${
                       isSelected ? "bg-purple-500/20" : "hover:bg-[#1A1D24]"
                     }`}
                   >
@@ -251,7 +262,7 @@ const GlobalSearch = () => {
                           {project.team?.name}
                         </span>
                         <span
-                          className={`text-xs px-1.5 py-0.5 rounded border ${
+                          className={`text-xs px-2 py-1 rounded border ${
                             project.status === "Active"
                               ? "bg-green-500/20 text-green-400 border-green-500/30"
                               : project.status === "Archived"
@@ -294,7 +305,10 @@ const GlobalSearch = () => {
             </div>
           )}
         </div>
-      </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

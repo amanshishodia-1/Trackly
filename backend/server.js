@@ -13,6 +13,7 @@ import issueRoutes from "./routes/issue.js";
 import projectRoutes from "./routes/project.js";
 import activityRoutes from "./routes/activity.js";
 import searchRoutes from "./routes/search.js";
+import settingsRoutes from "./routes/settings.js";
 
 dotenv.config();
 
@@ -94,6 +95,7 @@ app.use("/api/issues", issueRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/activity", activityRoutes);
 app.use("/api/search", searchRoutes);
+app.use("/api/settings", settingsRoutes);
 
 const PORT = process.env.PORT || 5000;
 httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));

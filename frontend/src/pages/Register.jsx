@@ -37,7 +37,7 @@ const Register = () => {
 
         <div className="bg-[#161922] rounded-xl p-8 border border-[#1F2328]">
           {error && (
-            <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+            <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
               {error}
             </div>
           )}
@@ -53,7 +53,7 @@ const Register = () => {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:border-purple-500 transition-colors"
+                  className="input-field input-field-icon"
                   placeholder="John Doe"
                   required
                 />
@@ -70,7 +70,7 @@ const Register = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:border-purple-500 transition-colors"
+                  className="input-field input-field-icon"
                   placeholder="you@example.com"
                   required
                 />
@@ -87,7 +87,7 @@ const Register = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:border-purple-500 transition-colors"
+                  className="input-field input-field-icon"
                   placeholder="••••••••"
                   required
                   minLength={6}
@@ -98,7 +98,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+              className="btn-primary w-full"
             >
               {loading ? (
                 <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>

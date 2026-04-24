@@ -57,7 +57,7 @@ const IssueFilters = ({ filters, onChange, availableLabels = [], availableAssign
       {/* Filter Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
+        className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${
           hasActiveFilters
             ? 'bg-purple-500/10 border-purple-500/30 text-purple-400'
             : 'bg-[#161922] border-[#1F2328] text-gray-400 hover:text-gray-300'
@@ -66,7 +66,7 @@ const IssueFilters = ({ filters, onChange, availableLabels = [], availableAssign
         <Filter className="w-4 h-4" />
         <span className="text-sm">Filter</span>
         {hasActiveFilters && (
-          <span className="px-1.5 py-0.5 text-xs bg-purple-500 text-white rounded-full">
+          <span className="px-2 py-1 text-xs bg-purple-500 text-white rounded-full">
             {(filters.status?.length || 0) + (filters.priority?.length || 0) + (filters.labels?.length || 0)}
           </span>
         )}
@@ -88,7 +88,7 @@ const IssueFilters = ({ filters, onChange, availableLabels = [], availableAssign
                 placeholder="Search issues..."
                 value={filters.search || ''}
                 onChange={(e) => onChange({ ...filters, search: e.target.value })}
-                className="w-full bg-[#161922] border border-[#1F2328] rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50"
+                className="w-full bg-[#161922] border border-[#1F2328] rounded-lg px-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50"
               />
             </div>
 
@@ -163,7 +163,7 @@ const IssueFilters = ({ filters, onChange, availableLabels = [], availableAssign
                     <button
                       key={assignee._id}
                       onClick={() => toggleFilter('assignee', assignee._id)}
-                      className={`flex items-center gap-1.5 px-2 py-1 text-xs rounded-full border transition-colors ${
+                      className={`flex items-center gap-2 px-2 py-1 text-xs rounded-full border transition-colors ${
                         filters.assignee?.includes(assignee._id)
                           ? 'bg-purple-500/20 border-purple-500/50 text-purple-400'
                           : 'bg-[#161922] border-[#1F2328] text-gray-400 hover:text-gray-300'
@@ -185,7 +185,7 @@ const IssueFilters = ({ filters, onChange, availableLabels = [], availableAssign
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
-                className="w-full flex items-center justify-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-red-400 bg-[#161922] hover:bg-red-500/10 border border-[#1F2328] hover:border-red-500/30 rounded-lg transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm text-gray-400 hover:text-red-400 bg-[#161922] hover:bg-red-500/10 border border-[#1F2328] hover:border-red-500/30 rounded-lg transition-colors"
               >
                 <X className="w-4 h-4" />
                 Clear all filters

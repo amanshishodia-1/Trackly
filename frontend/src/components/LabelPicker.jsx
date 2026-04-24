@@ -85,16 +85,16 @@ const LabelPicker = ({ labels, onChange, availableLabels = [] }) => {
             className="fixed inset-0 z-40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute top-full left-0 mt-2 w-64 bg-[#0F1115] border border-[#1F2328] rounded-lg shadow-xl z-50 p-3">
+          <div className="absolute top-full left-0 mt-2 w-64 bg-[#0F1115] border border-[#1F2328] rounded-lg shadow-xl z-50 p-4">
             {/* New Label Input */}
-            <div className="flex gap-2 mb-3">
+            <div className="flex gap-2 mb-4">
               <input
                 type="text"
                 placeholder="New label..."
                 value={newLabel}
                 onChange={(e) => setNewLabel(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="flex-1 bg-[#161922] border border-[#1F2328] rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50"
+                className="flex-1 bg-[#161922] border border-[#1F2328] rounded-lg px-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50"
                 autoFocus
               />
               <button

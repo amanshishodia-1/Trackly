@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { X, Mail, UserPlus, AlertCircle, Check } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import api from "../lib/axios";
 
 const InviteModal = ({ team, isOpen, onClose }) => {
@@ -9,7 +10,7 @@ const InviteModal = ({ team, isOpen, onClose }) => {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  if (!isOpen || !team) return null;
+  // Removed early return to allow AnimatePresence to handle exit animations
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,10 +64,24 @@ const InviteModal = ({ team, isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-[#161922] rounded-xl border border-[#1F2328] w-full max-w-md p-6 m-4">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+    <AnimatePresence>
+      {isOpen && team && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 p-4 pt-[15vh]"
+        >
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.97, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97, y: 8 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="bg-[#131518] rounded-xl border border-white/[0.08] w-full max-w-md shadow-2xl overflow-hidden"
+          >
+            {/* Header */}
+            <div className="flex items-start justify-between px-6 py-4 border-b border-white/[0.04]">
           <div>
             <h2 className="text-lg font-semibold text-white">Invite to team</h2>
             <p className="text-gray-400 text-sm mt-1">
@@ -81,9 +96,11 @@ const InviteModal = ({ team, isOpen, onClose }) => {
           </button>
         </div>
 
+        <div className="p-6">
+
         {/* Success Message */}
         {success && (
-          <div className="mb-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg flex items-center gap-2 text-green-400">
+          <div className="mb-4 p-4 bg-green-500/10 border border-green-500/20 rounded-lg flex items-center gap-2 text-green-400">
             <Check className="w-4 h-4" />
             <span className="text-sm">Invite sent successfully!</span>
           </div>
@@ -91,7 +108,7 @@ const InviteModal = ({ team, isOpen, onClose }) => {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-2 text-red-400">
+          <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-2 text-red-400">
             <AlertCircle className="w-4 h-4" />
             <span className="text-sm">{error}</span>
           </div>
@@ -110,7 +127,7 @@ const InviteModal = ({ team, isOpen, onClose }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="colleague@example.com"
-                className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-2.5 pl-10 pr-4 text-white placeholder-gray-500 focus:border-purple-500 transition-colors text-sm"
+                className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-2 pl-10 pr-4 text-white placeholder-gray-500 focus:border-purple-500 transition-colors text-sm"
                 required
               />
             </div>
@@ -125,7 +142,7 @@ const InviteModal = ({ team, isOpen, onClose }) => {
               <button
                 type="button"
                 onClick={() => setRole("Member")}
-                className={`py-2.5 px-3 rounded-lg border text-sm font-medium transition-colors ${
+                className={`py-2 px-4 rounded-lg border text-sm font-medium transition-colors ${
                   role === "Member"
                     ? "bg-purple-500/20 border-purple-500 text-purple-400"
                     : "bg-[#0F1115] border-[#1F2328] text-gray-400 hover:text-white"
@@ -136,7 +153,7 @@ const InviteModal = ({ team, isOpen, onClose }) => {
               <button
                 type="button"
                 onClick={() => setRole("Admin")}
-                className={`py-2.5 px-3 rounded-lg border text-sm font-medium transition-colors ${
+                className={`py-2 px-4 rounded-lg border text-sm font-medium transition-colors ${
                   role === "Admin"
                     ? "bg-purple-500/20 border-purple-500 text-purple-400"
                     : "bg-[#0F1115] border-[#1F2328] text-gray-400 hover:text-white"
@@ -147,7 +164,7 @@ const InviteModal = ({ team, isOpen, onClose }) => {
               <button
                 type="button"
                 onClick={() => setRole("Viewer")}
-                className={`py-2.5 px-3 rounded-lg border text-sm font-medium transition-colors ${
+                className={`py-2 px-4 rounded-lg border text-sm font-medium transition-colors ${
                   role === "Viewer"
                     ? "bg-purple-500/20 border-purple-500 text-purple-400"
                     : "bg-[#0F1115] border-[#1F2328] text-gray-400 hover:text-white"
@@ -159,18 +176,20 @@ const InviteModal = ({ team, isOpen, onClose }) => {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-4">
-            <button
+          <div className="flex items-center justify-end gap-4 pt-4 mt-2 border-t border-white/[0.04]">
+            <motion.button
               type="button"
+              whileTap={{ scale: 0.97 }}
               onClick={onClose}
-              className="px-4 py-2 text-gray-400 hover:text-white text-sm font-medium transition-colors"
+              className="btn-secondary"
             >
               Cancel
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               type="submit"
+              whileTap={{ scale: 0.97 }}
               disabled={loading}
-              className="bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center gap-2 text-sm"
+              className="btn-primary"
             >
               {loading ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>
@@ -180,11 +199,14 @@ const InviteModal = ({ team, isOpen, onClose }) => {
                   Send invite
                 </>
               )}
-            </button>
+            </motion.button>
           </div>
         </form>
-      </div>
-    </div>
+        </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

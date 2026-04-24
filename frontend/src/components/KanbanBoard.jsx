@@ -15,6 +15,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { motion } from "framer-motion";
 import {
   CircleDot,
   GripVertical,
@@ -84,39 +85,45 @@ const KanbanCard = ({ issue, isOverlay, onClick }) => {
           onClick(e);
         }
       }}
-      className={`bg-[#0F1115] rounded-lg p-3 border border-[#1F2328] hover:border-purple-500/30 cursor-grab active:cursor-grabbing ${
-        isOverlay ? "shadow-xl rotate-2 scale-105" : ""
-      }`}
+      className={`cursor-grab active:cursor-grabbing ${isOverlay ? "z-50" : ""}`}
     >
+      <motion.div
+        whileHover={{ y: -2 }}
+        transition={{ duration: 0.15 }}
+        className={`bg-[#0F1115] rounded-md p-2 border border-white/[0.06] hover:bg-white/[0.02] hover:border-white/[0.12] transition-colors shadow-sm group ${
+          isOverlay ? "shadow-xl rotate-2 scale-105 border-white/[0.2]" : ""
+        }`}
+      >
       <div className="flex items-start gap-2">
-        <GripVertical className="w-4 h-4 text-gray-600 mt-0.5 flex-shrink-0" />
+        <GripVertical className="w-3.5 h-3.5 text-[#5F6368] mt-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
         <div className="flex-1 min-w-0">
-          <p className="text-white text-sm font-medium line-clamp-2 mb-2">
+          <p className="text-[#E8E8E8] text-[13px] font-medium line-clamp-2 leading-snug">
             {issue.title}
           </p>
-          <div className="flex items-center gap-2 text-xs">
-            <span className="text-gray-500 font-mono">{issue.identifier}</span>
-            <div className="flex items-center gap-1">
+          <div className="flex items-center flex-wrap gap-x-2 gap-y-1 mt-2">
+            <span className="text-[#8A8F98] text-[11px] font-mono leading-none">{issue.identifier}</span>
+            <div className={`flex items-center gap-1 px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors ${getPriorityColor(issue.priority)}`}>
               {getPriorityIcon(issue.priority)}
-              <span className={`${getPriorityColor(issue.priority)}`}>
+              <span className="text-[11px] font-medium leading-none tracking-tight">
                 {issue.priority}
               </span>
             </div>
-          </div>
-          {issue.assignee && (
-            <div className="mt-2 flex items-center gap-1">
-              <div className="w-5 h-5 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-semibold">
-                  {issue.assignee.name?.charAt(0) || "?"}
+            {issue.assignee && (
+              <div className="flex items-center gap-2 px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors ml-auto">
+                <div className="w-4 h-4 bg-gradient-to-br from-[#5E6AD2] to-[#8C98F2] rounded-full flex items-center justify-center shadow-sm">
+                  <span className="text-white text-[9px] font-bold leading-none">
+                    {issue.assignee.name?.charAt(0) || "?"}
+                  </span>
+                </div>
+                <span className="text-[#8A8F98] text-[11px] font-medium leading-none truncate max-w-[80px]">
+                  {issue.assignee.name}
                 </span>
               </div>
-              <span className="text-gray-400 text-xs">
-                {issue.assignee.name}
-              </span>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
+        </div>
+      </motion.div>
     </div>
   );
 };
@@ -144,7 +151,7 @@ const KanbanColumn = ({ title, status, issues, count, onCardClick }) => {
   return (
     <div className="flex flex-col h-full">
       <div
-        className={`bg-[#161922] rounded-t-lg border-t-4 ${getColumnColor()} p-3 border-l border-r border-b border-[#1F2328]`}
+        className={`bg-[#161922] rounded-t-lg border-t-4 ${getColumnColor()} p-4 border-l border-r border-b border-[#1F2328]`}
       >
         <div className="flex items-center justify-between">
           <h3 className="text-white font-semibold text-sm">{title}</h3>

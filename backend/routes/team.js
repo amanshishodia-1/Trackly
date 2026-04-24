@@ -482,6 +482,39 @@ router.get("/:teamId/members", protect, async (req, res) => {
   }
 });
 
+// Leave a team (remove self as member)
+router.post("/:teamId/leave", protect, async (req, res) => {
+  try {
+    const team = await Team.findById(req.params.teamId);
+
+    if (!team) {
+      return res.status(404).json({ message: "Team not found" });
+    }
+
+    // Check if user is a member
+    const isMember = team.members.some(
+      (member) => member.user.toString() === req.user._id.toString(),
+    );
+
+    if (!isMember) {
+      return res
+        .status(400)
+        .json({ message: "You are not a member of this team" });
+    }
+
+    // Remove user from members
+    team.members = team.members.filter(
+      (member) => member.user.toString() !== req.user._id.toString(),
+    );
+
+    await team.save();
+
+    res.json({ message: "Left team successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Test route to verify team lead permissions
 router.get(
   "/:teamId/test-permission",
