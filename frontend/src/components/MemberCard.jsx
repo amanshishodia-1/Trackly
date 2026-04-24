@@ -1,0 +1,100 @@
+import { Crown, MoreVertical, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+
+const MemberCard = ({ member, currentUserId, canManageTeams, onRemoveMember }) => {
+  const [showActions, setShowActions] = useState(false);
+
+  const handleRemoveMember = () => {
+    if (window.confirm(`Are you sure you want to remove ${member.user.name} from the team?`)) {
+      onRemoveMember(member.user._id);
+    }
+    setShowActions(false);
+  };
+
+  const isCurrentUser = member.user._id === currentUserId;
+  const isAdmin = member.role === 'Admin';
+  const isLead = member.role === 'lead';
+
+  return (
+    <div className="p-4 flex items-center justify-between hover:bg-[#1A1D24] transition-colors group">
+      <div className="flex items-center gap-4">
+        {/* Avatar */}
+        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+          <span className="text-white font-semibold text-sm">
+            {member.user.name
+              ?.split(" ")
+              .map((n) => n[0])
+              .join("")}
+          </span>
+        </div>
+        
+        {/* Member Info */}
+        <div>
+          <div className="flex items-center gap-2">
+            <p className="text-white font-medium">
+              {member.user.name}
+              {isCurrentUser && (
+                <span className="text-gray-400 text-sm ml-2">(You)</span>
+              )}
+            </p>
+            {(isAdmin || isLead) && (
+              <Crown className="w-4 h-4 text-yellow-400" />
+            )}
+          </div>
+          <p className="text-gray-400 text-sm">{member.user.email}</p>
+        </div>
+      </div>
+
+      {/* Role and Actions */}
+      <div className="flex items-center gap-3">
+        {/* Role Badge */}
+        <span
+          className={`px-2 py-1 rounded-full text-xs font-medium ${
+            isAdmin || isLead
+              ? "bg-yellow-500/20 text-yellow-400"
+              : member.role === 'Member'
+              ? "bg-blue-500/20 text-blue-400"
+              : "bg-gray-500/20 text-gray-400"
+          }`}
+        >
+          {member.role}
+        </span>
+
+        {/* Actions Menu */}
+        {canManageTeams && !isCurrentUser && (
+          <div className="relative">
+            <button
+              onClick={() => setShowActions(!showActions)}
+              className="p-1 text-gray-500 hover:text-white transition-colors opacity-0 group-hover:opacity-100"
+            >
+              <MoreVertical className="w-4 h-4" />
+            </button>
+            
+            {showActions && (
+              <>
+                {/* Backdrop */}
+                <div
+                  className="fixed inset-0 z-10"
+                  onClick={() => setShowActions(false)}
+                />
+                
+                {/* Dropdown */}
+                <div className="absolute right-0 top-8 bg-[#161922] border border-[#1F2328] rounded-lg shadow-lg z-20 min-w-[150px]">
+                  <button
+                    onClick={handleRemoveMember}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    Remove
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default MemberCard;

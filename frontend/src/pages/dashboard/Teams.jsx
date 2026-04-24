@@ -1,0 +1,234 @@
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useTeams } from "../../context/TeamsContext";
+import { useAuth } from "../../context/AuthContext";
+import {
+  Users,
+  Plus,
+  Hash,
+  Search,
+  MoreHorizontal,
+  Check,
+  Filter,
+  ArrowUpDown,
+} from "lucide-react";
+
+const Teams = () => {
+  const { teams, fetchTeams, loading } = useTeams();
+  const { user } = useAuth();
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchTeams();
+  }, [fetchTeams]);
+
+  const filteredTeams = teams.filter(
+    (team) =>
+      team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      team.key.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  const getTeamIcon = (key) => {
+    // Different icons/colors based on team key
+    const icons = {
+      AMA: { color: "bg-green-500/20", text: "text-green-400", icon: "🟢" },
+      FRO: { color: "bg-blue-500/20", text: "text-blue-400", icon: "⚡" },
+      DEV: { color: "bg-purple-500/20", text: "text-purple-400", icon: "🔧" },
+      DES: { color: "bg-pink-500/20", text: "text-pink-400", icon: "🎨" },
+    };
+    return (
+      icons[key] || {
+        color: "bg-purple-500/20",
+        text: "text-purple-400",
+        icon: "#",
+      }
+    );
+  };
+
+  const isUserMember = (team) => {
+    return team.members?.some(
+      (m) => m.user._id === user?.id || m.user === user?.id,
+    );
+  };
+
+  const renderAvatarStack = (members) => {
+    const maxVisible = 3;
+    const visibleMembers = members?.slice(0, maxVisible) || [];
+    const remaining = (members?.length || 0) - maxVisible;
+
+    return (
+      <div className="flex items-center">
+        <div className="flex -space-x-2">
+          {visibleMembers.map((member, idx) => (
+            <div
+              key={idx}
+              className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white text-xs font-medium border-2 border-[#161922]"
+              title={member.user?.name || member.user?.email}
+            >
+              {(member.user?.name || member.user?.email || "?")
+                .charAt(0)
+                .toUpperCase()}
+            </div>
+          ))}
+        </div>
+        {remaining > 0 && (
+          <span className="ml-2 text-gray-500 text-xs">+{remaining}</span>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <h1 className="text-xl font-semibold text-white">Teams</h1>
+            <button className="text-gray-500 hover:text-white">
+              <MoreHorizontal className="w-4 h-4" />
+            </button>
+          </div>
+          <p className="text-gray-500 text-sm">{filteredTeams.length} teams</p>
+        </div>
+        <button
+          onClick={() => navigate("/teams/new")}
+          className="text-gray-400 hover:text-white transition-colors"
+        >
+          <Plus className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Search and Filters */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-500" />
+          <input
+            type="text"
+            placeholder="Search teams..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-gray-500 focus:border-purple-500 transition-colors"
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <button className="p-2 text-gray-500 hover:text-white transition-colors">
+            <Filter className="w-4 h-4" />
+          </button>
+          <button className="p-2 text-gray-500 hover:text-white transition-colors">
+            <ArrowUpDown className="w-4 h-4" />
+          </button>
+          <button className="p-2 text-gray-500 hover:text-white transition-colors">
+            <MoreHorizontal className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      {/* Teams Table */}
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500"></div>
+        </div>
+      ) : (
+        <div className="bg-[#161922] rounded-lg border border-[#1F2328] overflow-hidden">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-[#1F2328]">
+                <th className="text-left py-3 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="text-left py-3 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
+                  Membership
+                </th>
+                <th className="text-left py-3 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
+                  Members
+                </th>
+                <th className="text-left py-3 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
+                  Active projects
+                </th>
+                <th className="py-3 px-4"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredTeams.map((team) => {
+                const iconStyle = getTeamIcon(team.key);
+                const isMember = isUserMember(team);
+
+                return (
+                  <tr
+                    key={team._id}
+                    className="border-b border-[#1F2328] hover:bg-[#1A1D24] transition-colors cursor-pointer"
+                    onClick={() => navigate(`/teams/${team._id}`)}
+                  >
+                    <td className="py-3 px-4">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`w-6 h-6 ${iconStyle.color} rounded flex items-center justify-center`}
+                        >
+                          <span
+                            className={`${iconStyle.text} text-xs font-bold`}
+                          >
+                            {team.key.charAt(0)}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-white text-sm font-medium">
+                            {team.name}
+                          </span>
+                          <span className="text-gray-500 text-xs ml-2">
+                            {team.key}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4">
+                      {isMember && (
+                        <span className="inline-flex items-center gap-1 text-gray-400 text-xs">
+                          <Check className="w-3 h-3" />
+                          Joined
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-3 px-4">
+                      {renderAvatarStack(team.members)}
+                    </td>
+                    <td className="py-3 px-4">
+                      <span className="text-gray-500 text-xs">0</span>
+                    </td>
+                    <td className="py-3 px-4">
+                      <button
+                        className="text-gray-500 hover:text-white"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // Show menu
+                        }}
+                      >
+                        <MoreHorizontal className="w-4 h-4" />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {!loading && filteredTeams.length === 0 && (
+        <div className="text-center py-12">
+          <Hash className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+          <p className="text-gray-400">No teams found</p>
+          <button
+            onClick={() => navigate("/teams/new")}
+            className="mt-4 text-purple-400 hover:text-purple-300"
+          >
+            Create your first team
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Teams;
