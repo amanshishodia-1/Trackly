@@ -115,14 +115,30 @@ const Inbox = () => {
 
       <div className="bg-[#161922] rounded-xl border border-[#1F2328]">
         {loading ? (
-          <div className="p-12 text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500 mx-auto mb-4"></div>
-            <p className="text-gray-400">Loading invitations...</p>
+          <div className="flex flex-col w-full">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex items-start gap-4 p-4 border-b border-white/[0.04] last:border-0">
+                <div className="w-8 h-8 rounded-full bg-white/[0.04] animate-pulse flex-shrink-0" />
+                <div className="flex-1">
+                  <div className="w-1/3 h-4 rounded-[4px] bg-white/[0.04] animate-pulse mb-2" />
+                  <div className="w-1/4 h-3 rounded-[4px] bg-white/[0.04] animate-pulse mb-4" />
+                  <div className="flex gap-2">
+                    <div className="w-20 h-7 rounded-md bg-white/[0.04] animate-pulse" />
+                    <div className="w-20 h-7 rounded-md bg-white/[0.04] animate-pulse" />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         ) : invitations.length === 0 ? (
-          <div className="p-12 text-center">
-            <UserPlus className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-            <p className="text-gray-400">No pending invitations</p>
+          <div className="flex flex-col items-center justify-center py-24 text-center">
+            <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
+              <UserPlus className="w-5 h-5 text-[#8A8F98]" />
+            </div>
+            <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">Inbox zero</h3>
+            <p className="text-[#8A8F98] text-[13px] max-w-sm">
+              You don't have any pending team invitations.
+            </p>
           </div>
         ) : (
           <div className="divide-y divide-[#1F2328]">
@@ -150,14 +166,14 @@ const Inbox = () => {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleAccept(invitation._id)}
-                        className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-1"
+                        className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-1"
                       >
                         <Check className="w-3 h-3" />
                         Accept
                       </button>
                       <button
                         onClick={() => handleDecline(invitation._id)}
-                        className="px-3 py-1.5 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-1"
+                        className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-1"
                       >
                         <X className="w-3 h-3" />
                         Decline

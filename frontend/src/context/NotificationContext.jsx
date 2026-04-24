@@ -82,7 +82,7 @@ export const NotificationProvider = ({ children }) => {
         {notifications.map(notification => (
           <div
             key={notification.id}
-            className={`flex items-start gap-3 p-4 rounded-lg border backdrop-blur-sm shadow-lg animate-in slide-in-from-right ${getColors(notification.type)}`}
+            className={`flex items-start gap-4 p-4 rounded-lg border backdrop-blur-sm shadow-lg animate-in slide-in-from-right ${getColors(notification.type)}`}
           >
             {getIcon(notification.type)}
             <div className="flex-1 text-sm">{notification.message}</div>

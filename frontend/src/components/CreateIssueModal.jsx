@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTeams } from "../context/TeamsContext";
 import { useIssues } from "../context/IssueContext";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
   AlertCircle,
@@ -56,7 +57,7 @@ const CreateIssueModal = ({
     }
   }, [defaultTeam]);
 
-  if (!isOpen) return null;
+  // Removed early return to allow AnimatePresence to handle exit animations
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -133,11 +134,25 @@ const CreateIssueModal = ({
   const selectedTeam = teams.find((t) => t._id === formData.teamId);
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-[#161922] rounded-xl border border-[#1F2328] w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-[#1F2328]">
-          <h2 className="text-lg font-semibold text-white">New Issue</h2>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 p-4 pt-[8vh]"
+        >
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.97, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97, y: 8 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="bg-[#131518] rounded-xl border border-white/[0.08] w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-4 py-4 border-b border-white/[0.04]">
+          <h2 className="text-[15px] font-semibold text-[#E8E8E8]">New Issue</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-white transition-colors"
@@ -148,19 +163,19 @@ const CreateIssueModal = ({
 
         {/* Messages */}
         {success && (
-          <div className="mx-4 mt-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg flex items-center gap-2 text-green-400">
+          <div className="mx-4 mt-4 p-4 bg-green-500/10 border border-green-500/20 rounded-lg flex items-center gap-2 text-green-400">
             <Check className="w-4 h-4" />
             <span className="text-sm">Issue created successfully!</span>
           </div>
         )}
         {error && (
-          <div className="mx-4 mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-2 text-red-400">
+          <div className="mx-4 mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-2 text-red-400">
             <AlertCircle className="w-4 h-4" />
             <span className="text-sm">{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="p-4 space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 space-y-6">
           {/* Title */}
           <div>
             <input
@@ -192,9 +207,9 @@ const CreateIssueModal = ({
           </div>
 
           {/* Properties Grid */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-4">
             {/* Team */}
-            <div className="bg-[#0F1115] rounded-lg p-3">
+            <div className="bg-white/[0.02] rounded-md p-4 border border-white/[0.04]">
               <label className="flex items-center gap-2 text-xs text-gray-500 mb-2">
                 <Layers className="w-3 h-3" />
                 Team
@@ -216,7 +231,7 @@ const CreateIssueModal = ({
             </div>
 
             {/* Status */}
-            <div className="bg-[#0F1115] rounded-lg p-3">
+            <div className="bg-white/[0.02] rounded-md p-4 border border-white/[0.04]">
               <label className="flex items-center gap-2 text-xs text-gray-500 mb-2">
                 <Flag className="w-3 h-3" />
                 Status
@@ -237,7 +252,7 @@ const CreateIssueModal = ({
             </div>
 
             {/* Priority */}
-            <div className="bg-[#0F1115] rounded-lg p-3">
+            <div className="bg-white/[0.02] rounded-md p-4 border border-white/[0.04]">
               <label className="flex items-center gap-2 text-xs text-gray-500 mb-2">
                 <Flag className="w-3 h-3" />
                 Priority
@@ -262,7 +277,7 @@ const CreateIssueModal = ({
             </div>
 
             {/* Assignee */}
-            <div className="bg-[#0F1115] rounded-lg p-3">
+            <div className="bg-white/[0.02] rounded-md p-4 border border-white/[0.04]">
               <label className="flex items-center gap-2 text-xs text-gray-500 mb-2">
                 <User className="w-3 h-3" />
                 Assignee
@@ -287,7 +302,7 @@ const CreateIssueModal = ({
             </div>
 
             {/* Project */}
-            <div className="bg-[#0F1115] rounded-lg p-3 col-span-2">
+            <div className="bg-[#0F1115] rounded-lg p-4 col-span-2">
               <label className="flex items-center gap-2 text-xs text-gray-500 mb-2">
                 <Folder className="w-3 h-3" />
                 Project (optional)
@@ -305,7 +320,7 @@ const CreateIssueModal = ({
           </div>
 
           {/* Labels */}
-          <div className="bg-[#0F1115] rounded-lg p-3">
+          <div className="bg-[#0F1115] rounded-lg p-4">
             <label className="flex items-center gap-2 text-xs text-gray-500 mb-2">
               <Tag className="w-3 h-3" />
               Labels
@@ -338,29 +353,33 @@ const CreateIssueModal = ({
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#1F2328]">
-            <button
+          <div className="flex items-center justify-end gap-4 pt-4 mt-2 border-t border-white/[0.04]">
+            <motion.button
               type="button"
+              whileTap={{ scale: 0.97 }}
               onClick={onClose}
-              className="px-4 py-2 text-gray-400 hover:text-white text-sm font-medium transition-colors"
+              className="btn-secondary"
             >
               Cancel
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               type="submit"
+              whileTap={{ scale: 0.97 }}
               disabled={loading}
-              className="bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-medium py-2 px-6 rounded-lg transition-colors flex items-center gap-2"
+              className="btn-primary"
             >
               {loading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
                 "Create Issue"
               )}
-            </button>
+            </motion.button>
           </div>
         </form>
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

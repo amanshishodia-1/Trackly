@@ -125,7 +125,7 @@ const AcceptInvite = () => {
 
         {/* Invite Details */}
         <div className="bg-[#0F1115] rounded-lg p-4 mb-6">
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex items-center gap-4 mb-4">
             <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
               <span className="text-purple-400 font-bold text-sm">
                 {invite.teamId?.key}
@@ -143,7 +143,7 @@ const AcceptInvite = () => {
               <span>Invited by {invite.invitedBy?.name}</span>
             </div>
             <div className="flex items-center gap-2 text-gray-400">
-              <span className="px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded text-xs">
+              <span className="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">
                 {invite.role}
               </span>
             </div>
@@ -151,11 +151,11 @@ const AcceptInvite = () => {
         </div>
 
         {/* Actions */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           <button 
             onClick={handleAccept}
             disabled={loading}
-            className="w-full bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+            className="w-full bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-medium py-4 rounded-lg transition-colors flex items-center justify-center gap-2"
           >
             {loading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -170,7 +170,7 @@ const AcceptInvite = () => {
           <button 
             onClick={handleDecline}
             disabled={loading}
-            className="w-full bg-transparent hover:bg-[#1A1D24] text-gray-400 font-medium py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+            className="w-full bg-transparent hover:bg-[#1A1D24] text-gray-400 font-medium py-4 rounded-lg transition-colors flex items-center justify-center gap-2"
           >
             <X className="w-4 h-4" />
             Decline

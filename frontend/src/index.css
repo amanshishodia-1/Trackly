@@ -1,21 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #0f1115;
+    color: #e4e4e7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-[#F2F2F2] font-semibold tracking-tight;
+  }
+
+  h1 { @apply text-3xl; }
+  h2 { @apply text-2xl; }
+  h3 { @apply text-xl; }
+  h4 { @apply text-lg; }
+
+  label {
+    @apply text-[11px] font-semibold text-[#8A8F98] uppercase tracking-wider mb-1.5 block;
+  }
+
+  input:focus {
+    outline: none;
+  }
 }
 
-body {
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, sans-serif;
-  background-color: #0f1115;
-  color: #e4e4e7;
+@layer components {
+  /* Premium Form Inputs */
+  .input-field {
+    @apply w-full h-9 px-3 bg-white/[0.02] border border-white/[0.08] rounded-md text-[13px] text-[#E8E8E8] placeholder-[#8A8F98] shadow-sm transition-all focus:bg-white/[0.04] focus:border-[#5E6AD2] focus:ring-1 focus:ring-[#5E6AD2]/50 outline-none;
+  }
+
+  /* Handle inputs with leading icons */
+  .input-field-icon {
+    @apply pl-9;
+  }
+
+  /* Primary Buttons */
+  .btn-primary {
+    @apply bg-[#5E6AD2] hover:bg-[#6F7BF7] text-white font-medium h-9 rounded-md px-4 py-0 flex items-center justify-center gap-2 text-[13px] border border-white/10 shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#5E6AD2]/50 ring-offset-1 ring-offset-[#0F1115] disabled:opacity-50;
+  }
+
+  /* Secondary Buttons */
+  .btn-secondary {
+    @apply bg-white/[0.04] hover:bg-white/[0.08] text-[#E8E8E8] font-medium h-9 rounded-md px-4 py-0 flex items-center justify-center gap-2 text-[13px] border border-white/[0.08] shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-white/20 ring-offset-1 ring-offset-[#0F1115] disabled:opacity-50;
+  }
 }
 
-input:focus {
-  outline: none;
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.97) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-modal-in {
+  animation: modal-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-backdrop-in {
+  animation: backdrop-in 0.2s ease-out forwards;
 }

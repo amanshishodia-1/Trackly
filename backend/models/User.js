@@ -29,6 +29,31 @@ const userSchema = new mongoose.Schema(
       enum: ["Admin", "Member", "Viewer"],
       default: "Member",
     },
+    timezone: {
+      type: String,
+      default: "UTC",
+    },
+    defaultStartPage: {
+      type: String,
+      enum: ["inbox", "my-issues", "projects", "teams"],
+      default: "inbox",
+    },
+    theme: {
+      type: String,
+      enum: ["light", "dark", "system"],
+      default: "system",
+    },
+    density: {
+      type: String,
+      enum: ["compact", "comfortable"],
+      default: "comfortable",
+    },
+    notifications: {
+      issueAssigned: { type: Boolean, default: true },
+      mentions: { type: Boolean, default: true },
+      invites: { type: Boolean, default: true },
+      projectUpdates: { type: Boolean, default: true },
+    },
   },
   {
     timestamps: true,

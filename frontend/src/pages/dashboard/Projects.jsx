@@ -50,8 +50,23 @@ const Projects = () => {
 
   if (loading && projects.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="bg-[#131518] rounded-xl border border-white/[0.06] p-6 shadow-sm">
+            <div className="flex items-start justify-between mb-4">
+              <div className="w-12 h-12 bg-white/[0.04] rounded-xl animate-pulse" />
+              <div className="w-5 h-5 bg-white/[0.04] rounded animate-pulse" />
+            </div>
+            <div className="w-3/4 h-6 bg-white/[0.04] rounded-[4px] animate-pulse mb-4" />
+            <div className="w-full h-4 bg-white/[0.04] rounded-[4px] animate-pulse mb-2" />
+            <div className="w-5/6 h-4 bg-white/[0.04] rounded-[4px] animate-pulse mb-6" />
+            <div className="w-full h-2 bg-white/[0.04] rounded-full animate-pulse mb-4" />
+            <div className="flex items-center justify-between pt-4 border-t border-white/[0.04]">
+              <div className="w-1/3 h-4 bg-white/[0.04] rounded-[4px] animate-pulse" />
+              <div className="w-16 h-5 bg-white/[0.04] rounded-full animate-pulse" />
+            </div>
+          </div>
+        ))}
       </div>
     );
   }
@@ -143,13 +158,25 @@ const Projects = () => {
             </div>
           </div>
         ))}
+        
+        {projects.length === 0 && !loading && (
+          <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
+            <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
+              <FolderKanban className="w-5 h-5 text-[#8A8F98]" />
+            </div>
+            <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">No projects yet</h3>
+            <p className="text-[#8A8F98] text-[13px] max-w-sm mb-4">
+              Get started by creating a new project for your workspace.
+            </p>
+          </div>
+        )}
 
         {/* Add New Project Card */}
         <button
           onClick={() => setShowCreateModal(true)}
           className="border-2 border-dashed border-[#1F2328] rounded-xl p-6 flex flex-col items-center justify-center text-gray-500 hover:border-purple-500 hover:text-purple-400 transition-colors min-h-[200px]"
         >
-          <Plus className="w-10 h-10 mb-3" />
+          <Plus className="w-10 h-10 mb-4" />
           <span className="font-medium">Create New Project</span>
         </button>
       </div>

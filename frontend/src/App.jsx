@@ -13,6 +13,7 @@ import { IssueProvider } from "./context/IssueContext";
 import { ProjectProvider } from "./context/ProjectContext";
 import { SocketProvider } from "./context/SocketContext";
 import { NotificationProvider } from "./context/NotificationContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -22,6 +23,7 @@ import Projects from "./pages/dashboard/Projects";
 import Teams from "./pages/dashboard/Teams";
 import TeamDetail from "./pages/dashboard/TeamDetail";
 import CreateTeam from "./pages/dashboard/CreateTeam";
+import Settings from "./pages/dashboard/Settings";
 import AcceptInvite from "./pages/AcceptInvite";
 import CommandPalette from "./components/CommandPalette";
 import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
@@ -110,6 +112,7 @@ const AppContent = () => {
           <Route path="teams" element={<Teams />} />
           <Route path="teams/new" element={<CreateTeam />} />
           <Route path="teams/:teamId" element={<TeamDetail />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
 
@@ -127,21 +130,23 @@ const AppContent = () => {
 function App() {
   return (
     <AuthProvider>
-      <TeamsProvider>
-        <InviteProvider>
-          <IssueProvider>
-            <ProjectProvider>
-              <SocketProvider>
-                <NotificationProvider>
-                  <Router>
-                    <AppContent />
-                  </Router>
-                </NotificationProvider>
-              </SocketProvider>
-            </ProjectProvider>
-          </IssueProvider>
-        </InviteProvider>
-      </TeamsProvider>
+      <ThemeProvider>
+        <TeamsProvider>
+          <InviteProvider>
+            <IssueProvider>
+              <ProjectProvider>
+                <SocketProvider>
+                  <NotificationProvider>
+                    <Router>
+                      <AppContent />
+                    </Router>
+                  </NotificationProvider>
+                </SocketProvider>
+              </ProjectProvider>
+            </IssueProvider>
+          </InviteProvider>
+        </TeamsProvider>
+      </ThemeProvider>
     </AuthProvider>
   );
 }

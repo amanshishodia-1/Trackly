@@ -109,7 +109,7 @@ const Teams = () => {
             placeholder="Search teams..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-gray-500 focus:border-purple-500 transition-colors"
+            className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-2 pl-8 pr-4 text-sm text-white placeholder-gray-500 focus:border-purple-500 transition-colors"
           />
         </div>
         <div className="flex items-center gap-2">
@@ -127,27 +127,37 @@ const Teams = () => {
 
       {/* Teams Table */}
       {loading ? (
-        <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500"></div>
+        <div className="flex flex-col w-full bg-[#161922] rounded-lg border border-[#1F2328] overflow-hidden">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <div key={i} className="flex items-center gap-4 px-4 py-4 border-b border-white/[0.04] last:border-0">
+              <div className="flex items-center gap-4 w-1/3">
+                <div className="w-6 h-6 rounded bg-white/[0.04] animate-pulse" />
+                <div className="w-24 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
+              </div>
+              <div className="w-16 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
+              <div className="w-16 h-6 rounded-full bg-white/[0.04] animate-pulse ml-4" />
+              <div className="w-8 h-4 rounded-[4px] bg-white/[0.04] animate-pulse ml-8" />
+            </div>
+          ))}
         </div>
       ) : (
         <div className="bg-[#161922] rounded-lg border border-[#1F2328] overflow-hidden">
           <table className="w-full">
             <thead>
               <tr className="border-b border-[#1F2328]">
-                <th className="text-left py-3 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
+                <th className="text-left py-4 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
                   Name
                 </th>
-                <th className="text-left py-3 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
+                <th className="text-left py-4 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
                   Membership
                 </th>
-                <th className="text-left py-3 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
+                <th className="text-left py-4 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
                   Members
                 </th>
-                <th className="text-left py-3 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
+                <th className="text-left py-4 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
                   Active projects
                 </th>
-                <th className="py-3 px-4"></th>
+                <th className="py-4 px-4"></th>
               </tr>
             </thead>
             <tbody>
@@ -161,8 +171,8 @@ const Teams = () => {
                     className="border-b border-[#1F2328] hover:bg-[#1A1D24] transition-colors cursor-pointer"
                     onClick={() => navigate(`/teams/${team._id}`)}
                   >
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-3">
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-4">
                         <div
                           className={`w-6 h-6 ${iconStyle.color} rounded flex items-center justify-center`}
                         >
@@ -182,7 +192,7 @@ const Teams = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="py-4 px-4">
                       {isMember && (
                         <span className="inline-flex items-center gap-1 text-gray-400 text-xs">
                           <Check className="w-3 h-3" />
@@ -190,13 +200,13 @@ const Teams = () => {
                         </span>
                       )}
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="py-4 px-4">
                       {renderAvatarStack(team.members)}
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="py-4 px-4">
                       <span className="text-gray-500 text-xs">0</span>
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="py-4 px-4">
                       <button
                         className="text-gray-500 hover:text-white"
                         onClick={(e) => {
@@ -216,12 +226,17 @@ const Teams = () => {
       )}
 
       {!loading && filteredTeams.length === 0 && (
-        <div className="text-center py-12">
-          <Hash className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-          <p className="text-gray-400">No teams found</p>
+        <div className="flex flex-col items-center justify-center py-24 text-center">
+          <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
+            <Hash className="w-5 h-5 text-[#8A8F98]" />
+          </div>
+          <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">No teams found</h3>
+          <p className="text-[#8A8F98] text-[13px] max-w-sm mb-4">
+            {searchQuery ? "Try adjusting your search query." : "You haven't joined or created any teams yet."}
+          </p>
           <button
             onClick={() => navigate("/teams/new")}
-            className="mt-4 text-purple-400 hover:text-purple-300"
+            className="btn-secondary"
           >
             Create your first team
           </button>

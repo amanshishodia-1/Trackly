@@ -16,11 +16,11 @@ const MemberCard = ({ member, currentUserId, canManageTeams, onRemoveMember }) =
   const isLead = member.role === 'lead';
 
   return (
-    <div className="p-4 flex items-center justify-between hover:bg-[#1A1D24] transition-colors group">
+    <div className="p-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors group">
       <div className="flex items-center gap-4">
         {/* Avatar */}
-        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-          <span className="text-white font-semibold text-sm">
+        <div className="w-8 h-8 bg-gradient-to-br from-[#5E6AD2] to-[#8C98F2] rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+          <span className="text-white font-semibold text-xs leading-none">
             {member.user.name
               ?.split(" ")
               .map((n) => n[0])
@@ -31,30 +31,30 @@ const MemberCard = ({ member, currentUserId, canManageTeams, onRemoveMember }) =
         {/* Member Info */}
         <div>
           <div className="flex items-center gap-2">
-            <p className="text-white font-medium">
+            <p className="text-[#E8E8E8] text-[13px] font-medium leading-none">
               {member.user.name}
               {isCurrentUser && (
-                <span className="text-gray-400 text-sm ml-2">(You)</span>
+                <span className="text-[#8A8F98] text-[11px] ml-2">(You)</span>
               )}
             </p>
             {(isAdmin || isLead) && (
-              <Crown className="w-4 h-4 text-yellow-400" />
+              <Crown className="w-3.5 h-3.5 text-yellow-400" />
             )}
           </div>
-          <p className="text-gray-400 text-sm">{member.user.email}</p>
+          <p className="text-[#8A8F98] text-[11px] mt-1">{member.user.email}</p>
         </div>
       </div>
 
       {/* Role and Actions */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         {/* Role Badge */}
         <span
-          className={`px-2 py-1 rounded-full text-xs font-medium ${
+          className={`inline-flex items-center px-2 py-1 rounded-[4px] text-[11px] font-medium border ${
             isAdmin || isLead
-              ? "bg-yellow-500/20 text-yellow-400"
+              ? "bg-yellow-500/10 text-yellow-400 border-yellow-500/20"
               : member.role === 'Member'
-              ? "bg-blue-500/20 text-blue-400"
-              : "bg-gray-500/20 text-gray-400"
+              ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+              : "bg-gray-500/10 text-gray-400 border-gray-500/20"
           }`}
         >
           {member.role}
@@ -65,7 +65,7 @@ const MemberCard = ({ member, currentUserId, canManageTeams, onRemoveMember }) =
           <div className="relative">
             <button
               onClick={() => setShowActions(!showActions)}
-              className="p-1 text-gray-500 hover:text-white transition-colors opacity-0 group-hover:opacity-100"
+              className="p-1 text-[#8A8F98] hover:text-[#E8E8E8] transition-colors opacity-0 group-hover:opacity-100"
             >
               <MoreVertical className="w-4 h-4" />
             </button>
@@ -82,7 +82,7 @@ const MemberCard = ({ member, currentUserId, canManageTeams, onRemoveMember }) =
                 <div className="absolute right-0 top-8 bg-[#161922] border border-[#1F2328] rounded-lg shadow-lg z-20 min-w-[150px]">
                   <button
                     onClick={handleRemoveMember}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                     Remove
