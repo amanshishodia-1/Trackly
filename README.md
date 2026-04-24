@@ -120,3 +120,4 @@ App runs on http://localhost:3000
 
 - **Backend**: Node.js, Express, MongoDB (Mongoose), JWT, bcryptjs
 - **Frontend**: React, Vite, React Router, Axios, Tailwind CSS, Lucide Icons
+# Trackly
