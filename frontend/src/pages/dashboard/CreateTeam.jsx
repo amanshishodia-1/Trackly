@@ -32,7 +32,7 @@ const CreateTeam = () => {
         description: formData.description.trim(),
       });
       console.log("Team created:", team);
-      navigate(`/teams/${team._id}`);
+      navigate(`/app/teams/${team._id}`);
     } catch (err) {
       console.error("Create team error:", err);
       setError(
@@ -53,7 +53,7 @@ const CreateTeam = () => {
     <div className="max-w-2xl">
       {/* Back Button */}
       <button
-        onClick={() => navigate("/teams")}
+        onClick={() => navigate("/app/teams")}
         className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
@@ -145,16 +145,12 @@ const CreateTeam = () => {
           <div className="flex items-center justify-end gap-4 pt-4 border-t border-[#1F2328]">
             <button
               type="button"
-              onClick={() => navigate("/teams")}
+              onClick={() => navigate("/app/teams")}
               className="btn-secondary"
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-primary"
-            >
+            <button type="submit" disabled={loading} className="btn-primary">
               {loading ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>
               ) : (

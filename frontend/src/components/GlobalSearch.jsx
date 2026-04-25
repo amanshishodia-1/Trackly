@@ -92,9 +92,9 @@ const GlobalSearch = () => {
     setResults({ issues: [], projects: [] });
 
     if (type === "issue") {
-      navigate(`/teams/${item.team._id}?issue=${item._id}`);
+      navigate(`/app/teams/${item.team._id}?issue=${item._id}`);
     } else if (type === "project") {
-      navigate(`/projects/${item._id}`);
+      navigate(`/app/projects/${item._id}`);
     }
   };
 
@@ -162,149 +162,157 @@ const GlobalSearch = () => {
               transition={{ duration: 0.15, ease: "easeOut" }}
               className="relative top-[15vh] w-[600px] max-w-[90vw] h-fit bg-[#131518] border border-white/[0.08] rounded-xl shadow-2xl overflow-hidden"
             >
-        {/* Search Input */}
-        <div className="flex items-center gap-4 p-4 border-b border-white/[0.04]">
-          <Search className="w-5 h-5 text-gray-400" />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search issues, projects..."
-            className="flex-1 bg-transparent text-white text-base placeholder-gray-500 focus:outline-none"
-            autoFocus
-          />
-          {loading && (
-            <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-purple-500" />
-          )}
-          <button
-            onClick={() => setIsOpen(false)}
-            className="p-1 hover:bg-[#1A1D24] rounded transition-colors"
-          >
-            <X className="w-4 h-4 text-gray-400" />
-          </button>
-        </div>
-
-        {/* Results */}
-        <div className="max-h-[400px] overflow-y-auto">
-          {/* Issues Section */}
-          {results.issues.length > 0 && (
-            <div>
-              <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide bg-[#0F1115]">
-                Issues ({results.issues.length})
+              {/* Search Input */}
+              <div className="flex items-center gap-4 p-4 border-b border-white/[0.04]">
+                <Search className="w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search issues, projects..."
+                  className="flex-1 bg-transparent text-white text-base placeholder-gray-500 focus:outline-none"
+                  autoFocus
+                />
+                {loading && (
+                  <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-purple-500" />
+                )}
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-1 hover:bg-[#1A1D24] rounded transition-colors"
+                >
+                  <X className="w-4 h-4 text-gray-400" />
+                </button>
               </div>
-              {results.issues.map((issue, index) => {
-                const globalIndex = index;
-                const isSelected = globalIndex === selectedIndex;
 
-                return (
-                  <button
-                    key={issue._id}
-                    onClick={() => handleSelect("issue", issue)}
-                    className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${
-                      isSelected ? "bg-purple-500/20" : "hover:bg-[#1A1D24]"
-                    }`}
-                  >
-                    <FileText className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-gray-500 font-mono text-xs">
-                          {issue.identifier}
-                        </span>
-                        <span className="text-white text-sm truncate">
-                          {issue.title}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span
-                          className={`text-xs px-2 py-1 rounded border ${getStatusColor(issue.status)}`}
-                        >
-                          {issue.status}
-                        </span>
-                        <span
-                          className={`text-xs ${getPriorityColor(issue.priority)}`}
-                        >
-                          {issue.priority}
-                        </span>
-                        <span className="text-gray-500 text-xs">
-                          {issue.team?.name}
-                        </span>
-                      </div>
+              {/* Results */}
+              <div className="max-h-[400px] overflow-y-auto">
+                {/* Issues Section */}
+                {results.issues.length > 0 && (
+                  <div>
+                    <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide bg-[#0F1115]">
+                      Issues ({results.issues.length})
                     </div>
-                  </button>
-                );
-              })}
-            </div>
-          )}
+                    {results.issues.map((issue, index) => {
+                      const globalIndex = index;
+                      const isSelected = globalIndex === selectedIndex;
 
-          {/* Projects Section */}
-          {results.projects.length > 0 && (
-            <div>
-              <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide bg-[#0F1115]">
-                Projects ({results.projects.length})
-              </div>
-              {results.projects.map((project, index) => {
-                const globalIndex = results.issues.length + index;
-                const isSelected = globalIndex === selectedIndex;
-
-                return (
-                  <button
-                    key={project._id}
-                    onClick={() => handleSelect("project", project)}
-                    className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${
-                      isSelected ? "bg-purple-500/20" : "hover:bg-[#1A1D24]"
-                    }`}
-                  >
-                    <FolderKanban className="w-4 h-4 text-purple-400 flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <span className="text-white text-sm">{project.name}</span>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-gray-500 text-xs">
-                          {project.team?.name}
-                        </span>
-                        <span
-                          className={`text-xs px-2 py-1 rounded border ${
-                            project.status === "Active"
-                              ? "bg-green-500/20 text-green-400 border-green-500/30"
-                              : project.status === "Archived"
-                                ? "bg-gray-500/20 text-gray-400 border-gray-500/30"
-                                : "bg-blue-500/20 text-blue-400 border-blue-500/30"
+                      return (
+                        <button
+                          key={issue._id}
+                          onClick={() => handleSelect("issue", issue)}
+                          className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${
+                            isSelected
+                              ? "bg-purple-500/20"
+                              : "hover:bg-[#1A1D24]"
                           }`}
                         >
-                          {project.status}
-                        </span>
-                      </div>
+                          <FileText className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="text-gray-500 font-mono text-xs">
+                                {issue.identifier}
+                              </span>
+                              <span className="text-white text-sm truncate">
+                                {issue.title}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span
+                                className={`text-xs px-2 py-1 rounded border ${getStatusColor(issue.status)}`}
+                              >
+                                {issue.status}
+                              </span>
+                              <span
+                                className={`text-xs ${getPriorityColor(issue.priority)}`}
+                              >
+                                {issue.priority}
+                              </span>
+                              <span className="text-gray-500 text-xs">
+                                {issue.team?.name}
+                              </span>
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Projects Section */}
+                {results.projects.length > 0 && (
+                  <div>
+                    <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide bg-[#0F1115]">
+                      Projects ({results.projects.length})
                     </div>
-                  </button>
-                );
-              })}
-            </div>
-          )}
+                    {results.projects.map((project, index) => {
+                      const globalIndex = results.issues.length + index;
+                      const isSelected = globalIndex === selectedIndex;
 
-          {/* No Results */}
-          {query.trim().length > 0 &&
-            !loading &&
-            results.issues.length === 0 &&
-            results.projects.length === 0 && (
-              <div className="px-4 py-8 text-center">
-                <p className="text-gray-500 text-sm">
-                  No results found for &quot;{query}&quot;
-                </p>
-              </div>
-            )}
+                      return (
+                        <button
+                          key={project._id}
+                          onClick={() => handleSelect("project", project)}
+                          className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${
+                            isSelected
+                              ? "bg-purple-500/20"
+                              : "hover:bg-[#1A1D24]"
+                          }`}
+                        >
+                          <FolderKanban className="w-4 h-4 text-purple-400 flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <span className="text-white text-sm">
+                              {project.name}
+                            </span>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-gray-500 text-xs">
+                                {project.team?.name}
+                              </span>
+                              <span
+                                className={`text-xs px-2 py-1 rounded border ${
+                                  project.status === "Active"
+                                    ? "bg-green-500/20 text-green-400 border-green-500/30"
+                                    : project.status === "Archived"
+                                      ? "bg-gray-500/20 text-gray-400 border-gray-500/30"
+                                      : "bg-blue-500/20 text-blue-400 border-blue-500/30"
+                                }`}
+                              >
+                                {project.status}
+                              </span>
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
 
-          {/* Empty State */}
-          {query.trim().length === 0 && (
-            <div className="px-4 py-8 text-center">
-              <Search className="w-8 h-8 text-gray-600 mx-auto mb-2" />
-              <p className="text-gray-500 text-sm">Start typing to search...</p>
-              <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-600">
-                <span>↑↓ to navigate</span>
-                <span>↵ to select</span>
-                <span>esc to close</span>
+                {/* No Results */}
+                {query.trim().length > 0 &&
+                  !loading &&
+                  results.issues.length === 0 &&
+                  results.projects.length === 0 && (
+                    <div className="px-4 py-8 text-center">
+                      <p className="text-gray-500 text-sm">
+                        No results found for &quot;{query}&quot;
+                      </p>
+                    </div>
+                  )}
+
+                {/* Empty State */}
+                {query.trim().length === 0 && (
+                  <div className="px-4 py-8 text-center">
+                    <Search className="w-8 h-8 text-gray-600 mx-auto mb-2" />
+                    <p className="text-gray-500 text-sm">
+                      Start typing to search...
+                    </p>
+                    <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-600">
+                      <span>↑↓ to navigate</span>
+                      <span>↵ to select</span>
+                      <span>esc to close</span>
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
-          )}
-        </div>
             </motion.div>
           </div>
         )}

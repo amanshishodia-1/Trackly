@@ -93,7 +93,7 @@ const Teams = () => {
           <p className="text-gray-500 text-sm">{filteredTeams.length} teams</p>
         </div>
         <button
-          onClick={() => navigate("/teams/new")}
+          onClick={() => navigate("/app/teams/new")}
           className="text-gray-400 hover:text-white transition-colors"
         >
           <Plus className="w-5 h-5" />
@@ -129,7 +129,10 @@ const Teams = () => {
       {loading ? (
         <div className="flex flex-col w-full bg-[#161922] rounded-lg border border-[#1F2328] overflow-hidden">
           {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="flex items-center gap-4 px-4 py-4 border-b border-white/[0.04] last:border-0">
+            <div
+              key={i}
+              className="flex items-center gap-4 px-4 py-4 border-b border-white/[0.04] last:border-0"
+            >
               <div className="flex items-center gap-4 w-1/3">
                 <div className="w-6 h-6 rounded bg-white/[0.04] animate-pulse" />
                 <div className="w-24 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
@@ -169,7 +172,7 @@ const Teams = () => {
                   <tr
                     key={team._id}
                     className="border-b border-[#1F2328] hover:bg-[#1A1D24] transition-colors cursor-pointer"
-                    onClick={() => navigate(`/teams/${team._id}`)}
+                    onClick={() => navigate(`/app/teams/${team._id}`)}
                   >
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-4">
@@ -230,12 +233,16 @@ const Teams = () => {
           <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
             <Hash className="w-5 h-5 text-[#8A8F98]" />
           </div>
-          <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">No teams found</h3>
+          <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">
+            No teams found
+          </h3>
           <p className="text-[#8A8F98] text-[13px] max-w-sm mb-4">
-            {searchQuery ? "Try adjusting your search query." : "You haven't joined or created any teams yet."}
+            {searchQuery
+              ? "Try adjusting your search query."
+              : "You haven't joined or created any teams yet."}
           </p>
           <button
-            onClick={() => navigate("/teams/new")}
+            onClick={() => navigate("/app/teams/new")}
             className="btn-secondary"
           >
             Create your first team

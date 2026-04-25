@@ -171,7 +171,7 @@ const TeamDetail = () => {
     if (confirm("Are you sure you want to delete this team?")) {
       try {
         await deleteTeam(teamId);
-        navigate("/teams");
+        navigate("/app/teams");
       } catch (err) {
         console.error("Failed to delete team:", err);
       }
@@ -199,7 +199,9 @@ const TeamDetail = () => {
           <div className="w-32 h-9 bg-white/[0.04] rounded-md" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[1, 2, 3].map(i => <div key={i} className="h-20 bg-white/[0.04] rounded-md" />)}
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-20 bg-white/[0.04] rounded-md" />
+          ))}
         </div>
       </div>
     );
@@ -209,7 +211,7 @@ const TeamDetail = () => {
     <div>
       {/* Back Button */}
       <button
-        onClick={() => navigate("/teams")}
+        onClick={() => navigate("/app/teams")}
         className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
@@ -339,7 +341,10 @@ const TeamDetail = () => {
             {issuesLoading ? (
               <div className="flex flex-col w-full">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="flex items-center gap-4 px-4 py-4 border-b border-white/[0.04] last:border-0">
+                  <div
+                    key={i}
+                    className="flex items-center gap-4 px-4 py-4 border-b border-white/[0.04] last:border-0"
+                  >
                     <div className="w-16 h-5 rounded-[4px] bg-white/[0.04] animate-pulse" />
                     <div className="w-12 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
                     <div className="flex-1 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
@@ -353,7 +358,9 @@ const TeamDetail = () => {
                 <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
                   <CircleDot className="w-5 h-5 text-[#8A8F98]" />
                 </div>
-                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">No issues yet</h3>
+                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">
+                  No issues yet
+                </h3>
                 <p className="text-[#8A8F98] text-[13px] max-w-sm mb-4">
                   There are no issues assigned to this team.
                 </p>
@@ -487,13 +494,13 @@ const TeamDetail = () => {
                 <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
                   <FolderKanban className="w-5 h-5 text-[#8A8F98]" />
                 </div>
-                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">No projects yet</h3>
+                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">
+                  No projects yet
+                </h3>
                 <p className="text-[#8A8F98] text-[13px] max-w-sm mb-4">
                   There are no active projects for this team.
                 </p>
-                <button className="btn-secondary">
-                  Create first project
-                </button>
+                <button className="btn-secondary">Create first project</button>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -570,7 +577,9 @@ const TeamDetail = () => {
                 <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
                   <Users className="w-5 h-5 text-[#8A8F98]" />
                 </div>
-                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">No members</h3>
+                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">
+                  No members
+                </h3>
                 <p className="text-[#8A8F98] text-[13px]">
                   This team currently has no members.
                 </p>

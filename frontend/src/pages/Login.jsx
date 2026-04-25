@@ -1,26 +1,26 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { Mail, Lock, ArrowRight } from 'lucide-react';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { Mail, Lock, ArrowRight } from "lucide-react";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
       await login(email, password);
-      navigate('/inbox');
+      navigate("/app/inbox");
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -92,8 +92,11 @@ const Login = () => {
           </form>
 
           <p className="mt-6 text-center text-sm text-gray-400">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-purple-400 hover:text-purple-300">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              className="text-purple-400 hover:text-purple-300"
+            >
               Create one
             </Link>
           </p>

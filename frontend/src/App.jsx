@@ -14,6 +14,7 @@ import { ProjectProvider } from "./context/ProjectContext";
 import { SocketProvider } from "./context/SocketContext";
 import { NotificationProvider } from "./context/NotificationContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -53,7 +54,7 @@ const PublicRoute = ({ children }) => {
     );
   }
 
-  return !user ? children : <Navigate to="/inbox" />;
+  return !user ? children : <Navigate to="/app/inbox" />;
 };
 
 // AppContent handles keyboard shortcuts and command palette
@@ -69,7 +70,7 @@ const AppContent = () => {
       const event = new CustomEvent("new-issue");
       window.dispatchEvent(event);
     },
-    onNewTeam: () => navigate("/teams/new"),
+    onNewTeam: () => navigate("/app/teams/new"),
     onNewProject: () => {
       // Trigger new project modal
       const event = new CustomEvent("new-project");
@@ -96,16 +97,21 @@ const AppContent = () => {
             </PublicRoute>
           }
         />
+        {/* Public Landing Page */}
+        <Route path="/" element={<Landing />} />
+
         <Route path="/invite/:token" element={<AcceptInvite />} />
+
+        {/* Protected Dashboard Routes under /app */}
         <Route
-          path="/"
+          path="/app"
           element={
             <ProtectedRoute>
               <DashboardLayout />
             </ProtectedRoute>
           }
         >
-          <Route index element={<Navigate to="/inbox" />} />
+          <Route index element={<Navigate to="/app/inbox" />} />
           <Route path="inbox" element={<Inbox />} />
           <Route path="my-issues" element={<MyIssues />} />
           <Route path="projects" element={<Projects />} />

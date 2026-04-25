@@ -832,7 +832,7 @@ const Settings = () => {
                     Members
                   </label>
                   <a
-                    href="/teams"
+                    href="/app/teams"
                     className="flex items-center gap-2 px-3 py-2 rounded-md bg-[#1A1D24]/60 border border-[#1F2328]/60 text-sm text-gray-300 hover:text-gray-200 hover:border-purple-500/30 transition-colors"
                   >
                     <Users className="w-4 h-4 text-gray-500" />
@@ -1020,26 +1020,26 @@ const Settings = () => {
   };
 
   return (
-    <div className="p-6 max-w-4xl">
-      <h1 className="text-xl font-semibold text-gray-100 mb-6">Settings</h1>
+    <div className="p-10 max-w-6xl">
+      <h1 className="text-3xl font-semibold text-gray-100 mb-10">Settings</h1>
 
-      <div className="flex gap-6">
+      <div className="flex gap-10">
         {/* Sidebar Tabs */}
-        <nav className="w-48 shrink-0">
-          <ul className="space-y-0.5">
+        <nav className="w-64 shrink-0">
+          <ul className="space-y-2">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <li key={tab.id}>
                   <button
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-sm transition-colors text-left ${
+                    className={`w-full flex items-center gap-4 px-4 py-3 rounded-lg text-lg transition-colors text-left ${
                       activeTab === tab.id
                         ? "bg-[#252A33] text-gray-100"
                         : "text-gray-400 hover:bg-[#1A1D24]/60 hover:text-gray-300"
                     }`}
                   >
-                    <Icon className="w-4 h-4 shrink-0" />
+                    <Icon className="w-6 h-6 shrink-0" />
                     <span>{tab.label}</span>
                   </button>
                 </li>
@@ -1050,7 +1050,7 @@ const Settings = () => {
 
         {/* Tab Content */}
         <div className="flex-1 min-w-0">
-          <div className="bg-[#0F1115] border border-[#1F2328]/60 rounded-lg p-5">
+          <div className="bg-[#0F1115] border border-[#1F2328]/60 rounded-xl p-8">
             {renderTabContent()}
           </div>
         </div>

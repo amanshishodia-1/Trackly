@@ -1,27 +1,27 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { Mail, Lock, User, ArrowRight } from 'lucide-react';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { Mail, Lock, User, ArrowRight } from "lucide-react";
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
       await register(name, email, password);
-      navigate('/inbox');
+      navigate("/app/inbox");
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      setError(err.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -111,7 +111,7 @@ const Register = () => {
           </form>
 
           <p className="mt-6 text-center text-sm text-gray-400">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link to="/login" className="text-purple-400 hover:text-purple-300">
               Sign in
             </Link>

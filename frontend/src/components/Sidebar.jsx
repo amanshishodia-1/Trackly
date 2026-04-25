@@ -37,10 +37,10 @@ const Sidebar = () => {
   }, [user, fetchTeams, fetchInboxInvites]);
 
   const navItems = [
-    { to: "/inbox", icon: Inbox, label: "Inbox", badge: inviteCount },
-    { to: "/my-issues", icon: CircleDot, label: "My Issues" },
-    { to: "/projects", icon: FolderKanban, label: "Projects" },
-    { to: "/teams", icon: Users, label: "Teams" },
+    { to: "/app/inbox", icon: Inbox, label: "Inbox", badge: inviteCount },
+    { to: "/app/my-issues", icon: CircleDot, label: "My Issues" },
+    { to: "/app/projects", icon: FolderKanban, label: "Projects" },
+    { to: "/app/teams", icon: Users, label: "Teams" },
   ];
 
   return (
@@ -121,7 +121,7 @@ const Sidebar = () => {
               </span>
             </div>
             <NavLink
-              to="/teams"
+              to="/app/teams"
               className="text-[#8A8F98] hover:text-[#D1D5DB] opacity-0 group-hover:opacity-100 transition-all"
               onClick={(e) => e.stopPropagation()}
             >
@@ -132,7 +132,7 @@ const Sidebar = () => {
             {teams.map((team) => (
               <li key={team._id}>
                 <NavLink
-                  to={`/teams/${team._id}`}
+                  to={`/app/teams/${team._id}`}
                   className={({ isActive }) =>
                     `group flex items-center gap-2 px-2 py-2 rounded-md text-[13px] font-medium transition-colors ${
                       isActive
@@ -160,7 +160,7 @@ const Sidebar = () => {
       {/* Bottom Actions */}
       <div className="p-4 border-t border-white/[0.04]">
         <NavLink
-          to="/settings"
+          to="/app/settings"
           className={({ isActive }) =>
             `w-full flex items-center gap-2 px-2 py-2 rounded-md text-[13px] font-medium transition-colors mb-1 ${
               isActive
