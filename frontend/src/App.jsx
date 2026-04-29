@@ -17,6 +17,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Welcome from "./pages/Welcome";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Inbox from "./pages/dashboard/Inbox";
 import MyIssues from "./pages/dashboard/MyIssues";
@@ -54,7 +55,11 @@ const PublicRoute = ({ children }) => {
     );
   }
 
-  return !user ? children : <Navigate to="/app/inbox" />;
+  if (user) {
+    return user.hasCompletedOnboarding ? <Navigate to="/app/inbox" /> : <Navigate to="/welcome" />;
+  }
+
+  return children;
 };
 
 // AppContent handles keyboard shortcuts and command palette
@@ -95,6 +100,14 @@ const AppContent = () => {
             <PublicRoute>
               <Register />
             </PublicRoute>
+          }
+        />
+        <Route
+          path="/welcome"
+          element={
+            <ProtectedRoute>
+              <Welcome />
+            </ProtectedRoute>
           }
         />
         {/* Public Landing Page */}

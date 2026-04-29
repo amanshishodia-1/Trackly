@@ -21,6 +21,7 @@ router.get("/profile", protect, async (req, res) => {
       defaultStartPage: user.defaultStartPage || "inbox",
       theme: user.theme || "system",
       density: user.density || "comfortable",
+      hasCompletedOnboarding: user.hasCompletedOnboarding || false,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -36,7 +37,7 @@ router.patch("/profile", protect, async (req, res) => {
       "Body:",
       req.body,
     );
-    const { name, timezone, defaultStartPage } = req.body;
+    const { name, timezone, defaultStartPage, hasCompletedOnboarding } = req.body;
 
     const user = await User.findById(req.user._id);
 
@@ -49,6 +50,8 @@ router.patch("/profile", protect, async (req, res) => {
     if (timezone !== undefined) user.timezone = timezone;
     if (defaultStartPage !== undefined)
       user.defaultStartPage = defaultStartPage;
+    if (hasCompletedOnboarding !== undefined)
+      user.hasCompletedOnboarding = hasCompletedOnboarding;
 
     await user.save();
     console.log("Profile updated successfully for user:", req.user._id);
@@ -60,6 +63,7 @@ router.patch("/profile", protect, async (req, res) => {
       defaultStartPage: user.defaultStartPage,
       theme: user.theme,
       density: user.density,
+      hasCompletedOnboarding: user.hasCompletedOnboarding,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

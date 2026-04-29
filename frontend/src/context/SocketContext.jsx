@@ -24,7 +24,7 @@ export const SocketProvider = ({ children }) => {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !user.id) return;
 
     // Initialize socket connection
     const newSocket = io("http://localhost:3000", {
@@ -51,7 +51,7 @@ export const SocketProvider = ({ children }) => {
     return () => {
       newSocket.close();
     };
-  }, [user]);
+  }, [user?.id]);
 
   // Join/leave team room
   const joinTeam = useCallback(

@@ -44,20 +44,20 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-64 h-screen bg-[#0F1115] border-r border-[#1F2328] flex flex-col font-sans">
+    <aside className="w-64 h-screen bg-[var(--bg-secondary)] border-r border-[var(--border-primary)] flex flex-col font-sans relative z-20 shadow-[4px_0_24px_rgba(0,0,0,0.05)]">
       {/* Workspace Header */}
-      <div className="p-4 border-b border-white/[0.04]">
-        <div className="flex items-center gap-2 px-2 py-2 mb-4 hover:bg-white/[0.04] rounded-md cursor-pointer transition-colors group">
+      <div className="p-4 border-b border-[var(--border-primary)]">
+        <div className="flex items-center gap-2 px-2 py-2 mb-4 hover:bg-[var(--hover-bg)] rounded-md cursor-pointer transition-colors group">
           <div className="w-5 h-5 bg-gradient-to-br from-[#5E6AD2] to-[#8C98F2] rounded flex items-center justify-center flex-shrink-0 shadow-sm border border-white/10">
             <span className="text-white font-medium text-[11px] leading-none">
               W
             </span>
           </div>
           <div className="flex-1 min-w-0 flex flex-col justify-center">
-            <h2 className="text-[#E8E8E8] font-medium text-[13px] truncate leading-tight group-hover:text-white transition-colors">
+            <h2 className="text-[var(--text-primary)] font-medium text-[13px] truncate leading-tight group-hover:text-indigo-400 transition-colors">
               {user?.workspaceId?.name || "Workspace"}
             </h2>
-            <p className="text-[#8A8F98] text-[11px] truncate leading-tight mt-1">
+            <p className="text-[var(--text-tertiary)] text-[11px] truncate leading-tight mt-1">
               {user?.name}
             </p>
           </div>
@@ -94,8 +94,8 @@ const Sidebar = () => {
                 className={({ isActive }) =>
                   `group flex items-center gap-2 px-2 py-2 rounded-md text-[13px] font-medium transition-colors ${
                     isActive
-                      ? "bg-white/[0.06] text-[#E8E8E8]"
-                      : "text-[#8A8F98] hover:bg-white/[0.04] hover:text-[#D1D5DB]"
+                      ? "bg-white/5 text-[var(--text-primary)]"
+                      : "text-[var(--text-secondary)] hover:bg-[var(--hover-bg)] hover:text-[var(--text-primary)]"
                   }`
                 }
               >
@@ -112,9 +112,9 @@ const Sidebar = () => {
         </ul>
 
         {/* Your Teams Section */}
-        <div className="mt-6">
-          <div className="flex items-center justify-between px-2 mb-1 group cursor-pointer">
-            <div className="flex items-center gap-1 text-[#8A8F98] group-hover:text-[#D1D5DB] transition-colors">
+        <div className="mt-5 mx-2 p-2 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+          <div className="flex items-center justify-between px-2 mb-2 group cursor-pointer">
+            <div className="flex items-center gap-1.5 text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)] transition-colors">
               <ChevronDown className="w-3.5 h-3.5" />
               <span className="text-[11px] font-semibold uppercase tracking-wider">
                 Your Teams
@@ -122,26 +122,26 @@ const Sidebar = () => {
             </div>
             <NavLink
               to="/app/teams"
-              className="text-[#8A8F98] hover:text-[#D1D5DB] opacity-0 group-hover:opacity-100 transition-all"
+              className="text-[var(--text-tertiary)] hover:text-[var(--text-primary)] opacity-0 group-hover:opacity-100 transition-all"
               onClick={(e) => e.stopPropagation()}
             >
               <Plus className="w-3.5 h-3.5" />
             </NavLink>
           </div>
-          <ul className="space-y-1 mt-2">
+          <ul className="space-y-0.5">
             {teams.map((team) => (
               <li key={team._id}>
                 <NavLink
                   to={`/app/teams/${team._id}`}
                   className={({ isActive }) =>
-                    `group flex items-center gap-2 px-2 py-2 rounded-md text-[13px] font-medium transition-colors ${
+                    `group flex items-center gap-2 px-2 py-1.5 rounded-md text-[13px] font-medium transition-colors ${
                       isActive
-                        ? "bg-white/[0.06] text-[#E8E8E8]"
-                        : "text-[#8A8F98] hover:bg-white/[0.04] hover:text-[#D1D5DB]"
+                        ? "bg-white/5 text-[var(--text-primary)]"
+                        : "text-[var(--text-secondary)] hover:bg-[var(--hover-bg)] hover:text-[var(--text-primary)]"
                     }`
                   }
                 >
-                  <div className="w-4 h-4 rounded-[4px] flex items-center justify-center flex-shrink-0 bg-white/[0.03] border border-white/[0.06] group-hover:border-white/[0.12] transition-colors">
+                  <div className="w-4 h-4 rounded-[4px] flex items-center justify-center flex-shrink-0 bg-white/[0.03] border border-[var(--border-primary)] group-hover:border-white/10 transition-colors">
                     <Hash className="w-2.5 h-2.5 text-current opacity-70 group-hover:opacity-100" />
                   </div>
                   <span className="truncate flex-1">{team.name}</span>
@@ -158,27 +158,29 @@ const Sidebar = () => {
       </nav>
 
       {/* Bottom Actions */}
-      <div className="p-4 border-t border-white/[0.04]">
-        <NavLink
-          to="/app/settings"
-          className={({ isActive }) =>
-            `w-full flex items-center gap-2 px-2 py-2 rounded-md text-[13px] font-medium transition-colors mb-1 ${
-              isActive
-                ? "bg-white/[0.06] text-[#E5E7EB]"
-                : "text-[#8A8F98] hover:bg-white/[0.04] hover:text-[#D1D5DB]"
-            }`
-          }
-        >
-          <Settings className="w-4 h-4 flex-shrink-0" />
-          <span>Settings</span>
-        </NavLink>
-        <button
-          onClick={logout}
-          className="w-full flex items-center gap-2 px-2 py-2 rounded-md text-[13px] font-medium text-[#8A8F98] hover:bg-red-500/10 hover:text-red-400 transition-colors"
-        >
-          <LogOut className="w-4 h-4 flex-shrink-0" />
-          <span>Logout</span>
-        </button>
+      <div className="p-4 border-t border-[var(--border-primary)]">
+        <div className="mx-0 p-2 rounded-lg bg-[var(--hover-bg)] border border-[var(--border-primary)]">
+          <NavLink
+            to="/app/settings"
+            className={({ isActive }) =>
+              `w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-[13px] font-medium transition-colors mb-0.5 ${
+                isActive
+                  ? "bg-white/5 text-[var(--text-primary)]"
+                  : "text-[var(--text-secondary)] hover:bg-[var(--hover-bg)] hover:text-[var(--text-primary)]"
+              }`
+            }
+          >
+            <Settings className="w-4 h-4 flex-shrink-0" />
+            <span>Settings</span>
+          </NavLink>
+          <button
+            onClick={logout}
+            className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-[13px] font-medium text-[var(--text-secondary)] hover:bg-red-500/10 hover:text-red-400 transition-colors"
+          >
+            <LogOut className="w-4 h-4 flex-shrink-0" />
+            <span>Logout</span>
+          </button>
+        </div>
       </div>
 
       {/* Create Issue Modal */}

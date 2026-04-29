@@ -17,17 +17,38 @@ const Teams = () => {
   const { teams, fetchTeams, loading } = useTeams();
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("name"); // 'name', 'key', 'members'
+  const [filterJoined, setFilterJoined] = useState(false);
+  const [showSortMenu, setShowSortMenu] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchTeams();
   }, [fetchTeams]);
 
-  const filteredTeams = teams.filter(
-    (team) =>
-      team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      team.key.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const isUserMember = (team) => {
+    return team.members?.some(
+      (m) => m.user._id === user?.id || m.user === user?.id,
+    );
+  };
+
+  const processedTeams = teams
+    .filter((team) => {
+      const matchesSearch =
+        team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        team.key.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesFilter = !filterJoined || isUserMember(team);
+      return matchesSearch && matchesFilter;
+    })
+    .sort((a, b) => {
+      if (sortBy === "name") return a.name.localeCompare(b.name);
+      if (sortBy === "key") return a.key.localeCompare(b.key);
+      if (sortBy === "members")
+        return (b.members?.length || 0) - (a.members?.length || 0);
+      return 0;
+    });
+
+  const filteredTeams = processedTeams;
 
   const getTeamIcon = (key) => {
     // Different icons/colors based on team key
@@ -46,11 +67,6 @@ const Teams = () => {
     );
   };
 
-  const isUserMember = (team) => {
-    return team.members?.some(
-      (m) => m.user._id === user?.id || m.user === user?.id,
-    );
-  };
 
   const renderAvatarStack = (members) => {
     const maxVisible = 3;
@@ -112,16 +128,67 @@ const Teams = () => {
             className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-2 pl-8 pr-4 text-sm text-white placeholder-gray-500 focus:border-purple-500 transition-colors"
           />
         </div>
-        <div className="flex items-center gap-2">
-          <button className="p-2 text-gray-500 hover:text-white transition-colors">
-            <Filter className="w-4 h-4" />
-          </button>
-          <button className="p-2 text-gray-500 hover:text-white transition-colors">
-            <ArrowUpDown className="w-4 h-4" />
-          </button>
-          <button className="p-2 text-gray-500 hover:text-white transition-colors">
-            <MoreHorizontal className="w-4 h-4" />
-          </button>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-lg p-0.5 shadow-sm">
+            <button 
+              onClick={() => setFilterJoined(false)}
+              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${!filterJoined ? 'bg-white/5 text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
+            >
+              All
+            </button>
+            <button 
+              onClick={() => setFilterJoined(true)}
+              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${filterJoined ? 'bg-white/5 text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
+            >
+              Joined
+            </button>
+          </div>
+
+          <div className="relative">
+            <button 
+              onClick={() => setShowSortMenu(!showSortMenu)}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all text-xs font-medium ${
+                showSortMenu 
+                  ? "border-indigo-500/50 bg-indigo-500/5 text-indigo-400" 
+                  : "border-[var(--border-primary)] bg-[var(--bg-secondary)] text-gray-400 hover:text-gray-200"
+              }`}
+            >
+              <ArrowUpDown className="w-3.5 h-3.5" />
+              <span>Sort: {sortBy.charAt(0).toUpperCase() + sortBy.slice(1)}</span>
+            </button>
+
+            {showSortMenu && (
+              <>
+                <div 
+                  className="fixed inset-0 z-30" 
+                  onClick={() => setShowSortMenu(false)} 
+                />
+                <div className="absolute right-0 mt-2 w-40 bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-xl shadow-2xl py-1.5 z-40 animate-in fade-in zoom-in duration-150 origin-top-right">
+                  {[
+                    { id: "name", label: "Name" },
+                    { id: "key", label: "Key" },
+                    { id: "members", label: "Members Count" },
+                  ].map((option) => (
+                    <button
+                      key={option.id}
+                      onClick={() => {
+                        setSortBy(option.id);
+                        setShowSortMenu(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-colors ${
+                        sortBy === option.id 
+                          ? "text-indigo-400 bg-indigo-500/5" 
+                          : "text-gray-400 hover:text-gray-200 hover:bg-white/[0.03]"
+                      }`}
+                    >
+                      {option.label}
+                      {sortBy === option.id && <Check className="w-3 h-3" />}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
 

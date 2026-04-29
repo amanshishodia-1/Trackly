@@ -102,6 +102,7 @@ export const IssueProvider = ({ children }) => {
     setError(null);
     try {
       const { data } = await api.get('/issues/my/assigned');
+      setIssues(data);
       return data;
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch assigned issues');
@@ -116,6 +117,7 @@ export const IssueProvider = ({ children }) => {
     setError(null);
     try {
       const { data } = await api.get('/issues/my/created');
+      setIssues(data);
       return data;
     } finally {
       setLoading(false);

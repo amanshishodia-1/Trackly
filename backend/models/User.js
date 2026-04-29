@@ -48,6 +48,10 @@ const userSchema = new mongoose.Schema(
       enum: ["compact", "comfortable"],
       default: "comfortable",
     },
+    hasCompletedOnboarding: {
+      type: Boolean,
+      default: false,
+    },
     notifications: {
       issueAssigned: { type: Boolean, default: true },
       mentions: { type: Boolean, default: true },
