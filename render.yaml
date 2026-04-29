@@ -1,0 +1,109 @@
+services:
+  # MongoDB Database Service
+  - type: pserv
+    name: mongodb
+    env: docker
+    repo: https://github.com/mongo/mongo-community-server-docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: starter
+    region: oregon
+    healthCheck:
+      path: /tcp
+      port: 27017
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 6
+    disk:
+      name: mongodb-data
+      mountPath: /data/db
+      sizeGB: 10
+    envVars:
+      - key: MONGO_INITDB_ROOT_USERNAME
+        sync: false
+        value: admin
+      - key: MONGO_INITDB_ROOT_PASSWORD
+        generateValue: true
+      - key: MONGO_INITDB_DATABASE
+        value: trackly
+
+  # Backend API Service
+  - type: web
+    name: trackly-backend
+    env: docker
+    repo: https://github.com/your-username/linear # Replace with your repo
+    rootDir: ./backend
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: starter
+    region: oregon
+    branch: main
+    healthCheck:
+      path: /health
+      port: 3000
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 6
+    envVars:
+      # Basic Configuration
+      - key: PORT
+        value: 3000
+      - key: NODE_ENV
+        value: production
+      
+      # Database Configuration
+      - key: MONGO_URI
+        value: mongodb://admin:${mongodb.MONGO_INITDB_ROOT_PASSWORD}@mongodb:27017/trackly?authSource=admin
+      
+      # JWT Configuration
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRE
+        value: 7d
+      
+      # Frontend URL
+      - key: CLIENT_URL
+        value: https://trackly-frontend.onrender.com
+      
+      # Service Dependencies
+      - key: MONGO_HOST
+        value: mongodb
+      - key: MONGO_PORT
+        value: 27017
+
+  # Frontend Web Service
+  - type: web
+    name: trackly-frontend
+    env: docker
+    repo: https://github.com/your-username/linear # Replace with your repo
+    rootDir: ./frontend
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: starter
+    region: oregon
+    branch: main
+    healthCheck:
+      path: /
+      port: 80
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 6
+    envVars:
+      # API Configuration
+      - key: VITE_API_URL
+        value: /api
+      - key: VITE_SOCKET_URL
+        value: https://trackly-backend.onrender.com
+      
+      # Build Configuration
+      - key: NODE_ENV
+        value: production
+
+# Global configuration
+version: "1"

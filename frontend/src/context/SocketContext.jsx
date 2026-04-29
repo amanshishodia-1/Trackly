@@ -27,7 +27,9 @@ export const SocketProvider = ({ children }) => {
     if (!user || !user.id) return;
 
     // Initialize socket connection
-    const newSocket = io("http://localhost:3000", {
+    // In production, if VITE_SOCKET_URL is empty, it will connect to the same origin
+    const socketUrl = import.meta.env.VITE_SOCKET_URL || "";
+    const newSocket = io(socketUrl, {
       withCredentials: true,
       transports: ["websocket", "polling"],
     });
