@@ -13,6 +13,7 @@ chmod 400 "$PEM_PATH"
 
 # Run commands on the remote server
 ssh -i "$PEM_PATH" -o StrictHostKeyChecking=no ec2-user@$EC2_IP << EOF
+    set -e
     echo "Successfully connected to EC2!"
 
     # 1. Install Docker & Docker Compose if not present
