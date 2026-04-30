@@ -16,11 +16,11 @@ ssh -i "$PEM_PATH" -o StrictHostKeyChecking=no ec2-user@$EC2_IP << EOF
     set -e
     echo "Successfully connected to EC2!"
 
-    # 1. Install Docker & Docker Compose if not present
-    if ! command -v docker &> /dev/null; then
-        echo "Installing Docker..."
+    # 1. Install Docker, Docker Compose, and Git if not present
+    if ! command -v docker &> /dev/null || ! command -v git &> /dev/null; then
+        echo "Installing dependencies (Docker, Git)..."
         sudo dnf update -y
-        sudo dnf install docker -y
+        sudo dnf install docker git -y
         sudo systemctl start docker
         sudo systemctl enable docker
         sudo usermod -aG docker ec2-user
