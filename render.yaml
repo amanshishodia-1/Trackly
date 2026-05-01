@@ -8,14 +8,6 @@ services:
     dockerContext: .
     plan: starter
     region: oregon
-    healthCheck:
-      path: /tcp
-      port: 27017
-      initialDelaySeconds: 30
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 6
     disk:
       name: mongodb-data
       mountPath: /data/db
@@ -40,14 +32,7 @@ services:
     plan: starter
     region: oregon
     branch: main
-    healthCheck:
-      path: /health
-      port: 3000
-      initialDelaySeconds: 30
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 6
+    healthCheckPath: /health
     envVars:
       # Basic Configuration
       - key: PORT
@@ -86,14 +71,7 @@ services:
     plan: starter
     region: oregon
     branch: main
-    healthCheck:
-      path: /
-      port: 80
-      initialDelaySeconds: 30
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 6
+    healthCheckPath: /
     envVars:
       # API Configuration
       - key: VITE_API_URL
