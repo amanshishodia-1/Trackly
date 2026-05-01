@@ -14,8 +14,10 @@ import { ProjectProvider } from "./context/ProjectContext";
 import { SocketProvider } from "./context/SocketContext";
 import { NotificationProvider } from "./context/NotificationContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Welcome from "./pages/Welcome";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Inbox from "./pages/dashboard/Inbox";
 import MyIssues from "./pages/dashboard/MyIssues";
@@ -53,7 +55,11 @@ const PublicRoute = ({ children }) => {
     );
   }
 
-  return !user ? children : <Navigate to="/inbox" />;
+  if (user) {
+    return user.hasCompletedOnboarding ? <Navigate to="/app/inbox" /> : <Navigate to="/welcome" />;
+  }
+
+  return children;
 };
 
 // AppContent handles keyboard shortcuts and command palette
@@ -69,7 +75,7 @@ const AppContent = () => {
       const event = new CustomEvent("new-issue");
       window.dispatchEvent(event);
     },
-    onNewTeam: () => navigate("/teams/new"),
+    onNewTeam: () => navigate("/app/teams/new"),
     onNewProject: () => {
       // Trigger new project modal
       const event = new CustomEvent("new-project");
@@ -96,16 +102,29 @@ const AppContent = () => {
             </PublicRoute>
           }
         />
-        <Route path="/invite/:token" element={<AcceptInvite />} />
         <Route
-          path="/"
+          path="/welcome"
+          element={
+            <ProtectedRoute>
+              <Welcome />
+            </ProtectedRoute>
+          }
+        />
+        {/* Public Landing Page */}
+        <Route path="/" element={<Landing />} />
+
+        <Route path="/invite/:token" element={<AcceptInvite />} />
+
+        {/* Protected Dashboard Routes under /app */}
+        <Route
+          path="/app"
           element={
             <ProtectedRoute>
               <DashboardLayout />
             </ProtectedRoute>
           }
         >
-          <Route index element={<Navigate to="/inbox" />} />
+          <Route index element={<Navigate to="/app/inbox" />} />
           <Route path="inbox" element={<Inbox />} />
           <Route path="my-issues" element={<MyIssues />} />
           <Route path="projects" element={<Projects />} />

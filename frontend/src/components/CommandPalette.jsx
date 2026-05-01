@@ -28,48 +28,48 @@ const CommandPalette = ({ isOpen, onClose }) => {
       label: "Go to Home",
       icon: Home,
       shortcut: "G H",
-      action: () => navigate("/inbox"),
+      action: () => navigate("/app/inbox"),
     },
     {
       id: "inbox",
       label: "Go to Inbox",
       icon: Inbox,
       shortcut: "G I",
-      action: () => navigate("/inbox"),
+      action: () => navigate("/app/inbox"),
     },
     {
       id: "my-issues",
       label: "Go to My Issues",
       icon: FileText,
       shortcut: "G M",
-      action: () => navigate("/my-issues"),
+      action: () => navigate("/app/my-issues"),
     },
     {
       id: "projects",
       label: "Go to Projects",
       icon: FolderKanban,
       shortcut: "G P",
-      action: () => navigate("/projects"),
+      action: () => navigate("/app/projects"),
     },
     {
       id: "teams",
       label: "Go to Teams",
       icon: Users,
       shortcut: "G T",
-      action: () => navigate("/teams"),
+      action: () => navigate("/app/teams"),
     },
     {
       id: "create-team",
       label: "Create New Team",
       icon: Plus,
       shortcut: "C T",
-      action: () => navigate("/teams/new"),
+      action: () => navigate("/app/teams/new"),
     },
     ...teams.map((team) => ({
       id: `team-${team._id}`,
       label: `Go to ${team.name}`,
       icon: Users,
-      action: () => navigate(`/teams/${team._id}`),
+      action: () => navigate(`/app/teams/${team._id}`),
     })),
   ];
 
@@ -123,7 +123,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -137,93 +137,93 @@ const CommandPalette = ({ isOpen, onClose }) => {
           />
 
           {/* Command Palette */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.97, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.97, y: 8 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
             className="relative w-full max-w-2xl mx-4 bg-[#131518] border border-white/[0.08] rounded-xl shadow-2xl overflow-hidden"
           >
-        {/* Search Input */}
-        <div className="flex items-center gap-4 px-4 py-4 border-b border-white/[0.04]">
-          <Search className="w-5 h-5 text-gray-400" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Type a command or search..."
-            className="flex-1 bg-transparent text-white text-lg placeholder-gray-500 focus:outline-none"
-            autoFocus
-          />
-          <div className="flex items-center gap-1">
-            <kbd className="px-2 py-1 text-xs font-mono text-gray-400 bg-[#1A1D24] rounded border border-[#2D3139]">
-              ESC
-            </kbd>
-          </div>
-        </div>
-
-        {/* Commands List */}
-        <div className="max-h-[400px] overflow-y-auto py-2">
-          {filteredCommands.length === 0 ? (
-            <div className="px-4 py-8 text-center text-gray-500">
-              No commands found
+            {/* Search Input */}
+            <div className="flex items-center gap-4 px-4 py-4 border-b border-white/[0.04]">
+              <Search className="w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Type a command or search..."
+                className="flex-1 bg-transparent text-white text-lg placeholder-gray-500 focus:outline-none"
+                autoFocus
+              />
+              <div className="flex items-center gap-1">
+                <kbd className="px-2 py-1 text-xs font-mono text-gray-400 bg-[#1A1D24] rounded border border-[#2D3139]">
+                  ESC
+                </kbd>
+              </div>
             </div>
-          ) : (
-            filteredCommands.map((cmd, index) => {
-              const Icon = cmd.icon;
-              return (
-                <button
-                  key={cmd.id}
-                  onClick={() => {
-                    cmd.action();
-                    onClose();
-                  }}
-                  className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${
-                    index === selectedIndex
-                      ? "bg-purple-500/20 text-white"
-                      : "text-gray-300 hover:bg-[#1A1D24]"
-                  }`}
-                >
-                  <Icon className="w-5 h-5 text-gray-400" />
-                  <span className="flex-1">{cmd.label}</span>
-                  {cmd.shortcut && (
-                    <div className="flex items-center gap-1">
-                      {cmd.shortcut.split(" ").map((key, i) => (
-                        <kbd
-                          key={i}
-                          className="px-2 py-1 text-xs font-mono text-gray-400 bg-[#1A1D24] rounded border border-[#2D3139]"
-                        >
-                          {key}
-                        </kbd>
-                      ))}
-                    </div>
-                  )}
-                </button>
-              );
-            })
-          )}
-        </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between px-4 py-4 bg-white/[0.02] border-t border-white/[0.04] text-xs text-[#8A8F98]">
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1">
-              <kbd className="px-2 py-1 font-mono bg-[#1A1D24] rounded border border-[#2D3139]">
-                ↑↓
-              </kbd>
-              to navigate
-            </span>
-            <span className="flex items-center gap-1">
-              <kbd className="px-2 py-1 font-mono bg-[#1A1D24] rounded border border-[#2D3139]">
-                ↵
-              </kbd>
-              to select
-            </span>
-          </div>
-          <span className="flex items-center gap-1">
-            <Command className="w-3 h-3" />+ K to open
-          </span>
-        </div>
+            {/* Commands List */}
+            <div className="max-h-[400px] overflow-y-auto py-2">
+              {filteredCommands.length === 0 ? (
+                <div className="px-4 py-8 text-center text-gray-500">
+                  No commands found
+                </div>
+              ) : (
+                filteredCommands.map((cmd, index) => {
+                  const Icon = cmd.icon;
+                  return (
+                    <button
+                      key={cmd.id}
+                      onClick={() => {
+                        cmd.action();
+                        onClose();
+                      }}
+                      className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${
+                        index === selectedIndex
+                          ? "bg-purple-500/20 text-white"
+                          : "text-gray-300 hover:bg-[#1A1D24]"
+                      }`}
+                    >
+                      <Icon className="w-5 h-5 text-gray-400" />
+                      <span className="flex-1">{cmd.label}</span>
+                      {cmd.shortcut && (
+                        <div className="flex items-center gap-1">
+                          {cmd.shortcut.split(" ").map((key, i) => (
+                            <kbd
+                              key={i}
+                              className="px-2 py-1 text-xs font-mono text-gray-400 bg-[#1A1D24] rounded border border-[#2D3139]"
+                            >
+                              {key}
+                            </kbd>
+                          ))}
+                        </div>
+                      )}
+                    </button>
+                  );
+                })
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center justify-between px-4 py-4 bg-white/[0.02] border-t border-white/[0.04] text-xs text-[#8A8F98]">
+              <div className="flex items-center gap-4">
+                <span className="flex items-center gap-1">
+                  <kbd className="px-2 py-1 font-mono bg-[#1A1D24] rounded border border-[#2D3139]">
+                    ↑↓
+                  </kbd>
+                  to navigate
+                </span>
+                <span className="flex items-center gap-1">
+                  <kbd className="px-2 py-1 font-mono bg-[#1A1D24] rounded border border-[#2D3139]">
+                    ↵
+                  </kbd>
+                  to select
+                </span>
+              </div>
+              <span className="flex items-center gap-1">
+                <Command className="w-3 h-3" />+ K to open
+              </span>
+            </div>
           </motion.div>
         </motion.div>
       )}

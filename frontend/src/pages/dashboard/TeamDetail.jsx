@@ -19,9 +19,10 @@ import {
   Crown,
   Trash2,
   LogOut,
-  MoreVertical,
   LayoutGrid,
   List,
+  ArrowUpDown,
+  Check,
 } from "lucide-react";
 import KanbanBoard from "../../components/KanbanBoard";
 import { motion } from "framer-motion";
@@ -51,6 +52,9 @@ const TeamDetail = () => {
   const [issues, setIssues] = useState([]);
   const [issuesLoading, setIssuesLoading] = useState(false);
   const [issuesView, setIssuesView] = useState("kanban"); // 'list' or 'kanban'
+  const [filterOpen, setFilterOpen] = useState(true);
+  const [sortBy, setSortBy] = useState("newest"); // 'newest', 'priority', 'status'
+  const [showSortMenu, setShowSortMenu] = useState(false);
 
   const { projects, fetchProjects } = useProjects();
 
@@ -72,20 +76,36 @@ const TeamDetail = () => {
     );
   };
 
+  const getProcessedIssues = useCallback(() => {
+    let processed = [...issues];
+    
+    // Filter
+    if (filterOpen) {
+      processed = processed.filter(i => i.status !== "Done");
+    }
+    
+    // Sort
+    processed.sort((a, b) => {
+      if (sortBy === "newest") return new Date(b.createdAt) - new Date(a.createdAt);
+      if (sortBy === "priority") {
+        const priorityMap = { 'Urgent': 4, 'High': 3, 'Medium': 2, 'Low': 1, 'None': 0 };
+        return (priorityMap[b.priority] || 0) - (priorityMap[a.priority] || 0);
+      }
+      if (sortBy === "status") return a.status.localeCompare(b.status);
+      return 0;
+    });
+    
+    return processed;
+  }, [issues, filterOpen, sortBy]);
+
+  const filteredIssues = getProcessedIssues();
+
   const fetchTeamIssues = useCallback(async () => {
     if (!teamId) return;
 
     setIssuesLoading(true);
     try {
-      console.log("Fetching issues for team:", teamId);
       const res = await api.get(`/teams/${teamId}/issues`);
-      console.log("Issues response:", res.data);
-      console.log("Issues type:", typeof res.data);
-      console.log("Is array:", Array.isArray(res.data));
-      console.log(
-        "Issues count:",
-        Array.isArray(res.data) ? res.data.length : "not array",
-      );
       setIssues(res.data || []);
     } catch (err) {
       console.error("Failed to fetch team issues:", err);
@@ -171,7 +191,7 @@ const TeamDetail = () => {
     if (confirm("Are you sure you want to delete this team?")) {
       try {
         await deleteTeam(teamId);
-        navigate("/teams");
+        navigate("/app/teams");
       } catch (err) {
         console.error("Failed to delete team:", err);
       }
@@ -199,7 +219,9 @@ const TeamDetail = () => {
           <div className="w-32 h-9 bg-white/[0.04] rounded-md" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[1, 2, 3].map(i => <div key={i} className="h-20 bg-white/[0.04] rounded-md" />)}
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-20 bg-white/[0.04] rounded-md" />
+          ))}
         </div>
       </div>
     );
@@ -209,7 +231,7 @@ const TeamDetail = () => {
     <div>
       {/* Back Button */}
       <button
-        onClick={() => navigate("/teams")}
+        onClick={() => navigate("/app/teams")}
         className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
@@ -285,7 +307,9 @@ const TeamDetail = () => {
           <div className="flex items-center gap-4">
             <CircleDot className="w-5 h-5 text-blue-400" />
             <div>
-              <p className="text-xl font-bold text-white">0</p>
+              <p className="text-xl font-bold text-white">
+                {issues.filter((i) => i.status !== "Done").length}
+              </p>
               <p className="text-gray-400 text-sm">Open Issues</p>
             </div>
           </div>
@@ -294,7 +318,7 @@ const TeamDetail = () => {
           <div className="flex items-center gap-4">
             <FolderKanban className="w-5 h-5 text-green-400" />
             <div>
-              <p className="text-xl font-bold text-white">0</p>
+              <p className="text-xl font-bold text-white">{projects.length}</p>
               <p className="text-gray-400 text-sm">Projects</p>
             </div>
           </div>
@@ -319,11 +343,10 @@ const TeamDetail = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 py-4 text-sm font-medium border-b-2 transition-colors ${
-                activeTab === tab.id
+              className={`flex items-center gap-2 py-4 text-sm font-medium border-b-2 transition-colors ${activeTab === tab.id
                   ? "text-purple-400 border-purple-400"
                   : "text-gray-400 border-transparent hover:text-gray-200"
-              }`}
+                }`}
             >
               <tab.icon className="w-4 h-4" />
               {tab.label}
@@ -339,7 +362,10 @@ const TeamDetail = () => {
             {issuesLoading ? (
               <div className="flex flex-col w-full">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="flex items-center gap-4 px-4 py-4 border-b border-white/[0.04] last:border-0">
+                  <div
+                    key={i}
+                    className="flex items-center gap-4 px-4 py-4 border-b border-white/[0.04] last:border-0"
+                  >
                     <div className="w-16 h-5 rounded-[4px] bg-white/[0.04] animate-pulse" />
                     <div className="w-12 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
                     <div className="flex-1 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
@@ -353,7 +379,9 @@ const TeamDetail = () => {
                 <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
                   <CircleDot className="w-5 h-5 text-[#8A8F98]" />
                 </div>
-                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">No issues yet</h3>
+                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">
+                  No issues yet
+                </h3>
                 <p className="text-[#8A8F98] text-[13px] max-w-sm mb-4">
                   There are no issues assigned to this team.
                 </p>
@@ -368,29 +396,91 @@ const TeamDetail = () => {
               </div>
             ) : (
               <>
-                {/* View Toggle */}
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-gray-400 text-sm">
-                    {issues.length} issues
-                  </span>
-                  <div className="flex items-center gap-2 bg-[#0F1115] rounded-lg p-1">
+                {/* View Toggle & Filters */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-4">
+                    <span className="text-gray-400 text-sm">
+                      {filteredIssues.length} issues
+                    </span>
+                    
+                    <div className="flex items-center bg-[#0F1115] border border-[var(--border-primary)] rounded-lg p-0.5 shadow-sm">
+                      <button 
+                        onClick={() => setFilterOpen(false)}
+                        className={`px-3 py-1 text-[11px] font-medium rounded-md transition-all ${!filterOpen ? 'bg-white/5 text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
+                      >
+                        All
+                      </button>
+                      <button 
+                        onClick={() => setFilterOpen(true)}
+                        className={`px-3 py-1 text-[11px] font-medium rounded-md transition-all ${filterOpen ? 'bg-white/5 text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
+                      >
+                        Open
+                      </button>
+                    </div>
+
+                    <div className="relative">
+                      <button 
+                        onClick={() => setShowSortMenu(!showSortMenu)}
+                        className={`flex items-center gap-2 px-3 py-1 rounded-lg border transition-all text-[11px] font-medium ${
+                          showSortMenu 
+                            ? "border-indigo-500/50 bg-indigo-500/5 text-indigo-400" 
+                            : "border-[var(--border-primary)] bg-[#0F1115] text-gray-400 hover:text-gray-200"
+                        }`}
+                      >
+                        <ArrowUpDown className="w-3 h-3" />
+                        <span>Sort: {sortBy.charAt(0).toUpperCase() + sortBy.slice(1)}</span>
+                      </button>
+
+                      {showSortMenu && (
+                        <>
+                          <div 
+                            className="fixed inset-0 z-30" 
+                            onClick={() => setShowSortMenu(false)} 
+                          />
+                          <div className="absolute left-0 mt-2 w-40 bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-xl shadow-2xl py-1.5 z-40 animate-in fade-in zoom-in duration-150 origin-top-left">
+                            {[
+                              { id: "newest", label: "Newest First" },
+                              { id: "priority", label: "Priority" },
+                              { id: "status", label: "Status" },
+                            ].map((option) => (
+                              <button
+                                key={option.id}
+                                onClick={() => {
+                                  setSortBy(option.id);
+                                  setShowSortMenu(false);
+                                }}
+                                className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-colors ${
+                                  sortBy === option.id 
+                                    ? "text-indigo-400 bg-indigo-500/5" 
+                                    : "text-gray-400 hover:text-gray-200 hover:bg-white/[0.03]"
+                                }`}
+                              >
+                                {option.label}
+                                {sortBy === option.id && <Check className="w-3 h-3" />}
+                              </button>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 bg-[#0F1115] border border-[var(--border-primary)] rounded-lg p-1 shadow-sm">
                     <button
                       onClick={() => setIssuesView("list")}
-                      className={`p-2 rounded-md transition-colors ${
-                        issuesView === "list"
-                          ? "bg-[#1A1D24] text-white"
+                      className={`p-2 rounded-md transition-colors ${issuesView === "list"
+                          ? "bg-white/5 text-white"
                           : "text-gray-400 hover:text-gray-200"
-                      }`}
+                        }`}
                     >
                       <List className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => setIssuesView("kanban")}
-                      className={`p-2 rounded-md transition-colors ${
-                        issuesView === "kanban"
-                          ? "bg-[#1A1D24] text-white"
+                      className={`p-2 rounded-md transition-colors ${issuesView === "kanban"
+                          ? "bg-white/5 text-white"
                           : "text-gray-400 hover:text-gray-200"
-                      }`}
+                        }`}
                     >
                       <LayoutGrid className="w-4 h-4" />
                     </button>
@@ -399,7 +489,7 @@ const TeamDetail = () => {
 
                 {issuesView === "kanban" ? (
                   <KanbanBoard
-                    issues={issues}
+                    issues={filteredIssues}
                     onStatusChange={async (issueId, newStatus) => {
                       try {
                         await api.put(`/issues/${issueId}`, {
@@ -417,20 +507,19 @@ const TeamDetail = () => {
                   />
                 ) : (
                   <div className="space-y-2">
-                    {issues.map((issue) => (
+                    {filteredIssues.map((issue) => (
                       <div
                         key={issue._id}
                         className="flex items-center gap-4 p-2 border border-transparent hover:bg-white/[0.02] hover:border-white/[0.04] rounded-md transition-colors cursor-pointer group"
                       >
                         <div className="flex-shrink-0">
                           <span
-                            className={`inline-flex items-center px-2 py-1 rounded-[4px] text-[11px] font-medium border ${
-                              issue.status === "Todo"
+                            className={`inline-flex items-center px-2 py-1 rounded-[4px] text-[11px] font-medium border ${issue.status === "Todo"
                                 ? "bg-gray-500/10 text-gray-400 border-gray-500/20"
                                 : issue.status === "In Progress"
                                   ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
                                   : "bg-green-500/10 text-green-400 border-green-500/20"
-                            }`}
+                              }`}
                           >
                             {issue.status}
                           </span>
@@ -446,8 +535,7 @@ const TeamDetail = () => {
                         <div className="flex items-center gap-2 flex-shrink-0">
                           {issue.priority && (
                             <span
-                              className={`flex items-center px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors text-[11px] font-medium leading-none tracking-tight ${
-                                issue.priority === "Urgent"
+                              className={`flex items-center px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors text-[11px] font-medium leading-none tracking-tight ${issue.priority === "Urgent"
                                   ? "text-red-400"
                                   : issue.priority === "High"
                                     ? "text-orange-400"
@@ -456,7 +544,7 @@ const TeamDetail = () => {
                                       : issue.priority === "Low"
                                         ? "text-blue-400"
                                         : "text-gray-400"
-                              }`}
+                                }`}
                             >
                               {issue.priority}
                             </span>
@@ -487,13 +575,13 @@ const TeamDetail = () => {
                 <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
                   <FolderKanban className="w-5 h-5 text-[#8A8F98]" />
                 </div>
-                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">No projects yet</h3>
+                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">
+                  No projects yet
+                </h3>
                 <p className="text-[#8A8F98] text-[13px] max-w-sm mb-4">
                   There are no active projects for this team.
                 </p>
-                <button className="btn-secondary">
-                  Create first project
-                </button>
+                <button className="btn-secondary">Create first project</button>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -507,13 +595,12 @@ const TeamDetail = () => {
                     <div className="flex items-start justify-between mb-4">
                       <h3 className="text-white font-medium">{project.name}</h3>
                       <span
-                        className={`inline-flex items-center px-2 py-1 rounded-[4px] text-[11px] font-medium border ${
-                          project.status === "Active"
+                        className={`inline-flex items-center px-2 py-1 rounded-[4px] text-[11px] font-medium border ${project.status === "Active"
                             ? "bg-green-500/10 text-green-400 border-green-500/20"
                             : project.status === "Completed"
                               ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
                               : "bg-gray-500/10 text-gray-400 border-gray-500/20"
-                        }`}
+                          }`}
                       >
                         {project.status}
                       </span>
@@ -530,15 +617,14 @@ const TeamDetail = () => {
                       </div>
                       <div className="h-2 bg-white/[0.04] rounded-full overflow-hidden">
                         <div
-                          className={`h-full ${
-                            (project.progress || 0) >= 80
+                          className={`h-full ${(project.progress || 0) >= 80
                               ? "bg-green-500"
                               : (project.progress || 0) >= 50
                                 ? "bg-blue-500"
                                 : (project.progress || 0) >= 20
                                   ? "bg-yellow-500"
                                   : "bg-gray-500"
-                          } transition-all duration-300`}
+                            } transition-all duration-300`}
                           style={{ width: `${project.progress || 0}%` }}
                         />
                       </div>
@@ -570,7 +656,9 @@ const TeamDetail = () => {
                 <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
                   <Users className="w-5 h-5 text-[#8A8F98]" />
                 </div>
-                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">No members</h3>
+                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">
+                  No members
+                </h3>
                 <p className="text-[#8A8F98] text-[13px]">
                   This team currently has no members.
                 </p>

@@ -388,7 +388,8 @@ router.post(
       console.log("InvitedBy populated");
 
       // TODO: Send email with invite link (implement email service later)
-      console.log(`Invite link: http://localhost:5173/invite/${token}`);
+      const frontendUrl = process.env.CLIENT_URL || "http://localhost:5173";
+      console.log(`Invite link: ${frontendUrl}/invite/${token}`);
 
       res.status(201).json({
         message: "Invite sent successfully",

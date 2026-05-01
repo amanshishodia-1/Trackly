@@ -7,7 +7,10 @@ import { protect } from '../middleware/auth.js';
 const router = express.Router();
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET || 'fallbacksecret', {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not defined in environment variables");
+  }
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE || '7d'
   });
 };
@@ -44,7 +47,8 @@ router.post('/register', async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        workspaceId: workspace._id
+        workspaceId: workspace._id,
+        hasCompletedOnboarding: user.hasCompletedOnboarding
       }
     });
   } catch (error) {
@@ -75,7 +79,8 @@ router.post('/login', async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        workspaceId: user.workspaceId
+        workspaceId: user.workspaceId,
+        hasCompletedOnboarding: user.hasCompletedOnboarding
       }
     });
   } catch (error) {
@@ -91,7 +96,8 @@ router.get('/me', protect, async (req, res) => {
       id: user._id,
       name: user.name,
       email: user.email,
-      workspaceId: user.workspaceId
+      workspaceId: user.workspaceId,
+      hasCompletedOnboarding: user.hasCompletedOnboarding
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

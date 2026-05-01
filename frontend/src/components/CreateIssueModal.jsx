@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTeams } from "../context/TeamsContext";
 import { useIssues } from "../context/IssueContext";
+import { useProjects } from "../context/ProjectContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -32,6 +33,7 @@ const CreateIssueModal = ({
   onIssueCreated,
 }) => {
   const { teams, fetchTeams } = useTeams();
+  const { projects, fetchProjects } = useProjects();
   const { createIssue, loading } = useIssues();
   const [formData, setFormData] = useState({
     title: "",
@@ -49,7 +51,8 @@ const CreateIssueModal = ({
 
   useEffect(() => {
     fetchTeams();
-  }, [fetchTeams]);
+    fetchProjects();
+  }, [fetchTeams, fetchProjects]);
 
   useEffect(() => {
     if (defaultTeam) {
@@ -307,15 +310,22 @@ const CreateIssueModal = ({
                 <Folder className="w-3 h-3" />
                 Project (optional)
               </label>
-              <input
-                type="text"
+              <select
                 value={formData.project}
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, project: e.target.value }))
                 }
-                placeholder="Select or create project..."
-                className="w-full bg-transparent text-white text-sm placeholder-gray-500 focus:outline-none"
-              />
+                className="w-full bg-transparent text-white text-sm focus:outline-none"
+              >
+                <option value="">No project</option>
+                {projects
+                  .filter((p) => !formData.teamId || p.team === formData.teamId || p.team?._id === formData.teamId)
+                  .map((project) => (
+                    <option key={project._id} value={project._id}>
+                      {project.name}
+                    </option>
+                  ))}
+              </select>
             </div>
           </div>
 

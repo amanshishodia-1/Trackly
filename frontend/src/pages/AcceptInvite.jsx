@@ -1,16 +1,25 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate, Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { useInvites } from '../context/InviteContext';
-import { Mail, Users, ArrowRight, Check, X, AlertCircle, Loader2 } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useInvites } from "../context/InviteContext";
+import {
+  Mail,
+  Users,
+  ArrowRight,
+  Check,
+  X,
+  AlertCircle,
+  Loader2,
+} from "lucide-react";
 
 const AcceptInvite = () => {
   const { token } = useParams();
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
-  const { getInviteByToken, acceptInvite, declineInvite, loading } = useInvites();
+  const { getInviteByToken, acceptInvite, declineInvite, loading } =
+    useInvites();
   const [invite, setInvite] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [accepted, setAccepted] = useState(false);
 
   useEffect(() => {
@@ -19,7 +28,7 @@ const AcceptInvite = () => {
         const data = await getInviteByToken(token);
         setInvite(data);
       } catch (err) {
-        setError(err.response?.data?.message || 'Invite not found or expired');
+        setError(err.response?.data?.message || "Invite not found or expired");
       }
     };
     fetchInvite();
@@ -30,19 +39,19 @@ const AcceptInvite = () => {
       await acceptInvite(token);
       setAccepted(true);
       setTimeout(() => {
-        navigate('/teams');
+        navigate("/app/teams");
       }, 2000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to accept invite');
+      setError(err.response?.data?.message || "Failed to accept invite");
     }
   };
 
   const handleDecline = async () => {
     try {
       await declineInvite(token);
-      navigate('/teams');
+      navigate("/app/teams");
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to decline invite');
+      setError(err.response?.data?.message || "Failed to decline invite");
     }
   };
 
@@ -66,10 +75,12 @@ const AcceptInvite = () => {
           <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <AlertCircle className="w-8 h-8 text-red-400" />
           </div>
-          <h2 className="text-xl font-semibold text-white mb-2">Invite Error</h2>
+          <h2 className="text-xl font-semibold text-white mb-2">
+            Invite Error
+          </h2>
           <p className="text-gray-400 mb-6">{error}</p>
-          <button 
-            onClick={() => navigate('/teams')}
+          <button
+            onClick={() => navigate("/teams")}
             className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-6 rounded-lg transition-colors"
           >
             Go to Teams
@@ -90,8 +101,8 @@ const AcceptInvite = () => {
           <p className="text-gray-400 mb-6">
             You've successfully joined {invite?.teamId?.name}
           </p>
-          <button 
-            onClick={() => navigate('/teams')}
+          <button
+            onClick={() => navigate("/teams")}
             className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-6 rounded-lg transition-colors"
           >
             Go to Teams
@@ -117,10 +128,10 @@ const AcceptInvite = () => {
           <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <Mail className="w-8 h-8 text-purple-400" />
           </div>
-          <h2 className="text-xl font-semibold text-white mb-2">Team Invitation</h2>
-          <p className="text-gray-400">
-            You've been invited to join a team
-          </p>
+          <h2 className="text-xl font-semibold text-white mb-2">
+            Team Invitation
+          </h2>
+          <p className="text-gray-400">You've been invited to join a team</p>
         </div>
 
         {/* Invite Details */}
@@ -136,7 +147,7 @@ const AcceptInvite = () => {
               <p className="text-gray-500 text-sm">{invite.teamId?.key}</p>
             </div>
           </div>
-          
+
           <div className="space-y-2 text-sm">
             <div className="flex items-center gap-2 text-gray-400">
               <Users className="w-4 h-4" />
@@ -152,7 +163,7 @@ const AcceptInvite = () => {
 
         {/* Actions */}
         <div className="space-y-4">
-          <button 
+          <button
             onClick={handleAccept}
             disabled={loading}
             className="w-full bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-medium py-4 rounded-lg transition-colors flex items-center justify-center gap-2"
@@ -166,8 +177,8 @@ const AcceptInvite = () => {
               </>
             )}
           </button>
-          
-          <button 
+
+          <button
             onClick={handleDecline}
             disabled={loading}
             className="w-full bg-transparent hover:bg-[#1A1D24] text-gray-400 font-medium py-4 rounded-lg transition-colors flex items-center justify-center gap-2"

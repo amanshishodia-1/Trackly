@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { User, Palette, Bell, Users, Building2, Shield } from "lucide-react";
+import { User, Palette, Bell, Users, Building2, Shield, Moon, Sun, Monitor, Check } from "lucide-react";
 import api from "../../lib/axios";
+import { useTheme } from "../../context/ThemeContext";
 
 const tabs = [
   { id: "profile", label: "Profile", icon: User },
@@ -13,17 +14,16 @@ const tabs = [
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("profile");
+  const { theme: currentTheme, density: currentDensity, setTheme: setGlobalTheme, setDensity: setGlobalDensity } = useTheme();
   const [profile, setProfile] = useState({
     name: "",
     email: "",
     timezone: "UTC",
     defaultStartPage: "inbox",
-    theme: "system",
-    density: "comfortable",
   });
   const [appearance, setAppearance] = useState({
-    theme: "system",
-    density: "comfortable",
+    theme: currentTheme || "system",
+    density: currentDensity || "comfortable",
   });
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -62,14 +62,14 @@ const Settings = () => {
   const [securitySaving, setSecuritySaving] = useState(false);
   const [securityMessage, setSecurityMessage] = useState(null);
 
-  // Fetch all settings on mount
   useEffect(() => {
     fetchProfile();
-    fetchAppearance();
     fetchNotifications();
     fetchUserTeams();
     fetchWorkspace();
-  }, []);
+    // Sync local appearance state with global theme
+    setAppearance({ theme: currentTheme, density: currentDensity });
+  }, [currentTheme, currentDensity]);
 
   const fetchProfile = async () => {
     try {
@@ -119,62 +119,13 @@ const Settings = () => {
     setProfile((prev) => ({ ...prev, [field]: value }));
   };
 
-  const fetchAppearance = async () => {
-    try {
-      const { data } = await api.get("/settings/appearance");
-      setAppearance(data);
-      // Also sync with localStorage for immediate UI application
-      localStorage.setItem("theme", data.theme);
-      localStorage.setItem("density", data.density);
-    } catch (err) {
-      console.error(
-        "Failed to load appearance:",
-        err.response?.data || err.message,
-      );
-      // Fall back to localStorage
-      const savedTheme = localStorage.getItem("theme") || "system";
-      const savedDensity = localStorage.getItem("density") || "comfortable";
-      setAppearance({ theme: savedTheme, density: savedDensity });
-    }
-  };
-
-  const updateAppearance = async () => {
-    try {
-      setAppearanceSaving(true);
-      setAppearanceMessage(null);
-      const { data } = await api.patch("/settings/appearance", {
-        theme: appearance.theme,
-        density: appearance.density,
-      });
-      setAppearance(data);
-      // Persist to localStorage for immediate UI application
-      localStorage.setItem("theme", data.theme);
-      localStorage.setItem("density", data.density);
-      setAppearanceMessage({
-        type: "success",
-        text: "Appearance updated successfully",
-      });
-      // Apply theme immediately
-      applyTheme(data.theme);
-    } catch (err) {
-      console.error(
-        "Failed to update appearance:",
-        err.response?.data || err.message,
-      );
-      setAppearanceMessage({
-        type: "error",
-        text: err.response?.data?.message || "Failed to update appearance",
-      });
-    } finally {
-      setAppearanceSaving(false);
-    }
-  };
-
   const handleAppearanceChange = (field, value) => {
     setAppearance((prev) => ({ ...prev, [field]: value }));
-    // Apply immediately to localStorage for responsive UI
-    localStorage.setItem(field, value);
-    if (field === "theme") applyTheme(value);
+    if (field === "theme") {
+      setGlobalTheme(value);
+    } else if (field === "density") {
+      setGlobalDensity(value);
+    }
   };
 
   const fetchNotifications = async () => {
@@ -373,28 +324,6 @@ const Settings = () => {
     }
   };
 
-  const applyTheme = (theme) => {
-    const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-      root.classList.remove("light");
-    } else if (theme === "light") {
-      root.classList.add("light");
-      root.classList.remove("dark");
-    } else {
-      // System preference
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)",
-      ).matches;
-      if (prefersDark) {
-        root.classList.add("dark");
-        root.classList.remove("light");
-      } else {
-        root.classList.add("light");
-        root.classList.remove("dark");
-      }
-    }
-  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -515,7 +444,7 @@ const Settings = () => {
         );
       case "appearance":
         return (
-          <div className="space-y-6">
+          <div className="space-y-8">
             <div>
               <h3 className="text-lg font-medium text-gray-200 mb-1">
                 Appearance
@@ -525,111 +454,90 @@ const Settings = () => {
               </p>
             </div>
 
-            {appearanceMessage && (
-              <div
-                className={`p-3 rounded-md text-sm ${
-                  appearanceMessage.type === "success"
-                    ? "bg-green-500/10 text-green-400 border border-green-500/20"
-                    : "bg-red-500/10 text-red-400 border border-red-500/20"
-                }`}
-              >
-                {appearanceMessage.text}
-              </div>
-            )}
-
-            <div className="space-y-6">
+            <div className="space-y-8">
               {/* Theme Selection */}
-              <div className="space-y-3">
-                <label className="text-sm font-medium text-gray-300">
-                  Theme
+              <div className="space-y-4">
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  Interface Theme
                 </label>
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => handleAppearanceChange("theme", "dark")}
-                    className={`flex-1 p-4 rounded-lg border text-center transition-all ${
-                      appearance.theme === "dark"
-                        ? "border-purple-500/50 bg-[#1A1D24]/60"
-                        : "border-[#1F2328]/60 hover:border-[#1F2328]"
-                    }`}
-                  >
-                    <div className="w-full h-8 bg-[#0F1115] rounded mb-2 border border-[#1F2328]/60" />
-                    <span className="text-xs text-gray-400">Dark</span>
-                  </button>
-                  <button
-                    onClick={() => handleAppearanceChange("theme", "light")}
-                    className={`flex-1 p-4 rounded-lg border text-center transition-all ${
-                      appearance.theme === "light"
-                        ? "border-purple-500/50 bg-[#1A1D24]/60"
-                        : "border-[#1F2328]/60 hover:border-[#1F2328]"
-                    }`}
-                  >
-                    <div className="w-full h-8 bg-gray-100 rounded mb-2" />
-                    <span className="text-xs text-gray-400">Light</span>
-                  </button>
-                  <button
-                    onClick={() => handleAppearanceChange("theme", "system")}
-                    className={`flex-1 p-4 rounded-lg border text-center transition-all ${
-                      appearance.theme === "system"
-                        ? "border-purple-500/50 bg-[#1A1D24]/60"
-                        : "border-[#1F2328]/60 hover:border-[#1F2328]"
-                    }`}
-                  >
-                    <div className="w-full h-8 bg-gradient-to-r from-gray-900 to-gray-100 rounded mb-2" />
-                    <span className="text-xs text-gray-400">System</span>
-                  </button>
+                <div className="grid grid-cols-3 gap-4">
+                  {[
+                    { id: "light", label: "Light", icon: Sun, colors: "bg-white" },
+                    { id: "dark", label: "Dark", icon: Moon, colors: "bg-[#0F1115]" },
+                    { id: "system", label: "System", icon: Monitor, colors: "bg-gradient-to-br from-white via-gray-400 to-[#0F1115]" },
+                  ].map((t) => (
+                    <button
+                      key={t.id}
+                      onClick={() => handleAppearanceChange("theme", t.id)}
+                      className={`group relative flex flex-col items-center gap-3 p-4 rounded-xl border transition-all duration-200 ${
+                        appearance.theme === t.id
+                          ? "border-indigo-500 bg-indigo-500/5 ring-1 ring-indigo-500/50"
+                          : "border-white/[0.06] bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04]"
+                      }`}
+                    >
+                      <div className={`w-full aspect-video rounded-md mb-1 shadow-sm overflow-hidden ${t.colors} border border-white/5`}>
+                        {/* Mock UI content in the preview */}
+                        <div className="p-2 space-y-1.5 opacity-40">
+                          <div className={`h-1.5 w-2/3 rounded-full ${t.id === 'light' ? 'bg-gray-200' : 'bg-white/10'}`} />
+                          <div className={`h-1.5 w-full rounded-full ${t.id === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+                          <div className={`h-1.5 w-1/2 rounded-full ${t.id === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <t.icon className={`w-3.5 h-3.5 ${appearance.theme === t.id ? 'text-indigo-400' : 'text-gray-500'}`} />
+                        <span className={`text-[13px] font-medium ${appearance.theme === t.id ? 'text-white' : 'text-gray-400'}`}>
+                          {t.label}
+                        </span>
+                      </div>
+                      {appearance.theme === t.id && (
+                        <div className="absolute top-2 right-2 w-4 h-4 bg-indigo-500 rounded-full flex items-center justify-center shadow-lg">
+                          <Check className="w-2.5 h-2.5 text-white" />
+                        </div>
+                      )}
+                    </button>
+                  ))}
                 </div>
               </div>
 
               {/* Density Selection */}
-              <div className="space-y-3">
-                <label className="text-sm font-medium text-gray-300">
-                  Density
+              <div className="space-y-4">
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  Interface Density
                 </label>
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => handleAppearanceChange("density", "compact")}
-                    className={`flex-1 p-4 rounded-lg border text-center transition-all ${
-                      appearance.density === "compact"
-                        ? "border-purple-500/50 bg-[#1A1D24]/60"
-                        : "border-[#1F2328]/60 hover:border-[#1F2328]"
-                    }`}
-                  >
-                    <div className="w-full space-y-1 mb-2">
-                      <div className="h-1.5 bg-gray-600 rounded" />
-                      <div className="h-1.5 bg-gray-600 rounded" />
-                      <div className="h-1.5 bg-gray-600 rounded" />
-                    </div>
-                    <span className="text-xs text-gray-400">Compact</span>
-                  </button>
-                  <button
-                    onClick={() =>
-                      handleAppearanceChange("density", "comfortable")
-                    }
-                    className={`flex-1 p-4 rounded-lg border text-center transition-all ${
-                      appearance.density === "comfortable"
-                        ? "border-purple-500/50 bg-[#1A1D24]/60"
-                        : "border-[#1F2328]/60 hover:border-[#1F2328]"
-                    }`}
-                  >
-                    <div className="w-full space-y-2 mb-2">
-                      <div className="h-2 bg-gray-600 rounded" />
-                      <div className="h-2 bg-gray-600 rounded" />
-                      <div className="h-2 bg-gray-600 rounded" />
-                    </div>
-                    <span className="text-xs text-gray-400">Comfortable</span>
-                  </button>
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    { id: "compact", label: "Compact", desc: "Maximum information density" },
+                    { id: "comfortable", label: "Comfortable", desc: "Default spacing for better clarity" },
+                  ].map((d) => (
+                    <button
+                      key={d.id}
+                      onClick={() => handleAppearanceChange("density", d.id)}
+                      className={`relative flex flex-col gap-1 p-4 rounded-xl border text-left transition-all duration-200 ${
+                        appearance.density === d.id
+                          ? "border-indigo-500 bg-indigo-500/5 ring-1 ring-indigo-500/50"
+                          : "border-white/[0.06] bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04]"
+                      }`}
+                    >
+                      <span className={`text-[13px] font-medium ${appearance.density === d.id ? 'text-white' : 'text-gray-300'}`}>
+                        {d.label}
+                      </span>
+                      <span className="text-[11px] text-gray-500">
+                        {d.desc}
+                      </span>
+                      {appearance.density === d.id && (
+                        <div className="absolute top-4 right-4 w-4 h-4 bg-indigo-500 rounded-full flex items-center justify-center shadow-lg">
+                          <Check className="w-2.5 h-2.5 text-white" />
+                        </div>
+                      )}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              {/* Save Button */}
-              <div className="pt-2">
-                <button
-                  onClick={updateAppearance}
-                  disabled={appearanceSaving}
-                  className="px-4 py-2 bg-indigo-600/90 hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium rounded-md transition-colors"
-                >
-                  {appearanceSaving ? "Saving..." : "Save changes"}
-                </button>
+              <div className="p-4 rounded-lg bg-indigo-500/5 border border-indigo-500/10">
+                <p className="text-[12px] text-indigo-300 leading-relaxed">
+                  Appearance settings are saved automatically to your profile and will sync across all your devices.
+                </p>
               </div>
             </div>
           </div>
@@ -832,7 +740,7 @@ const Settings = () => {
                     Members
                   </label>
                   <a
-                    href="/teams"
+                    href="/app/teams"
                     className="flex items-center gap-2 px-3 py-2 rounded-md bg-[#1A1D24]/60 border border-[#1F2328]/60 text-sm text-gray-300 hover:text-gray-200 hover:border-purple-500/30 transition-colors"
                   >
                     <Users className="w-4 h-4 text-gray-500" />
@@ -1020,26 +928,26 @@ const Settings = () => {
   };
 
   return (
-    <div className="p-6 max-w-4xl">
-      <h1 className="text-xl font-semibold text-gray-100 mb-6">Settings</h1>
+    <div className="p-10 max-w-6xl">
+      <h1 className="text-3xl font-semibold text-gray-100 mb-10">Settings</h1>
 
-      <div className="flex gap-6">
+      <div className="flex gap-10">
         {/* Sidebar Tabs */}
-        <nav className="w-48 shrink-0">
-          <ul className="space-y-0.5">
+        <nav className="w-64 shrink-0">
+          <ul className="space-y-2">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <li key={tab.id}>
                   <button
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-sm transition-colors text-left ${
+                    className={`w-full flex items-center gap-4 px-4 py-3 rounded-lg text-lg transition-colors text-left ${
                       activeTab === tab.id
-                        ? "bg-[#252A33] text-gray-100"
-                        : "text-gray-400 hover:bg-[#1A1D24]/60 hover:text-gray-300"
+                        ? "bg-white/5 text-gray-100"
+                        : "text-gray-400 hover:bg-white/[0.02] hover:text-gray-300"
                     }`}
                   >
-                    <Icon className="w-4 h-4 shrink-0" />
+                    <Icon className="w-6 h-6 shrink-0" />
                     <span>{tab.label}</span>
                   </button>
                 </li>
@@ -1050,7 +958,7 @@ const Settings = () => {
 
         {/* Tab Content */}
         <div className="flex-1 min-w-0">
-          <div className="bg-[#0F1115] border border-[#1F2328]/60 rounded-lg p-5">
+          <div className="bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-xl p-8">
             {renderTabContent()}
           </div>
         </div>

@@ -25,7 +25,7 @@ const httpServer = createServer(app);
 // Initialize Socket.IO
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173", // Frontend dev server
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -70,7 +70,10 @@ io.on("connection", (socket) => {
 // More permissive CORS for debugging
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:3000"], // Multiple origins
+    origin: [
+      process.env.CLIENT_URL || "http://localhost:5173",
+      "http://localhost:3000",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
@@ -82,9 +85,17 @@ app.use(
 app.use(express.json());
 
 mongoose
-  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/mern_auth")
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+    process.exit(1); // Exit if DB connection fails
+  });
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/workspace", workspaceRoutes);

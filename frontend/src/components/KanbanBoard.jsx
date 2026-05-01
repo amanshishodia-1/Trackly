@@ -90,38 +90,37 @@ const KanbanCard = ({ issue, isOverlay, onClick }) => {
       <motion.div
         whileHover={{ y: -2 }}
         transition={{ duration: 0.15 }}
-        className={`bg-[#0F1115] rounded-md p-2 border border-white/[0.06] hover:bg-white/[0.02] hover:border-white/[0.12] transition-colors shadow-sm group ${
-          isOverlay ? "shadow-xl rotate-2 scale-105 border-white/[0.2]" : ""
-        }`}
+        className={`bg-[#0F1115] rounded-md p-2 border border-white/[0.06] hover:bg-white/[0.02] hover:border-white/[0.12] transition-colors shadow-sm group ${isOverlay ? "shadow-xl rotate-2 scale-105 border-white/[0.2]" : ""
+          }`}
       >
-      <div className="flex items-start gap-2">
-        <GripVertical className="w-3.5 h-3.5 text-[#5F6368] mt-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
-        <div className="flex-1 min-w-0">
-          <p className="text-[#E8E8E8] text-[13px] font-medium line-clamp-2 leading-snug">
-            {issue.title}
-          </p>
-          <div className="flex items-center flex-wrap gap-x-2 gap-y-1 mt-2">
-            <span className="text-[#8A8F98] text-[11px] font-mono leading-none">{issue.identifier}</span>
-            <div className={`flex items-center gap-1 px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors ${getPriorityColor(issue.priority)}`}>
-              {getPriorityIcon(issue.priority)}
-              <span className="text-[11px] font-medium leading-none tracking-tight">
-                {issue.priority}
-              </span>
-            </div>
-            {issue.assignee && (
-              <div className="flex items-center gap-2 px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors ml-auto">
-                <div className="w-4 h-4 bg-gradient-to-br from-[#5E6AD2] to-[#8C98F2] rounded-full flex items-center justify-center shadow-sm">
-                  <span className="text-white text-[9px] font-bold leading-none">
-                    {issue.assignee.name?.charAt(0) || "?"}
-                  </span>
-                </div>
-                <span className="text-[#8A8F98] text-[11px] font-medium leading-none truncate max-w-[80px]">
-                  {issue.assignee.name}
+        <div className="flex items-start gap-2">
+          <GripVertical className="w-3.5 h-3.5 text-[#5F6368] mt-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="flex-1 min-w-0">
+            <p className="text-[#E8E8E8] text-[13px] font-medium line-clamp-2 leading-snug">
+              {issue.title}
+            </p>
+            <div className="flex items-center flex-wrap gap-x-2 gap-y-1 mt-2">
+              <span className="text-[#8A8F98] text-[11px] font-mono leading-none">{issue.identifier}</span>
+              <div className={`flex items-center gap-1 px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors ${getPriorityColor(issue.priority)}`}>
+                {getPriorityIcon(issue.priority)}
+                <span className="text-[11px] font-medium leading-none tracking-tight">
+                  {issue.priority}
                 </span>
               </div>
-            )}
+              {issue.assignee && (
+                <div className="flex items-center gap-2 px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors ml-auto">
+                  <div className="w-4 h-4 bg-gradient-to-br from-[#5E6AD2] to-[#8C98F2] rounded-full flex items-center justify-center shadow-sm">
+                    <span className="text-white text-[9px] font-bold leading-none">
+                      {issue.assignee.name?.charAt(0) || "?"}
+                    </span>
+                  </div>
+                  <span className="text-[#8A8F98] text-[11px] font-medium leading-none truncate max-w-[80px]">
+                    {issue.assignee.name}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
         </div>
       </motion.div>
     </div>
@@ -260,7 +259,9 @@ const KanbanBoard = ({ issues, onStatusChange }) => {
       newStatus = overIssue?.status;
     }
 
-    if (newStatus && activeIssue.status !== newStatus) {
+    // Compare with original status from props to determine if we need to update backend
+    const originalIssue = issues.find((i) => i._id === draggedId);
+    if (newStatus && originalIssue && originalIssue.status !== newStatus) {
       // Update backend
       onStatusChange?.(draggedId, newStatus);
     }
