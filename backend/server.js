@@ -19,13 +19,32 @@ dotenv.config();
 
 const app = express();
 
+// Dynamic CORS configuration
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://trackly-psi.vercel.app", // Explicitly add user's current Vercel URL
+].filter(Boolean);
+
 // Create HTTP server
 const httpServer = createServer(app);
 
 // Initialize Socket.IO
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      const isAllowed = allowedOrigins.some(allowed => {
+        if (!allowed) return false;
+        return origin === allowed.replace(/\/$/, "") || origin === allowed;
+      });
+      if (isAllowed || origin.endsWith(".vercel.app")) {
+        callback(null, true);
+      } else {
+        callback(null, false);
+      }
+    },
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -67,13 +86,26 @@ io.on("connection", (socket) => {
   });
 });
 
-// More permissive CORS for debugging
+// Dynamic CORS configuration
 app.use(
   cors({
-    origin: [
-      process.env.CLIENT_URL || "http://localhost:5173",
-      "http://localhost:3000",
-    ],
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+      
+      const isAllowed = allowedOrigins.some(allowed => {
+        if (!allowed) return false;
+        // Check exact match or match without trailing slash
+        return origin === allowed.replace(/\/$/, "") || origin === allowed;
+      });
+
+      if (isAllowed || origin.endsWith(".vercel.app")) {
+        callback(null, true);
+      } else {
+        console.log("CORS blocked origin:", origin);
+        callback(null, false); // Block other origins
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
