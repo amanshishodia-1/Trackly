@@ -11,7 +11,7 @@ router.get('/', protect, async (req, res) => {
   try {
     const { teamId } = req.query;
     const filter = { workspaceId: req.user.workspaceId };
-    
+
     if (teamId) filter.team = teamId;
 
     const projects = await Project.find(filter)
@@ -25,7 +25,7 @@ router.get('/', protect, async (req, res) => {
         const totalIssues = await Issue.countDocuments({ project: project._id });
         const doneIssues = await Issue.countDocuments({ project: project._id, status: 'Done' });
         const progress = totalIssues > 0 ? Math.round((doneIssues / totalIssues) * 100) : 0;
-        
+
         return {
           ...project.toObject(),
           totalIssues,
@@ -83,7 +83,7 @@ router.post('/', protect, async (req, res) => {
       return res.status(404).json({ message: 'Team not found' });
     }
 
-    const isMember = team.members.some(m => 
+    const isMember = team.members.some(m =>
       m.user.toString() === req.user._id.toString()
     );
     if (!isMember) {
