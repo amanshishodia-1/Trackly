@@ -51,16 +51,27 @@ export const ThemeProvider = ({ children }) => {
       applyTheme(savedTheme);
       applyDensity(savedDensity);
 
+      // Only fetch from server if we have a token
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setLoaded(true);
+        return;
+      }
+
       // Then fetch from server to sync
       try {
         const { data } = await api.get("/settings/appearance");
-        setTheme(data.theme);
-        setDensity(data.density);
-        applyTheme(data.theme);
-        applyDensity(data.density);
+        if (data) {
+          setTheme(data.theme || savedTheme);
+          setDensity(data.density || savedDensity);
+          applyTheme(data.theme || savedTheme);
+          applyDensity(data.density || savedDensity);
+        }
       } catch (err) {
-        // Use localStorage values if server fails
-        console.log("Using local appearance settings");
+        // Silently fail if not authorized - user is likely logging out or has an expired session
+        if (err.response?.status !== 401) {
+          console.error("Failed to sync appearance settings:", err);
+        }
       } finally {
         setLoaded(true);
       }
