@@ -58,7 +58,7 @@ const issueSchema = new mongoose.Schema({
 });
 
 // Generate identifier (e.g., FRO-123) before saving
-issueSchema.pre('save', async function(next) {
+issueSchema.pre('save', async function (next) {
   if (!this.isNew) return next();
 
   const Team = mongoose.model('Team');
