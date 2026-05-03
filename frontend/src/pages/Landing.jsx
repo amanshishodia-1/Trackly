@@ -84,7 +84,7 @@ const Landing = () => {
               Product
             </Link>
             <Link
-              to="#pricing"
+              to="/pricing"
               className="text-[18px] text-gray-400 hover:text-gray-200 transition-colors"
             >
               Pricing
@@ -556,6 +556,7 @@ const Landing = () => {
               <h4 className="text-sm font-semibold text-white mb-6 uppercase tracking-wider">Product</h4>
               <ul className="space-y-4 text-sm text-gray-500">
                 <li><Link to="#product" className="hover:text-white transition-colors">Features</Link></li>
+                <li><Link to="/pricing" className="hover:text-white transition-colors">Pricing</Link></li>
                 <li><Link to="#" className="hover:text-white transition-colors">Integrations</Link></li>
                 <li><Link to="#" className="hover:text-white transition-colors">Changelog</Link></li>
                 <li><Link to="#" className="hover:text-white transition-colors">Docs</Link></li>

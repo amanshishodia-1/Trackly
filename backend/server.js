@@ -92,7 +92,7 @@ app.use(
     origin: function (origin, callback) {
       // Allow requests with no origin (like mobile apps or curl)
       if (!origin) return callback(null, true);
-      
+
       const isAllowed = allowedOrigins.some(allowed => {
         if (!allowed) return false;
         const normalizedOrigin = origin.replace(/\/$/, "");
