@@ -196,7 +196,7 @@ const Landing = () => {
               initial={{ opacity: 0, scale: 0.95, y: 40 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-              className="relative lg:scale-110 origin-center"
+              className="relative lg:scale-[1.35] origin-center"
             >
               <div className="bg-[#0F1115] rounded-2xl border border-white/[0.08] overflow-hidden shadow-[0_32px_120px_rgba(0,0,0,0.6)]">
                 {/* App Mockup Header */}
