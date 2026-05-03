@@ -46,12 +46,14 @@ const Sidebar = ({ isOpen, onClose }) => {
   return (
     <aside className={`fixed inset-y-0 left-0 z-40 w-64 bg-[var(--bg-secondary)] border-r border-[var(--border-primary)] flex flex-col font-sans transition-transform duration-300 ease-in-out transform ${isOpen ? "translate-x-0" : "-translate-x-full"} md:relative md:translate-x-0 md:z-20 shadow-[4px_0_24px_rgba(0,0,0,0.05)]`}>
       {/* Mobile Close Button */}
-      <button 
-        onClick={onClose}
-        className="absolute top-4 right-[-40px] p-2 bg-[var(--bg-secondary)] border border-[var(--border-primary)] border-l-0 rounded-r-md text-[var(--text-secondary)] md:hidden"
-      >
-        <ChevronDown className="w-4 h-4 rotate-90" />
-      </button>
+      {isOpen && (
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-[-40px] p-2 bg-[var(--bg-secondary)] border border-[var(--border-primary)] border-l-0 rounded-r-md text-[var(--text-secondary)] md:hidden shadow-lg animate-in fade-in slide-in-from-left-2 duration-200"
+        >
+          <ChevronDown className="w-4 h-4 rotate-90" />
+        </button>
+      )}
 
       {/* Workspace Header */}
       <div className="p-4 border-b border-[var(--border-primary)]">
@@ -99,6 +101,7 @@ const Sidebar = ({ isOpen, onClose }) => {
             <li key={item.to}>
               <NavLink
                 to={item.to}
+                onClick={onClose}
                 className={({ isActive }) =>
                   `group flex items-center gap-2 px-2 py-2 rounded-md text-[13px] font-medium transition-colors ${
                     isActive
@@ -141,6 +144,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               <li key={team._id}>
                 <NavLink
                   to={`/app/teams/${team._id}`}
+                  onClick={onClose}
                   className={({ isActive }) =>
                     `group flex items-center gap-2 px-2 py-1.5 rounded-md text-[13px] font-medium transition-colors ${
                       isActive
@@ -170,6 +174,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         <div className="mx-0 p-2 rounded-lg bg-[var(--hover-bg)] border border-[var(--border-primary)]">
           <NavLink
             to="/app/settings"
+            onClick={onClose}
             className={({ isActive }) =>
               `w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-[13px] font-medium transition-colors mb-0.5 ${
                 isActive
@@ -182,7 +187,10 @@ const Sidebar = ({ isOpen, onClose }) => {
             <span>Settings</span>
           </NavLink>
           <button
-            onClick={logout}
+            onClick={() => {
+              logout();
+              onClose();
+            }}
             className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-[13px] font-medium text-[var(--text-secondary)] hover:bg-red-500/10 hover:text-red-400 transition-colors"
           >
             <LogOut className="w-4 h-4 flex-shrink-0" />

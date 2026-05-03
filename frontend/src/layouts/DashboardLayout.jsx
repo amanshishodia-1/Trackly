@@ -34,7 +34,7 @@ const DashboardLayout = () => {
             <div className="flex items-center gap-3 flex-1">
               <button 
                 onClick={() => setIsSidebarOpen(true)}
-                className="p-2 -ml-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] md:hidden transition-colors"
+                className="p-2 -ml-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] md:hidden transition-all bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-md shadow-sm active:scale-95"
                 aria-label="Open menu"
               >
                 <Menu className="w-5 h-5" />
