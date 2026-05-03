@@ -3,6 +3,7 @@ import Logo from "../components/Logo";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Mail, Lock, User, ArrowRight, Check, Eye, EyeOff } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -13,6 +14,32 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
+
+  const pageVariants = {
+    initial: {
+      rotateY: 45,
+      opacity: 0,
+      x: 50,
+    },
+    animate: {
+      rotateY: 0,
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.23, 1, 0.32, 1],
+      },
+    },
+    exit: {
+      rotateY: -45,
+      opacity: 0,
+      x: -50,
+      transition: {
+        duration: 0.4,
+        ease: [0.23, 1, 0.32, 1],
+      },
+    },
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,162 +61,220 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-[var(--bg-primary)] bg-grid-pattern relative">
+    <motion.div
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="min-h-screen flex bg-[#0d0d0f] bg-grid-pattern text-[#EAEAEA] relative overflow-hidden selection:bg-indigo-500/30"
+      style={{ transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}
+    >
+      {/* Dynamic Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-500/5 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/5 blur-[120px] rounded-full animate-pulse" style={{ animationDelay: "2s" }} />
+      </div>
+
       {/* Left Column - Brand & Messaging */}
-      <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12 border-r border-[var(--border-primary)] relative overflow-hidden">
-        {/* Ambient background effect */}
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-purple-500/5 via-transparent to-transparent pointer-events-none" />
-        
+      <div className="hidden lg:flex lg:w-[42%] flex-col justify-between p-16 border-r border-white/[0.05] relative overflow-hidden bg-[#0d0d0f] rounded-r-[48px] z-20 shadow-[20px_0_60px_rgba(0,0,0,0.3)]">
         <div className="relative z-10">
-          <div className="flex items-center gap-3 text-[var(--text-primary)] font-bold text-xl mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex items-center gap-3 text-white font-bold text-xl mb-24"
+          >
             <Logo size={32} />
-            Trackly
-          </div>
+            <span className="tracking-tight">Trackly</span>
+          </motion.div>
           
           <div className="max-w-md">
-            <h1 className="text-5xl font-extrabold text-[var(--text-primary)] mb-6 tracking-tight leading-[1.1]">
-              Focused work starts here.
-            </h1>
-            <p className="text-[17px] text-[var(--text-secondary)] leading-relaxed mb-12">
-              Manage projects, track issues, and collaborate with your team in a seamless, premium environment designed for high-performance teams.
-            </p>
+            <motion.h1 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-6xl font-bold text-white mb-8 tracking-tighter leading-[1.05]"
+            >
+              Start building <span className="text-indigo-400">together</span>.
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="text-[18px] text-gray-400 font-light leading-relaxed mb-16"
+            >
+              The most intuitive way for teams to ship high-quality software, from first commit to production.
+            </motion.p>
 
-            <ul className="space-y-5">
+            <ul className="space-y-6">
               {[
-                "Track issues fast",
-                "Collaborate with teams",
-                "Ship projects clearly"
+                "Unlimited team members",
+                "Advanced permission controls",
+                "Priority cloud support"
               ].map((bullet, i) => (
-                <li key={i} className="flex items-center gap-4 text-[var(--text-primary)]">
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[var(--hover-bg)] flex items-center justify-center border border-[var(--border-primary)]">
-                    <Check className="w-3.5 h-3.5 text-indigo-500" />
+                <motion.li 
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 + (i * 0.1) }}
+                  key={i} 
+                  className="flex items-center gap-5 text-gray-300"
+                >
+                  <div className="flex-shrink-0 w-8 h-8 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center">
+                    <Check className="w-4 h-4 text-indigo-400" />
                   </div>
-                  <span className="text-[15px]">{bullet}</span>
-                </li>
+                  <span className="text-[15px] font-medium tracking-tight">{bullet}</span>
+                </motion.li>
               ))}
             </ul>
           </div>
         </div>
         
-        <div className="relative z-10 text-sm text-[var(--text-tertiary)]">
-          © {new Date().getFullYear()} Trackly. All rights reserved.
+        <div className="relative z-10 text-xs font-medium text-gray-600 tracking-widest uppercase">
+          © {new Date().getFullYear()} Trackly Inc. All rights reserved.
         </div>
       </div>
 
       {/* Right Column - Auth Form */}
-      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-4 sm:p-8 lg:p-12 relative">
-        
-        <div className="w-full max-w-md relative z-10">
-          {/* Mobile Logo */}
-          <div className="flex lg:hidden items-center justify-center gap-2 text-[var(--text-primary)] font-bold text-xl mb-10 mt-8 sm:mt-0">
+      <div className="w-full lg:w-[58%] flex flex-col items-center justify-center p-6 lg:p-16 relative">
+        <div className="w-full max-w-[390px] relative z-10">
+          <div className="flex lg:hidden items-center justify-center gap-2 text-white font-bold text-xl mb-12">
             <Logo size={32} />
             Trackly
           </div>
 
-          <div className="text-center lg:text-left mb-10">
-            <h2 className="text-3xl font-bold text-[var(--text-primary)] mb-2.5 tracking-tight">Create account</h2>
-            <p className="text-[15px] text-[var(--text-tertiary)]">Get started with your workspace</p>
-          </div>
+          <div className="bg-white/[0.02] backdrop-blur-3xl rounded-[48px] p-7 lg:p-9 border border-white/[0.08] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] relative overflow-hidden group/card">
+            {/* Subtle Noise Texture Overlay */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150 mix-blend-overlay"></div>
+            
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="relative z-10 text-center lg:text-left mb-10 space-y-2.5"
+            >
+              <h2 className="text-3xl font-bold text-white tracking-tight">Create account</h2>
+              <p className="text-[15px] text-gray-500 font-medium">Get started with your workspace</p>
+            </motion.div>
 
-          <div className="bg-[var(--bg-secondary)] rounded-[24px] p-8 sm:p-12 border border-[var(--border-primary)] shadow-[0_8px_40px_rgb(0,0,0,0.06)] transition-shadow duration-200 ease-out hover:shadow-[0_8px_50px_rgb(0,0,0,0.12)]">
-            {error && (
-              <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
-                {error}
-              </div>
-            )}
+            <div className="space-y-8 relative z-10">
+              {error && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 text-xs font-bold text-center uppercase tracking-wider"
+                >
+                  {error}
+                </motion.div>
+              )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label>
-                  Full Name
-                </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-3 w-5 h-5 text-gray-500" />
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="input-field input-field-icon"
-                    placeholder="John Doe"
-                    required
-                  />
-                </div>
-              </div>
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <motion.div 
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="space-y-2.5"
+                >
+                  <label className="text-[12px] font-bold text-gray-500 uppercase tracking-[0.15em] ml-1">Full Name</label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4.5 flex items-center pointer-events-none text-gray-600 group-focus-within:text-indigo-400 transition-colors duration-300">
+                      <User size={16} />
+                    </div>
+                    <input
+                      type="text"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="block w-full pl-16 pr-4 py-4 bg-black/20 border border-white/[0.05] rounded-2xl text-white placeholder-gray-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500/40 transition-all duration-300 text-[15px] group-hover:border-white/10 shadow-inner"
+                      placeholder="John Doe"
+                    />
+                  </div>
+                </motion.div>
 
-              <div>
-                <label>
-                  Email
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-500" />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="input-field input-field-icon"
-                    placeholder="you@example.com"
-                    required
-                  />
-                </div>
-              </div>
+                <motion.div 
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="space-y-2.5"
+                >
+                  <label className="text-[12px] font-bold text-gray-500 uppercase tracking-[0.15em] ml-1">Email address</label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4.5 flex items-center pointer-events-none text-gray-600 group-focus-within:text-indigo-400 transition-colors duration-300">
+                      <Mail size={16} />
+                    </div>
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="block w-full pl-16 pr-4 py-4 bg-black/20 border border-white/[0.05] rounded-2xl text-white placeholder-gray-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500/40 transition-all duration-300 text-[15px] group-hover:border-white/10 shadow-inner"
+                      placeholder="name@company.com"
+                    />
+                  </div>
+                </motion.div>
 
-              <div>
-                <label>
-                  Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-500" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="input-field input-field-icon pr-10"
-                    placeholder="••••••••"
-                    required
-                    minLength={6}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors focus:outline-none"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
-                  </button>
-                </div>
-              </div>
+                <motion.div 
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="space-y-2.5"
+                >
+                  <label className="text-[12px] font-bold text-gray-500 uppercase tracking-[0.15em] ml-1">Password</label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4.5 flex items-center pointer-events-none text-gray-600 group-focus-within:text-indigo-400 transition-colors duration-300">
+                      <Lock size={16} />
+                    </div>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="block w-full pl-16 pr-12 py-4 bg-black/20 border border-white/[0.05] rounded-2xl text-white placeholder-gray-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500/40 transition-all duration-300 text-[15px] group-hover:border-white/10 shadow-inner"
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-600 hover:text-gray-400 transition-colors duration-200"
+                    >
+                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
+                </motion.div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="bg-[#EDEDED] hover:bg-white text-[#111111] font-medium h-11 rounded-lg px-4 flex items-center justify-center gap-2 text-[14px] transition-all duration-200 ease-out hover:-translate-y-[1px] hover:shadow-md w-full mt-6 shadow-sm"
+                <motion.button
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  type="submit"
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-3 py-5 px-6 bg-white hover:bg-[#F2F2F2] disabled:opacity-50 disabled:cursor-not-allowed text-black rounded-2xl font-bold shadow-[0_20px_40px_-12px_rgba(255,255,255,0.15)] transition-all duration-300 active:scale-[0.97] text-[14px] mt-4 group relative overflow-hidden"
+                >
+                  {/* Button Shine Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shine pointer-events-none"></div>
+                  
+                  <span className="tracking-[0.1em] relative z-10">{loading ? "CREATING ACCOUNT..." : "CREATE ACCOUNT"}</span>
+                  {!loading && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform relative z-10" />}
+                </motion.button>
+              </form>
+
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.7 }}
+                className="pt-8 border-t border-white/[0.05] text-center"
               >
-                {loading ? (
-                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-[#111111]"></div>
-                ) : (
-                  <>
-                    Create account <ArrowRight className="w-4 h-4 ml-1" />
-                  </>
-                )}
-              </button>
-            </form>
-
-            <div className="mt-6">
-              <Link
-                to="/login"
-                className="flex items-center justify-center w-full h-11 rounded-lg text-[14px] font-medium text-gray-400 hover:text-white hover:bg-white/[0.04] transition-colors border border-transparent hover:border-white/[0.08]"
-              >
-                Log in
-              </Link>
+                <p className="text-sm text-gray-500 font-medium tracking-tight">
+                  Already have an account?{" "}
+                  <Link to="/login" className="text-white hover:text-indigo-400 transition-all font-bold ml-1 border-b border-white/10 hover:border-indigo-400 pb-0.5">
+                    Sign in
+                  </Link>
+                </p>
+              </motion.div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
