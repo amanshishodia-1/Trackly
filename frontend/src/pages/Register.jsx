@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Logo from "../components/Logo";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Mail, Lock, User, ArrowRight, Check, Eye, EyeOff } from "lucide-react";
@@ -41,9 +42,7 @@ const Register = () => {
         
         <div className="relative z-10">
           <div className="flex items-center gap-3 text-[var(--text-primary)] font-bold text-xl mb-16">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
-              <span className="text-white text-sm">T</span>
-            </div>
+            <Logo size={32} />
             Trackly
           </div>
           
@@ -83,9 +82,7 @@ const Register = () => {
         <div className="w-full max-w-md relative z-10">
           {/* Mobile Logo */}
           <div className="flex lg:hidden items-center justify-center gap-2 text-[var(--text-primary)] font-bold text-xl mb-10 mt-8 sm:mt-0">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
-              <span className="text-white text-sm">T</span>
-            </div>
+            <Logo size={32} />
             Trackly
           </div>
 

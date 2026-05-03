@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import Logo from "./Logo";
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTeams } from "../context/TeamsContext";
@@ -57,12 +58,8 @@ const Sidebar = ({ isOpen, onClose }) => {
 
       {/* Workspace Header */}
       <div className="p-4 border-b border-[var(--border-primary)]">
-        <div className="flex items-center gap-2 px-2 py-2 mb-4 hover:bg-[var(--hover-bg)] rounded-md cursor-pointer transition-colors group">
-          <div className="w-5 h-5 bg-gradient-to-br from-[#5E6AD2] to-[#8C98F2] rounded flex items-center justify-center flex-shrink-0 shadow-sm border border-white/10">
-            <span className="text-white font-medium text-[11px] leading-none">
-              W
-            </span>
-          </div>
+        <div className="flex items-center gap-2.5 px-2 py-2 mb-4 hover:bg-[var(--hover-bg)] rounded-md cursor-pointer transition-colors group">
+          <Logo size={22} className="flex-shrink-0" />
           <div className="flex-1 min-w-0 flex flex-col justify-center">
             <h2 className="text-[var(--text-primary)] font-medium text-[13px] truncate leading-tight group-hover:text-indigo-400 transition-colors">
               {user?.workspaceId?.name || "Workspace"}

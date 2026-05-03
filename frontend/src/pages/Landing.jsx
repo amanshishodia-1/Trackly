@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Logo from "../components/Logo";
 import {
   ArrowRight,
   Sparkles,
@@ -55,11 +56,9 @@ const Landing = () => {
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0F1115]/80 backdrop-blur-md border-b border-[#1F2328]/60">
         <div className="flex items-center justify-between h-[68px] px-8 sm:px-12 lg:px-16">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
-              <span className="text-white text-sm font-bold">T</span>
-            </div>
-            <span className="font-semibold text-gray-200">Trackly</span>
+          <div className="flex items-center gap-3">
+            <Logo size={32} />
+            <span className="font-bold text-[20px] text-gray-100 tracking-tight">Trackly</span>
           </div>
           <div className="hidden md:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
             <Link
