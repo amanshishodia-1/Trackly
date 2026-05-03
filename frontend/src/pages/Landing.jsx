@@ -74,7 +74,7 @@ const Landing = () => {
               Pricing
             </Link>
             <Link
-              to="#contact"
+              to="/contact"
               className="text-[18px] text-gray-400 hover:text-gray-200 transition-colors"
             >
               Contact
@@ -583,7 +583,7 @@ const Landing = () => {
                 </li>
                 <li>
                   <Link
-                    to="#"
+                    to="/contact"
                     className="hover:text-gray-200 transition-colors"
                   >
                     Contact
