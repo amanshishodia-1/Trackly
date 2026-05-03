@@ -101,16 +101,16 @@ const Teams = () => {
       <div className="flex items-center justify-between mb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <h1 className="text-xl font-semibold text-white">Teams</h1>
-            <button className="text-gray-500 hover:text-white">
+            <h1 className="text-xl font-semibold text-[var(--text-primary)]">Teams</h1>
+            <button className="text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors">
               <MoreHorizontal className="w-4 h-4" />
             </button>
           </div>
-          <p className="text-gray-500 text-sm">{filteredTeams.length} teams</p>
+          <p className="text-[var(--text-tertiary)] text-sm">{filteredTeams.length} teams</p>
         </div>
         <button
           onClick={() => navigate("/app/teams/new")}
-          className="text-gray-400 hover:text-white transition-colors"
+          className="text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
         >
           <Plus className="w-5 h-5" />
         </button>
@@ -119,13 +119,13 @@ const Teams = () => {
       {/* Search and Filters */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div className="relative flex-1 w-full sm:max-w-md">
-          <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-500" />
+          <Search className="absolute left-3 top-2.5 w-4 h-4 text-[var(--text-tertiary)]" />
           <input
             type="text"
             placeholder="Search teams..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-gray-500 focus:border-purple-500 transition-colors"
+            className="w-full bg-[var(--bg-primary)] border border-[var(--border-primary)] rounded-lg py-2 pl-9 pr-4 text-sm text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--accent-primary)] transition-colors"
           />
         </div>
         <div className="flex items-center gap-3 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
@@ -195,38 +195,38 @@ const Teams = () => {
 
       {/* Teams Table/Cards */}
       {loading ? (
-        <div className="flex flex-col w-full bg-[#161922] rounded-lg border border-[#1F2328] overflow-hidden">
+        <div className="flex flex-col w-full bg-[var(--bg-secondary)] rounded-lg border border-[var(--border-primary)] overflow-hidden">
           {[1, 2, 3, 4, 5].map((i) => (
             <div
               key={i}
-              className="flex items-center gap-4 px-4 py-4 border-b border-white/[0.04] last:border-0"
+              className="flex items-center gap-4 px-4 py-4 border-b border-[var(--border-primary)] last:border-0"
             >
               <div className="flex items-center gap-4 w-1/3">
-                <div className="w-6 h-6 rounded bg-white/[0.04] animate-pulse" />
-                <div className="w-24 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
+                <div className="w-6 h-6 rounded bg-[var(--skeleton-bg)] animate-pulse" />
+                <div className="w-24 h-4 rounded-[4px] bg-[var(--skeleton-bg)] animate-pulse" />
               </div>
-              <div className="hidden md:block w-16 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
-              <div className="w-16 h-6 rounded-full bg-white/[0.04] animate-pulse ml-4" />
-              <div className="hidden sm:block w-8 h-4 rounded-[4px] bg-white/[0.04] animate-pulse ml-8" />
+              <div className="hidden md:block w-16 h-4 rounded-[4px] bg-[var(--skeleton-bg)] animate-pulse" />
+              <div className="w-16 h-6 rounded-full bg-[var(--skeleton-bg)] animate-pulse ml-4" />
+              <div className="hidden sm:block w-8 h-4 rounded-[4px] bg-[var(--skeleton-bg)] animate-pulse ml-8" />
             </div>
           ))}
         </div>
       ) : (
-        <div className="bg-[#161922] rounded-lg border border-[#1F2328] overflow-hidden">
+        <div className="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border-primary)] overflow-hidden">
           {/* Desktop View */}
           <table className="w-full hidden md:table">
             <thead>
-              <tr className="border-b border-[#1F2328]">
-                <th className="text-left py-4 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
+              <tr className="border-b border-[var(--border-primary)] bg-[var(--bg-primary)]">
+                <th className="text-left py-4 px-4 text-[var(--text-tertiary)] text-xs font-medium uppercase tracking-wider">
                   Name
                 </th>
-                <th className="text-left py-4 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
+                <th className="text-left py-4 px-4 text-[var(--text-tertiary)] text-xs font-medium uppercase tracking-wider">
                   Membership
                 </th>
-                <th className="text-left py-4 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
+                <th className="text-left py-4 px-4 text-[var(--text-tertiary)] text-xs font-medium uppercase tracking-wider">
                   Members
                 </th>
-                <th className="text-left py-4 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
+                <th className="text-left py-4 px-4 text-[var(--text-tertiary)] text-xs font-medium uppercase tracking-wider">
                   Active projects
                 </th>
                 <th className="py-4 px-4"></th>
@@ -240,7 +240,7 @@ const Teams = () => {
                 return (
                   <tr
                     key={team._id}
-                    className="border-b border-[#1F2328] hover:bg-[#1A1D24] transition-colors cursor-pointer"
+                    className="border-b border-[var(--border-primary)] hover:bg-[var(--hover-bg)] transition-colors cursor-pointer"
                     onClick={() => navigate(`/app/teams/${team._id}`)}
                   >
                     <td className="py-4 px-4">
@@ -255,10 +255,10 @@ const Teams = () => {
                           </span>
                         </div>
                         <div>
-                          <span className="text-white text-sm font-medium">
+                          <span className="text-[var(--text-primary)] text-sm font-medium">
                             {team.name}
                           </span>
-                          <span className="text-gray-500 text-xs ml-2">
+                          <span className="text-[var(--text-tertiary)] text-xs ml-2 font-mono">
                             {team.key}
                           </span>
                         </div>
@@ -295,7 +295,7 @@ const Teams = () => {
           </table>
 
           {/* Mobile View */}
-          <div className="flex flex-col md:hidden divide-y divide-white/[0.04]">
+          <div className="flex flex-col md:hidden divide-y divide-[var(--border-primary)]">
             {filteredTeams.map((team) => {
               const iconStyle = getTeamIcon(team.key);
               const isMember = isUserMember(team);
@@ -303,7 +303,7 @@ const Teams = () => {
               return (
                 <div
                   key={team._id}
-                  className="p-4 hover:bg-[#1A1D24] transition-colors cursor-pointer flex flex-col gap-3"
+                  className="p-4 hover:bg-[var(--hover-bg)] transition-colors cursor-pointer flex flex-col gap-3"
                   onClick={() => navigate(`/app/teams/${team._id}`)}
                 >
                   <div className="flex items-center justify-between">
@@ -316,16 +316,16 @@ const Teams = () => {
                         </span>
                       </div>
                       <div>
-                        <h4 className="text-white text-[14px] font-medium leading-none">
+                        <h4 className="text-[var(--text-primary)] text-[14px] font-medium leading-none">
                           {team.name}
                         </h4>
-                        <span className="text-gray-500 text-[11px] mt-1 block">
+                        <span className="text-[var(--text-tertiary)] text-[11px] mt-1 block font-mono">
                           {team.key}
                         </span>
                       </div>
                     </div>
                     {isMember && (
-                      <span className="inline-flex items-center gap-1 text-indigo-400 text-[11px] font-medium bg-indigo-500/10 px-2 py-0.5 rounded-full border border-indigo-500/20">
+                      <span className="inline-flex items-center gap-1 text-[var(--accent-primary)] text-[11px] font-medium bg-[var(--accent-primary)]/10 px-2 py-0.5 rounded-full border border-[var(--accent-primary)]/20">
                         Joined
                       </span>
                     )}
@@ -360,13 +360,13 @@ const Teams = () => {
 
       {!loading && filteredTeams.length === 0 && (
         <div className="flex flex-col items-center justify-center py-24 text-center">
-          <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
-            <Hash className="w-5 h-5 text-[#8A8F98]" />
+          <div className="w-12 h-12 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)] flex items-center justify-center mb-4 shadow-sm">
+            <Hash className="w-5 h-5 text-[var(--text-tertiary)]" />
           </div>
-          <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">
+          <h3 className="text-[var(--text-primary)] text-[15px] font-medium mb-1">
             No teams found
           </h3>
-          <p className="text-[#8A8F98] text-[13px] max-w-sm mb-4">
+          <p className="text-[var(--text-tertiary)] text-[13px] max-w-sm mb-4">
             {searchQuery
               ? "Try adjusting your search query."
               : "You haven't joined or created any teams yet."}

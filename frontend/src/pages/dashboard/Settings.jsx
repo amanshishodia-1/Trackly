@@ -329,98 +329,140 @@ const Settings = () => {
     switch (activeTab) {
       case "profile":
         return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-medium text-gray-200 mb-1">
+          <div className="space-y-8">
+            <div className="pb-4 border-b border-[var(--border-primary)]">
+              <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-1">
                 Profile
               </h3>
-              <p className="text-sm text-gray-500">
-                Manage your personal information and preferences.
+              <p className="text-sm text-[var(--text-tertiary)]">
+                Manage your personal identity and application preferences.
               </p>
             </div>
 
             {message && (
-              <div
-                className={`p-3 rounded-md text-sm ${
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`p-4 rounded-lg text-sm flex items-center gap-3 ${
                   message.type === "success"
-                    ? "bg-green-500/10 text-green-400 border border-green-500/20"
-                    : "bg-red-500/10 text-red-400 border border-red-500/20"
+                    ? "bg-green-500/10 text-green-600 border border-green-500/20"
+                    : "bg-red-500/10 text-red-600 border border-red-500/20"
                 }`}
               >
+                <div className={`w-1.5 h-1.5 rounded-full ${message.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`} />
                 {message.text}
-              </div>
+              </motion.div>
             )}
 
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
-                  <span className="text-white font-semibold text-xl">
+            {/* Avatar Section */}
+            <div className="flex items-center gap-8 p-6 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-primary)] shadow-sm">
+              <div className="relative group">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#5E6AD2] to-[#8C98F2] flex items-center justify-center shadow-lg ring-4 ring-[var(--bg-secondary)]">
+                  <span className="text-white font-bold text-2xl">
                     {profile.name ? profile.name[0].toUpperCase() : "U"}
                   </span>
                 </div>
-                <button className="px-3 py-1.5 text-sm text-gray-300 hover:text-white border border-[#1F2328]/60 rounded-md hover:bg-[#1A1D24]/60 transition-colors">
-                  Change avatar
+                <button className="absolute -bottom-1 -right-1 w-7 h-7 bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-full flex items-center justify-center shadow-md hover:bg-[var(--hover-bg)] transition-colors text-[var(--text-secondary)]">
+                  <Palette className="w-3.5 h-3.5" />
                 </button>
               </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-500">
-                    Display name
-                  </label>
-                  <input
-                    type="text"
-                    value={profile.name}
-                    onChange={(e) => handleChange("name", e.target.value)}
-                    placeholder="Your name"
-                    className="w-full bg-[#1A1D24]/60 border border-[#1F2328]/60 rounded-md px-3 py-2 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-purple-500/50"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-500">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    value={profile.email}
-                    readOnly
-                    placeholder="you@example.com"
-                    className="w-full bg-[#1A1D24]/40 border border-[#1F2328]/40 rounded-md px-3 py-2 text-sm text-gray-500 cursor-not-allowed"
-                  />
+              <div className="space-y-2">
+                <h4 className="text-base font-medium text-[var(--text-primary)]">Profile Photo</h4>
+                <p className="text-xs text-[var(--text-tertiary)] max-w-xs leading-relaxed">
+                  Click the icon to customize your avatar. This will be visible to your teammates across the workspace.
+                </p>
+                <div className="flex gap-2 pt-1">
+                  <button className="text-xs font-medium px-3 py-1.5 rounded bg-[var(--bg-secondary)] border border-[var(--border-primary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--hover-bg)] transition-colors">
+                    Upload new
+                  </button>
+                  <button className="text-xs font-medium px-3 py-1.5 rounded text-red-500 hover:bg-red-500/5 transition-colors">
+                    Remove
+                  </button>
                 </div>
               </div>
+            </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-500">
+            {/* Account Info */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-1 h-4 bg-[var(--accent-primary)] rounded-full" />
+                <h4 className="text-[13px] font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">Account Information</h4>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                <div className="space-y-2">
+                  <label className="text-[13px] font-medium text-[var(--text-secondary)]">
+                    Display Name
+                  </label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-tertiary)]" />
+                    <input
+                      type="text"
+                      value={profile.name}
+                      onChange={(e) => handleChange("name", e.target.value)}
+                      placeholder="Your full name"
+                      className="input-field pl-10"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[13px] font-medium text-[var(--text-secondary)]">
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <Bell className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-tertiary)]" />
+                    <input
+                      type="email"
+                      value={profile.email}
+                      readOnly
+                      className="input-field pl-10 opacity-60 cursor-not-allowed bg-[var(--bg-primary)]/50 border-dashed"
+                    />
+                  </div>
+                  <p className="text-[11px] text-[var(--text-tertiary)] px-1">Email cannot be changed here. Contact support for help.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Application Preferences */}
+            <div className="space-y-6 pt-2">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-1 h-4 bg-[var(--accent-primary)] rounded-full" />
+                <h4 className="text-[13px] font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">Application Preferences</h4>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                <div className="space-y-2">
+                  <label className="text-[13px] font-medium text-[var(--text-secondary)]">
                     Timezone
                   </label>
                   <select
                     value={profile.timezone}
                     onChange={(e) => handleChange("timezone", e.target.value)}
-                    className="w-full bg-[#1A1D24]/60 border border-[#1F2328]/60 rounded-md px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-purple-500/50"
+                    className="input-field appearance-none cursor-pointer"
                   >
-                    <option value="UTC">UTC</option>
-                    <option value="America/New_York">Eastern Time</option>
-                    <option value="America/Chicago">Central Time</option>
-                    <option value="America/Denver">Mountain Time</option>
-                    <option value="America/Los_Angeles">Pacific Time</option>
-                    <option value="Europe/London">London</option>
-                    <option value="Europe/Paris">Paris</option>
-                    <option value="Asia/Tokyo">Tokyo</option>
-                    <option value="Asia/Kolkata">India</option>
+                    <option value="UTC">UTC (Universal Coordinated Time)</option>
+                    <option value="America/New_York">Eastern Time (ET)</option>
+                    <option value="America/Chicago">Central Time (CT)</option>
+                    <option value="America/Denver">Mountain Time (MT)</option>
+                    <option value="America/Los_Angeles">Pacific Time (PT)</option>
+                    <option value="Europe/London">London (GMT/BST)</option>
+                    <option value="Europe/Paris">Paris (CET/CEST)</option>
+                    <option value="Asia/Tokyo">Tokyo (JST)</option>
+                    <option value="Asia/Kolkata">India (IST)</option>
                   </select>
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-500">
-                    Default start page
+
+                <div className="space-y-2">
+                  <label className="text-[13px] font-medium text-[var(--text-secondary)]">
+                    Default Start Page
                   </label>
                   <select
                     value={profile.defaultStartPage}
                     onChange={(e) =>
                       handleChange("defaultStartPage", e.target.value)
                     }
-                    className="w-full bg-[#1A1D24]/60 border border-[#1F2328]/60 rounded-md px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-purple-500/50"
+                    className="input-field appearance-none cursor-pointer"
                   >
                     <option value="inbox">Inbox</option>
                     <option value="my-issues">My Issues</option>
@@ -429,16 +471,23 @@ const Settings = () => {
                   </select>
                 </div>
               </div>
+            </div>
 
-              <div className="pt-2">
-                <button
-                  onClick={updateProfile}
-                  disabled={saving}
-                  className="px-4 py-2 bg-indigo-600/90 hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium rounded-md transition-colors"
-                >
-                  {saving ? "Saving..." : "Save changes"}
-                </button>
-              </div>
+            <div className="pt-6 border-t border-[var(--border-primary)] flex justify-end">
+              <button
+                onClick={updateProfile}
+                disabled={saving}
+                className="btn-primary min-w-[120px] h-10 px-6 shadow-indigo-500/20 shadow-lg"
+              >
+                {saving ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>Saving...</span>
+                  </div>
+                ) : (
+                  "Save Changes"
+                )}
+              </button>
             </div>
           </div>
         );
@@ -446,10 +495,10 @@ const Settings = () => {
         return (
           <div className="space-y-8">
             <div>
-              <h3 className="text-lg font-medium text-gray-200 mb-1">
+              <h3 className="text-lg font-medium text-[var(--text-primary)] mb-1">
                 Appearance
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-[var(--text-tertiary)]">
                 Customize how Trackly looks for you.
               </p>
             </div>
@@ -457,40 +506,40 @@ const Settings = () => {
             <div className="space-y-8">
               {/* Theme Selection */}
               <div className="space-y-4">
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <label className="text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">
                   Interface Theme
                 </label>
                 <div className="grid grid-cols-3 gap-4">
                   {[
-                    { id: "light", label: "Light", icon: Sun, colors: "bg-white" },
+                    { id: "light", label: "Light", icon: Sun, colors: "bg-[#f8f9fa]" },
                     { id: "dark", label: "Dark", icon: Moon, colors: "bg-[#0F1115]" },
-                    { id: "system", label: "System", icon: Monitor, colors: "bg-gradient-to-br from-white via-gray-400 to-[#0F1115]" },
+                    { id: "system", label: "System", icon: Monitor, colors: "bg-gradient-to-br from-[#f8f9fa] via-gray-400 to-[#0F1115]" },
                   ].map((t) => (
                     <button
                       key={t.id}
                       onClick={() => handleAppearanceChange("theme", t.id)}
                       className={`group relative flex flex-col items-center gap-3 p-4 rounded-xl border transition-all duration-200 ${
                         appearance.theme === t.id
-                          ? "border-indigo-500 bg-indigo-500/5 ring-1 ring-indigo-500/50"
-                          : "border-white/[0.06] bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04]"
+                          ? "border-[var(--accent-primary)] bg-[var(--accent-primary)]/5 ring-1 ring-[var(--accent-primary)]/50"
+                          : "border-[var(--border-primary)] bg-[var(--bg-primary)] hover:border-[var(--accent-primary)]/30 hover:bg-[var(--hover-bg)]"
                       }`}
                     >
-                      <div className={`w-full aspect-video rounded-md mb-1 shadow-sm overflow-hidden ${t.colors} border border-white/5`}>
+                      <div className={`w-full aspect-video rounded-md mb-1 shadow-sm overflow-hidden ${t.colors} border border-[var(--border-primary)]`}>
                         {/* Mock UI content in the preview */}
                         <div className="p-2 space-y-1.5 opacity-40">
-                          <div className={`h-1.5 w-2/3 rounded-full ${t.id === 'light' ? 'bg-gray-200' : 'bg-white/10'}`} />
-                          <div className={`h-1.5 w-full rounded-full ${t.id === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
-                          <div className={`h-1.5 w-1/2 rounded-full ${t.id === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+                          <div className={`h-1.5 w-2/3 rounded-full ${t.id === 'light' ? 'bg-gray-300' : 'bg-white/10'}`} />
+                          <div className={`h-1.5 w-full rounded-full ${t.id === 'light' ? 'bg-gray-200' : 'bg-white/5'}`} />
+                          <div className={`h-1.5 w-1/2 rounded-full ${t.id === 'light' ? 'bg-gray-200' : 'bg-white/5'}`} />
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <t.icon className={`w-3.5 h-3.5 ${appearance.theme === t.id ? 'text-indigo-400' : 'text-gray-500'}`} />
-                        <span className={`text-[13px] font-medium ${appearance.theme === t.id ? 'text-white' : 'text-gray-400'}`}>
+                        <t.icon className={`w-3.5 h-3.5 ${appearance.theme === t.id ? 'text-[var(--accent-primary)]' : 'text-[var(--text-tertiary)]'}`} />
+                        <span className={`text-[13px] font-medium ${appearance.theme === t.id ? 'text-[var(--text-primary)]' : 'text-[var(--text-tertiary)]'}`}>
                           {t.label}
                         </span>
                       </div>
                       {appearance.theme === t.id && (
-                        <div className="absolute top-2 right-2 w-4 h-4 bg-indigo-500 rounded-full flex items-center justify-center shadow-lg">
+                        <div className="absolute top-2 right-2 w-4 h-4 bg-[var(--accent-primary)] rounded-full flex items-center justify-center shadow-lg">
                           <Check className="w-2.5 h-2.5 text-white" />
                         </div>
                       )}
@@ -501,7 +550,7 @@ const Settings = () => {
 
               {/* Density Selection */}
               <div className="space-y-4">
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <label className="text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">
                   Interface Density
                 </label>
                 <div className="grid grid-cols-2 gap-4">
@@ -514,18 +563,18 @@ const Settings = () => {
                       onClick={() => handleAppearanceChange("density", d.id)}
                       className={`relative flex flex-col gap-1 p-4 rounded-xl border text-left transition-all duration-200 ${
                         appearance.density === d.id
-                          ? "border-indigo-500 bg-indigo-500/5 ring-1 ring-indigo-500/50"
-                          : "border-white/[0.06] bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04]"
+                          ? "border-[var(--accent-primary)] bg-[var(--accent-primary)]/5 ring-1 ring-[var(--accent-primary)]/50"
+                          : "border-[var(--border-primary)] bg-[var(--bg-primary)] hover:border-[var(--accent-primary)]/30 hover:bg-[var(--hover-bg)]"
                       }`}
                     >
-                      <span className={`text-[13px] font-medium ${appearance.density === d.id ? 'text-white' : 'text-gray-300'}`}>
+                      <span className={`text-[13px] font-medium ${appearance.density === d.id ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'}`}>
                         {d.label}
                       </span>
-                      <span className="text-[11px] text-gray-500">
+                      <span className="text-[11px] text-[var(--text-tertiary)]">
                         {d.desc}
                       </span>
                       {appearance.density === d.id && (
-                        <div className="absolute top-4 right-4 w-4 h-4 bg-indigo-500 rounded-full flex items-center justify-center shadow-lg">
+                        <div className="absolute top-4 right-4 w-4 h-4 bg-[var(--accent-primary)] rounded-full flex items-center justify-center shadow-lg">
                           <Check className="w-2.5 h-2.5 text-white" />
                         </div>
                       )}
@@ -534,8 +583,8 @@ const Settings = () => {
                 </div>
               </div>
 
-              <div className="p-4 rounded-lg bg-indigo-500/5 border border-indigo-500/10">
-                <p className="text-[12px] text-indigo-300 leading-relaxed">
+              <div className="p-4 rounded-lg bg-[var(--accent-primary)]/5 border border-[var(--accent-primary)]/10">
+                <p className="text-[12px] text-[var(--accent-primary)] leading-relaxed">
                   Appearance settings are saved automatically to your profile and will sync across all your devices.
                 </p>
               </div>
@@ -546,10 +595,10 @@ const Settings = () => {
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-medium text-gray-200 mb-1">
+              <h3 className="text-lg font-medium text-[var(--text-primary)] mb-1">
                 Notifications
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-[var(--text-tertiary)]">
                 Choose which notifications you want to receive.
               </p>
             </div>
@@ -591,22 +640,22 @@ const Settings = () => {
               ].map((item) => (
                 <div
                   key={item.key}
-                  className="flex items-center justify-between py-3 px-3 rounded-md hover:bg-[#1A1D24]/40 transition-colors"
+                  className="flex items-center justify-between py-3 px-3 rounded-md hover:bg-[var(--hover-bg)] transition-colors"
                 >
                   <div>
-                    <p className="text-sm font-medium text-gray-300">
+                    <p className="text-sm font-medium text-[var(--text-primary)]">
                       {item.label}
                     </p>
-                    <p className="text-xs text-gray-500">{item.description}</p>
+                    <p className="text-xs text-[var(--text-tertiary)]">{item.description}</p>
                   </div>
                   <button
                     onClick={() => handleNotificationToggle(item.key)}
                     className={`relative w-11 h-6 rounded-full transition-colors ${
-                      notifications[item.key] ? "bg-indigo-600" : "bg-[#1F2328]"
+                      notifications[item.key] ? "bg-[var(--accent-primary)]" : "bg-[var(--bg-tertiary)]"
                     }`}
                   >
                     <span
-                      className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${
+                      className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform shadow-sm ${
                         notifications[item.key]
                           ? "translate-x-5"
                           : "translate-x-0"
@@ -632,8 +681,8 @@ const Settings = () => {
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-medium text-gray-200 mb-1">Teams</h3>
-              <p className="text-sm text-gray-500">
+              <h3 className="text-lg font-medium text-[var(--text-primary)] mb-1">Teams</h3>
+              <p className="text-sm text-[var(--text-tertiary)]">
                 Manage your team memberships.
               </p>
             </div>
@@ -651,9 +700,9 @@ const Settings = () => {
             )}
 
             {teamsLoading ? (
-              <div className="text-sm text-gray-500">Loading teams...</div>
+              <div className="text-sm text-[var(--text-tertiary)]">Loading teams...</div>
             ) : teams.length === 0 ? (
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-[var(--text-tertiary)]">
                 You are not a member of any teams yet.
               </div>
             ) : (
@@ -661,26 +710,26 @@ const Settings = () => {
                 {teams.map((team) => (
                   <div
                     key={team._id}
-                    className="flex items-center justify-between py-3 px-3 rounded-md hover:bg-[#1A1D24]/40"
+                    className="flex items-center justify-between py-3 px-3 rounded-md hover:bg-[var(--hover-bg)]"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded bg-indigo-500/15 flex items-center justify-center">
-                        <span className="text-indigo-400/80 text-xs font-medium">
+                      <div className="w-8 h-8 rounded bg-[var(--accent-primary)]/10 flex items-center justify-center">
+                        <span className="text-[var(--accent-primary)] text-xs font-medium">
                           {team.name[0]}
                         </span>
                       </div>
                       <div>
-                        <span className="text-sm text-gray-300 block">
+                        <span className="text-sm text-[var(--text-primary)] font-medium block">
                           {team.name}
                         </span>
-                        <span className="text-xs text-gray-500 capitalize">
+                        <span className="text-xs text-[var(--text-tertiary)] capitalize">
                           {team.role}
                         </span>
                       </div>
                     </div>
                     <button
                       onClick={() => leaveTeam(team._id)}
-                      className="text-xs text-gray-500 hover:text-red-400 px-2 py-1 rounded hover:bg-red-500/10 transition-colors"
+                      className="text-xs text-[var(--text-tertiary)] hover:text-red-400 px-2 py-1 rounded hover:bg-red-500/10 transition-colors"
                     >
                       Leave
                     </button>
@@ -694,10 +743,10 @@ const Settings = () => {
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-medium text-gray-200 mb-1">
+              <h3 className="text-lg font-medium text-[var(--text-primary)] mb-1">
                 Workspace
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-[var(--text-tertiary)]">
                 Manage your workspace settings.
               </p>
             </div>
@@ -715,12 +764,12 @@ const Settings = () => {
             )}
 
             {workspaceLoading ? (
-              <div className="text-sm text-gray-500">Loading workspace...</div>
+              <div className="text-sm text-[var(--text-tertiary)]">Loading workspace...</div>
             ) : (
               <div className="space-y-6">
                 {/* Workspace Name */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-500">
+                  <label className="text-xs font-medium text-[var(--text-tertiary)]">
                     Workspace name
                   </label>
                   <input
@@ -730,32 +779,32 @@ const Settings = () => {
                       handleWorkspaceChange("name", e.target.value)
                     }
                     placeholder="My Workspace"
-                    className="w-full bg-[#1A1D24]/60 border border-[#1F2328]/60 rounded-md px-3 py-2 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-purple-500/50"
+                    className="input-field"
                   />
                 </div>
 
                 {/* Manage Members Link */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-500">
+                  <label className="text-xs font-medium text-[var(--text-tertiary)]">
                     Members
                   </label>
                   <a
                     href="/app/teams"
-                    className="flex items-center gap-2 px-3 py-2 rounded-md bg-[#1A1D24]/60 border border-[#1F2328]/60 text-sm text-gray-300 hover:text-gray-200 hover:border-purple-500/30 transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 rounded-md bg-[var(--bg-primary)] border border-[var(--border-primary)] text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--accent-primary)]/30 transition-colors shadow-sm"
                   >
-                    <Users className="w-4 h-4 text-gray-500" />
+                    <Users className="w-4 h-4 text-[var(--text-tertiary)]" />
                     <span>Manage workspace members</span>
-                    <span className="ml-auto text-xs text-gray-500">→</span>
+                    <span className="ml-auto text-xs text-[var(--text-tertiary)]">→</span>
                   </a>
                 </div>
 
                 {/* Default Issue Statuses */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <label className="text-xs font-medium text-gray-500">
+                    <label className="text-xs font-medium text-[var(--text-tertiary)]">
                       Default issue statuses
                     </label>
-                    <span className="text-xs text-gray-600">
+                    <span className="text-xs text-[var(--text-tertiary)]">
                       UI preview only
                     </span>
                   </div>
@@ -763,7 +812,7 @@ const Settings = () => {
                     {workspace.defaultIssueStatuses.map((status, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-3 p-2 rounded-md bg-[#1A1D24]/40 border border-[#1F2328]/40"
+                        className="flex items-center gap-3 p-2 rounded-md bg-[var(--bg-primary)] border border-[var(--border-primary)] shadow-sm"
                       >
                         <div
                           className="w-3 h-3 rounded-full"
@@ -775,7 +824,7 @@ const Settings = () => {
                           onChange={(e) =>
                             handleStatusChange(index, "name", e.target.value)
                           }
-                          className="flex-1 bg-transparent text-sm text-gray-300 focus:outline-none"
+                          className="flex-1 bg-transparent text-sm text-[var(--text-primary)] focus:outline-none"
                         />
                         <input
                           type="color"
@@ -786,7 +835,7 @@ const Settings = () => {
                           className="w-6 h-6 rounded cursor-pointer bg-transparent border-0"
                         />
                         {status.default && (
-                          <span className="text-xs text-gray-500 px-2 py-0.5 rounded bg-[#1F2328]/60">
+                          <span className="text-xs text-[var(--text-tertiary)] px-2 py-0.5 rounded bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
                             Default
                           </span>
                         )}
@@ -797,14 +846,14 @@ const Settings = () => {
 
                 {/* Label Management Placeholder */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-500">
+                  <label className="text-xs font-medium text-[var(--text-tertiary)]">
                     Labels
                   </label>
-                  <div className="p-3 rounded-md bg-[#1A1D24]/40 border border-[#1F2328]/40 border-dashed">
-                    <p className="text-sm text-gray-500">
+                  <div className="p-3 rounded-md bg-[var(--bg-primary)] border border-[var(--border-primary)] border-dashed">
+                    <p className="text-sm text-[var(--text-tertiary)]">
                       Label management coming soon
                     </p>
-                    <p className="text-xs text-gray-600 mt-1">
+                    <p className="text-xs text-[var(--text-tertiary)]/70 mt-1">
                       Create and manage labels for categorizing issues
                     </p>
                   </div>
@@ -828,10 +877,10 @@ const Settings = () => {
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-medium text-gray-200 mb-1">
+              <h3 className="text-lg font-medium text-[var(--text-primary)] mb-1">
                 Security
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-[var(--text-tertiary)]">
                 Manage your account security.
               </p>
             </div>
@@ -851,11 +900,11 @@ const Settings = () => {
             <div className="space-y-6">
               {/* Change Password Section */}
               <div className="space-y-4">
-                <h4 className="text-sm font-medium text-gray-300">
+                <h4 className="text-sm font-medium text-[var(--text-secondary)]">
                   Change password
                 </h4>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-500">
+                  <label className="text-xs font-medium text-[var(--text-tertiary)]">
                     Current password
                   </label>
                   <input
@@ -865,11 +914,11 @@ const Settings = () => {
                       handleSecurityChange("currentPassword", e.target.value)
                     }
                     placeholder="••••••••"
-                    className="w-full bg-[#1A1D24]/60 border border-[#1F2328]/60 rounded-md px-3 py-2 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-purple-500/50"
+                    className="input-field"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-500">
+                  <label className="text-xs font-medium text-[var(--text-tertiary)]">
                     New password
                   </label>
                   <input
@@ -879,11 +928,11 @@ const Settings = () => {
                       handleSecurityChange("newPassword", e.target.value)
                     }
                     placeholder="••••••••"
-                    className="w-full bg-[#1A1D24]/60 border border-[#1F2328]/60 rounded-md px-3 py-2 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-purple-500/50"
+                    className="input-field"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-500">
+                  <label className="text-xs font-medium text-[var(--text-tertiary)]">
                     Confirm new password
                   </label>
                   <input
@@ -893,7 +942,7 @@ const Settings = () => {
                       handleSecurityChange("confirmPassword", e.target.value)
                     }
                     placeholder="••••••••"
-                    className="w-full bg-[#1A1D24]/60 border border-[#1F2328]/60 rounded-md px-3 py-2 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-purple-500/50"
+                    className="input-field"
                   />
                 </div>
                 <button
@@ -906,15 +955,15 @@ const Settings = () => {
               </div>
 
               {/* Active Sessions Placeholder */}
-              <div className="space-y-3 pt-4 border-t border-[#1F2328]/40">
-                <h4 className="text-sm font-medium text-gray-300">
+              <div className="space-y-3 pt-4 border-t border-[var(--border-primary)]">
+                <h4 className="text-sm font-medium text-[var(--text-secondary)]">
                   Active sessions
                 </h4>
-                <div className="p-3 rounded-md bg-[#1A1D24]/40 border border-[#1F2328]/40 border-dashed">
-                  <p className="text-sm text-gray-500">
+                <div className="p-3 rounded-md bg-[var(--bg-primary)] border border-[var(--border-primary)] border-dashed">
+                  <p className="text-sm text-[var(--text-tertiary)]">
                     Session management coming soon
                   </p>
-                  <p className="text-xs text-gray-600 mt-1">
+                  <p className="text-xs text-[var(--text-tertiary)]/70 mt-1">
                     View and manage your active devices and login sessions
                   </p>
                 </div>
@@ -929,7 +978,7 @@ const Settings = () => {
 
   return (
     <div className="p-10 max-w-6xl">
-      <h1 className="text-3xl font-semibold text-gray-100 mb-10">Settings</h1>
+      <h1 className="text-3xl font-semibold text-[var(--text-primary)] mb-10">Settings</h1>
 
       <div className="flex gap-10">
         {/* Sidebar Tabs */}
@@ -943,8 +992,8 @@ const Settings = () => {
                     onClick={() => setActiveTab(tab.id)}
                     className={`w-full flex items-center gap-4 px-4 py-3 rounded-lg text-lg transition-colors text-left ${
                       activeTab === tab.id
-                        ? "bg-white/5 text-gray-100"
-                        : "text-gray-400 hover:bg-white/[0.02] hover:text-gray-300"
+                        ? "bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]"
+                        : "text-[var(--text-tertiary)] hover:bg-[var(--hover-bg)] hover:text-[var(--text-primary)]"
                     }`}
                   >
                     <Icon className="w-6 h-6 shrink-0" />

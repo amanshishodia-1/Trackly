@@ -65,21 +65,21 @@ const Projects = () => {
         {[1, 2, 3, 4, 5, 6].map((i) => (
           <div
             key={i}
-            className="bg-[#131518] rounded-xl border border-white/[0.06] p-5 shadow-sm"
+            className="bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-primary)] p-5 shadow-sm"
           >
             <div className="flex items-start justify-between mb-5">
-              <div className="w-10 h-10 bg-white/[0.04] rounded-xl animate-pulse" />
-              <div className="w-4 h-4 bg-white/[0.04] rounded animate-pulse" />
+              <div className="w-10 h-10 bg-[var(--skeleton-bg)] rounded-xl animate-pulse" />
+              <div className="w-4 h-4 bg-[var(--skeleton-bg)] rounded animate-pulse" />
             </div>
-            <div className="w-2/3 h-5 bg-white/[0.04] rounded-[4px] animate-pulse mb-2" />
-            <div className="w-full h-4 bg-white/[0.04] rounded-[4px] animate-pulse mb-1.5" />
-            <div className="w-4/5 h-4 bg-white/[0.04] rounded-[4px] animate-pulse mb-6" />
+            <div className="w-2/3 h-5 bg-[var(--skeleton-bg)] rounded-[4px] animate-pulse mb-2" />
+            <div className="w-full h-4 bg-[var(--skeleton-bg)] rounded-[4px] animate-pulse mb-1.5" />
+            <div className="w-4/5 h-4 bg-[var(--skeleton-bg)] rounded-[4px] animate-pulse mb-6" />
             
-            <div className="w-full h-1.5 bg-white/[0.04] rounded-full animate-pulse mb-6" />
+            <div className="w-full h-1.5 bg-[var(--skeleton-bg)] rounded-full animate-pulse mb-6" />
             
-            <div className="flex items-center justify-between pt-4 border-t border-white/[0.04]">
-              <div className="w-1/4 h-4 bg-white/[0.04] rounded-[4px] animate-pulse" />
-              <div className="w-16 h-5 bg-white/[0.04] rounded-full animate-pulse" />
+            <div className="flex items-center justify-between pt-4 border-t border-[var(--border-primary)]">
+              <div className="w-1/4 h-4 bg-[var(--skeleton-bg)] rounded-[4px] animate-pulse" />
+              <div className="w-16 h-5 bg-[var(--skeleton-bg)] rounded-full animate-pulse" />
             </div>
           </div>
         ))}
@@ -91,8 +91,8 @@ const Projects = () => {
     <div className="h-full">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-xl font-semibold text-white">Projects</h1>
-          <p className="text-[#8A8F98] text-[13px] mt-0.5">Manage and track your workspace projects</p>
+          <h1 className="text-xl font-semibold text-[var(--text-primary)]">Projects</h1>
+          <p className="text-[var(--text-tertiary)] text-[13px] mt-0.5">Manage and track your workspace projects</p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
@@ -117,33 +117,33 @@ const Projects = () => {
             key={project._id}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-[#131518] rounded-xl border border-white/[0.08] p-5 hover:border-white/20 transition-all cursor-pointer group shadow-sm"
+            className="bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-primary)] p-5 hover:border-[var(--accent-primary)]/50 transition-all cursor-pointer group shadow-sm"
           >
             <div className="flex items-start justify-between mb-5">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/30 rounded-xl flex items-center justify-center">
-                <FolderKanban className="w-5 h-5 text-purple-400" />
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-xl flex items-center justify-center">
+                <FolderKanban className="w-5 h-5 text-[var(--accent-primary)]" />
               </div>
-              <button className="text-gray-500 hover:text-white transition-colors p-1 rounded-md hover:bg-white/[0.04]">
+              <button className="text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors p-1 rounded-md hover:bg-[var(--hover-bg)]">
                 <MoreHorizontal className="w-4 h-4" />
               </button>
             </div>
 
-            <h3 className="text-[#F2F2F2] font-semibold text-[15px] mb-1.5 group-hover:text-purple-400 transition-colors">
+            <h3 className="text-[var(--text-primary)] font-semibold text-[15px] mb-1.5 group-hover:text-[var(--accent-primary)] transition-colors">
               {project.name}
             </h3>
-            <p className="text-[#8A8F98] text-[13px] mb-6 line-clamp-2 min-h-[40px]">
+            <p className="text-[var(--text-tertiary)] text-[13px] mb-6 line-clamp-2 min-h-[40px]">
               {project.description || "No description provided for this project."}
             </p>
 
             {/* Progress Section */}
             <div className="mb-6">
               <div className="flex items-center justify-between text-[12px] mb-2">
-                <span className="text-[#8A8F98] font-medium">Progress</span>
-                <span className="text-[#F2F2F2] font-semibold">
+                <span className="text-[var(--text-tertiary)] font-medium">Progress</span>
+                <span className="text-[var(--text-primary)] font-semibold">
                   {project.progress || 0}%
                 </span>
               </div>
-              <div className="h-1.5 bg-white/[0.04] rounded-full overflow-hidden">
+              <div className="h-1.5 bg-[var(--hover-bg)] rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${project.progress || 0}%` }}
@@ -154,17 +154,17 @@ const Projects = () => {
               <div className="flex items-center gap-4 mt-3">
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-green-500/70" />
-                  <span className="text-[11px] text-[#8A8F98] font-medium">{project.doneIssues || 0} done</span>
+                  <span className="text-[11px] text-[var(--text-tertiary)] font-medium">{project.doneIssues || 0} done</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Target className="w-3.5 h-3.5 text-blue-500/70" />
-                  <span className="text-[11px] text-[#8A8F98] font-medium">{project.totalIssues || 0} total</span>
+                  <span className="text-[11px] text-[var(--text-tertiary)] font-medium">{project.totalIssues || 0} total</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-4 border-t border-white/[0.04]">
-              <div className="flex items-center gap-2 text-[#8A8F98]">
+            <div className="flex items-center justify-between pt-4 border-t border-[var(--border-primary)]">
+              <div className="flex items-center gap-2 text-[var(--text-tertiary)]">
                 <Users className="w-3.5 h-3.5" />
                 <span className="text-[11px] font-medium truncate max-w-[100px]">
                   {project.team?.name}
@@ -180,14 +180,14 @@ const Projects = () => {
         ))}
 
         {projects.length === 0 && !loading && (
-          <div className="col-span-full flex flex-col items-center justify-center py-20 text-center bg-white/[0.01] border border-dashed border-white/[0.08] rounded-2xl">
-            <div className="w-12 h-12 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
-              <FolderKanban className="w-5 h-5 text-[#8A8F98]" />
+          <div className="col-span-full flex flex-col items-center justify-center py-20 text-center bg-[var(--bg-secondary)] border border-dashed border-[var(--border-primary)] rounded-2xl">
+            <div className="w-12 h-12 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-primary)] flex items-center justify-center mb-4 shadow-sm">
+              <FolderKanban className="w-5 h-5 text-[var(--text-tertiary)]" />
             </div>
-            <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">
+            <h3 className="text-[var(--text-primary)] text-[15px] font-medium mb-1">
               No projects yet
             </h3>
-            <p className="text-[#8A8F98] text-[13px] max-w-sm mb-6">
+            <p className="text-[var(--text-tertiary)] text-[13px] max-w-sm mb-6">
               Organize your issues into projects to track progress and hit milestones.
             </p>
             <button
@@ -204,9 +204,9 @@ const Projects = () => {
         {!loading && projects.length > 0 && (
           <button
             onClick={() => setShowCreateModal(true)}
-            className="border border-dashed border-white/[0.08] rounded-xl p-6 flex flex-col items-center justify-center text-[#8A8F98] hover:border-purple-500/50 hover:bg-purple-500/[0.02] hover:text-purple-400 transition-all group"
+            className="border border-dashed border-[var(--border-primary)] rounded-xl p-6 flex flex-col items-center justify-center text-[var(--text-tertiary)] hover:border-[var(--accent-primary)]/50 hover:bg-[var(--hover-bg)] hover:text-[var(--accent-primary)] transition-all group"
           >
-            <div className="w-10 h-10 rounded-full bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+            <div className="w-10 h-10 rounded-full bg-[var(--bg-primary)] border border-[var(--border-primary)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <Plus className="w-5 h-5" />
             </div>
             <span className="text-[13px] font-medium">Add Project</span>
@@ -223,10 +223,10 @@ const Projects = () => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="bg-[#131518] border border-white/[0.08] rounded-xl w-full max-w-lg shadow-2xl overflow-hidden"
+              className="bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-xl w-full max-w-lg shadow-2xl overflow-hidden"
             >
-              <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.04]">
-                <h2 className="text-[15px] font-semibold text-white">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border-primary)]">
+                <h2 className="text-[15px] font-semibold text-[var(--text-primary)]">
                   Create New Project
                 </h2>
                 <button

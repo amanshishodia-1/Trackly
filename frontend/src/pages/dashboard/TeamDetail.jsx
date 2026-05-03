@@ -207,20 +207,20 @@ const TeamDetail = () => {
   if (loading || !currentTeam) {
     return (
       <div className="animate-pulse space-y-8 mt-2">
-        <div className="w-24 h-4 bg-white/[0.04] rounded-[4px]" />
+        <div className="w-24 h-4 bg-[var(--skeleton-bg)] rounded-[4px]" />
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 bg-white/[0.04] rounded-xl" />
+            <div className="w-14 h-14 bg-[var(--skeleton-bg)] rounded-xl" />
             <div className="space-y-4">
-              <div className="w-48 h-7 bg-white/[0.04] rounded-[4px]" />
-              <div className="w-32 h-4 bg-white/[0.04] rounded-[4px]" />
+              <div className="w-48 h-7 bg-[var(--skeleton-bg)] rounded-[4px]" />
+              <div className="w-32 h-4 bg-[var(--skeleton-bg)] rounded-[4px]" />
             </div>
           </div>
-          <div className="w-32 h-9 bg-white/[0.04] rounded-md" />
+          <div className="w-32 h-9 bg-[var(--skeleton-bg)] rounded-md" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-20 bg-white/[0.04] rounded-md" />
+            <div key={i} className="h-20 bg-[var(--skeleton-bg)] rounded-md" />
           ))}
         </div>
       </div>
@@ -232,7 +232,7 @@ const TeamDetail = () => {
       {/* Back Button */}
       <button
         onClick={() => navigate("/app/teams")}
-        className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 mt-1 md:mt-0 transition-colors"
+        className="flex items-center gap-2 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] mb-6 mt-1 md:mt-0 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span className="text-sm">Back to teams</span>
@@ -241,16 +241,16 @@ const TeamDetail = () => {
       {/* Team Header */}
       <div className="flex items-start justify-between mb-8">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center">
-            <span className="text-purple-400 font-bold text-xl">
+          <div className="w-14 h-14 bg-[var(--accent-primary)]/10 rounded-xl flex items-center justify-center border border-[var(--accent-primary)]/20">
+            <span className="text-[var(--accent-primary)] font-bold text-xl">
               {currentTeam.key}
             </span>
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">
+            <h1 className="text-2xl font-bold text-[var(--text-primary)]">
               {currentTeam.name}
             </h1>
-            <p className="text-gray-400 text-sm mt-1">
+            <p className="text-[var(--text-secondary)] text-sm mt-1">
               {currentTeam.description || "No description"}
             </p>
           </div>
@@ -278,7 +278,7 @@ const TeamDetail = () => {
                   Invite Member
                 </motion.button>
               )}
-              <button className="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-[#1A1D24] transition-colors">
+              <button className="text-[var(--text-tertiary)] hover:text-[var(--text-primary)] p-2 rounded-lg hover:bg-[var(--hover-bg)] transition-colors border border-[var(--border-primary)]">
                 <Settings className="w-5 h-5" />
               </button>
               {canManageTeams ? (
@@ -303,49 +303,49 @@ const TeamDetail = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="bg-white/[0.02] rounded-md border border-white/[0.06] p-4 shadow-sm">
+        <div className="bg-[var(--bg-secondary)] rounded-md border border-[var(--border-primary)] p-4 shadow-sm">
           <div className="flex items-center gap-4">
-            <CircleDot className="w-5 h-5 text-blue-400" />
+            <CircleDot className="w-5 h-5 text-blue-500" />
             <div>
-              <p className="text-xl font-bold text-white">
+              <p className="text-xl font-bold text-[var(--text-primary)]">
                 {issues.filter((i) => i.status !== "Done").length}
               </p>
-              <p className="text-gray-400 text-sm">Open Issues</p>
+              <p className="text-[var(--text-tertiary)] text-sm">Open Issues</p>
             </div>
           </div>
         </div>
-        <div className="bg-white/[0.02] rounded-md border border-white/[0.06] p-4 shadow-sm">
+        <div className="bg-[var(--bg-secondary)] rounded-md border border-[var(--border-primary)] p-4 shadow-sm">
           <div className="flex items-center gap-4">
-            <FolderKanban className="w-5 h-5 text-green-400" />
+            <FolderKanban className="w-5 h-5 text-green-500" />
             <div>
-              <p className="text-xl font-bold text-white">{projects.length}</p>
-              <p className="text-gray-400 text-sm">Projects</p>
+              <p className="text-xl font-bold text-[var(--text-primary)]">{projects.length}</p>
+              <p className="text-[var(--text-tertiary)] text-sm">Projects</p>
             </div>
           </div>
         </div>
-        <div className="bg-white/[0.02] rounded-md border border-white/[0.06] p-4 shadow-sm">
+        <div className="bg-[var(--bg-secondary)] rounded-md border border-[var(--border-primary)] p-4 shadow-sm">
           <div className="flex items-center gap-4">
-            <Users className="w-5 h-5 text-purple-400" />
+            <Users className="w-5 h-5 text-[var(--accent-primary)]" />
             <div>
-              <p className="text-xl font-bold text-white">
+              <p className="text-xl font-bold text-[var(--text-primary)]">
                 {currentTeam.members?.length || 0}
               </p>
-              <p className="text-gray-400 text-sm">Members</p>
+              <p className="text-[var(--text-tertiary)] text-sm">Members</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-[#1F2328] mb-6">
+      <div className="border-b border-[var(--border-primary)] mb-6">
         <nav className="flex gap-6">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 py-4 text-sm font-medium border-b-2 transition-colors ${activeTab === tab.id
-                  ? "text-purple-400 border-purple-400"
-                  : "text-gray-400 border-transparent hover:text-gray-200"
+                  ? "text-[var(--accent-primary)] border-[var(--accent-primary)]"
+                  : "text-[var(--text-tertiary)] border-transparent hover:text-[var(--text-primary)]"
                 }`}
             >
               <tab.icon className="w-4 h-4" />
@@ -356,7 +356,7 @@ const TeamDetail = () => {
       </div>
 
       {/* Tab Content */}
-      <div className="bg-white/[0.02] rounded-md border border-white/[0.06] shadow-sm overflow-hidden">
+      <div className="bg-[var(--bg-secondary)] rounded-md border border-[var(--border-primary)] shadow-sm overflow-hidden">
         {activeTab === "issues" && (
           <div className="p-4">
             {issuesLoading ? (
@@ -364,22 +364,22 @@ const TeamDetail = () => {
                 {[1, 2, 3].map((i) => (
                   <div
                     key={i}
-                    className="flex items-center gap-4 px-4 py-4 border-b border-white/[0.04] last:border-0"
+                    className="flex items-center gap-4 px-4 py-4 border-b border-[var(--border-primary)] last:border-0"
                   >
-                    <div className="w-16 h-5 rounded-[4px] bg-white/[0.04] animate-pulse" />
-                    <div className="w-12 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
-                    <div className="flex-1 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
-                    <div className="w-20 h-5 rounded-[4px] bg-white/[0.04] animate-pulse" />
-                    <div className="w-6 h-6 rounded-full bg-white/[0.04] animate-pulse ml-auto" />
+                    <div className="w-16 h-5 rounded-[4px] bg-[var(--skeleton-bg)] animate-pulse" />
+                    <div className="w-12 h-4 rounded-[4px] bg-[var(--skeleton-bg)] animate-pulse" />
+                    <div className="flex-1 h-4 rounded-[4px] bg-[var(--skeleton-bg)] animate-pulse" />
+                    <div className="w-20 h-5 rounded-[4px] bg-[var(--skeleton-bg)] animate-pulse" />
+                    <div className="w-6 h-6 rounded-full bg-[var(--skeleton-bg)] animate-pulse ml-auto" />
                   </div>
                 ))}
               </div>
             ) : issues.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 text-center">
-                <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
-                  <CircleDot className="w-5 h-5 text-[#8A8F98]" />
+                <div className="w-12 h-12 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-primary)] flex items-center justify-center mb-4 shadow-sm">
+                  <CircleDot className="w-5 h-5 text-[var(--text-tertiary)]" />
                 </div>
-                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">
+                <h3 className="text-[var(--text-primary)] text-[15px] font-medium mb-1">
                   No issues yet
                 </h3>
                 <p className="text-[#8A8F98] text-[13px] max-w-sm mb-4">
@@ -399,20 +399,20 @@ const TeamDetail = () => {
                 {/* View Toggle & Filters */}
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-4">
-                    <span className="text-gray-400 text-sm">
+                    <span className="text-[var(--text-tertiary)] text-sm">
                       {filteredIssues.length} issues
                     </span>
                     
-                    <div className="flex items-center bg-[#0F1115] border border-[var(--border-primary)] rounded-lg p-0.5 shadow-sm">
+                    <div className="flex items-center bg-[var(--bg-primary)] border border-[var(--border-primary)] rounded-lg p-0.5 shadow-sm">
                       <button 
                         onClick={() => setFilterOpen(false)}
-                        className={`px-3 py-1 text-[11px] font-medium rounded-md transition-all ${!filterOpen ? 'bg-white/5 text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
+                        className={`px-3 py-1 text-[11px] font-medium rounded-md transition-all ${!filterOpen ? 'bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] shadow-sm' : 'text-[var(--text-tertiary)] hover:text-[var(--text-primary)]'}`}
                       >
                         All
                       </button>
                       <button 
                         onClick={() => setFilterOpen(true)}
-                        className={`px-3 py-1 text-[11px] font-medium rounded-md transition-all ${filterOpen ? 'bg-white/5 text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
+                        className={`px-3 py-1 text-[11px] font-medium rounded-md transition-all ${filterOpen ? 'bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] shadow-sm' : 'text-[var(--text-tertiary)] hover:text-[var(--text-primary)]'}`}
                       >
                         Open
                       </button>
@@ -423,8 +423,8 @@ const TeamDetail = () => {
                         onClick={() => setShowSortMenu(!showSortMenu)}
                         className={`flex items-center gap-2 px-3 py-1 rounded-lg border transition-all text-[11px] font-medium ${
                           showSortMenu 
-                            ? "border-indigo-500/50 bg-indigo-500/5 text-indigo-400" 
-                            : "border-[var(--border-primary)] bg-[#0F1115] text-gray-400 hover:text-gray-200"
+                            ? "border-[var(--accent-primary)]/50 bg-[var(--accent-primary)]/5 text-[var(--accent-primary)]" 
+                            : "border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
                         }`}
                       >
                         <ArrowUpDown className="w-3 h-3" />
@@ -465,12 +465,12 @@ const TeamDetail = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 bg-[#0F1115] border border-[var(--border-primary)] rounded-lg p-1 shadow-sm">
+                  <div className="flex items-center gap-2 bg-[var(--bg-primary)] border border-[var(--border-primary)] rounded-lg p-1 shadow-sm">
                     <button
                       onClick={() => setIssuesView("list")}
                       className={`p-2 rounded-md transition-colors ${issuesView === "list"
-                          ? "bg-white/5 text-white"
-                          : "text-gray-400 hover:text-gray-200"
+                          ? "bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]"
+                          : "text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
                         }`}
                     >
                       <List className="w-4 h-4" />
@@ -478,8 +478,8 @@ const TeamDetail = () => {
                     <button
                       onClick={() => setIssuesView("kanban")}
                       className={`p-2 rounded-md transition-colors ${issuesView === "kanban"
-                          ? "bg-white/5 text-white"
-                          : "text-gray-400 hover:text-gray-200"
+                          ? "bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]"
+                          : "text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
                         }`}
                     >
                       <LayoutGrid className="w-4 h-4" />
@@ -510,7 +510,7 @@ const TeamDetail = () => {
                     {filteredIssues.map((issue) => (
                       <div
                         key={issue._id}
-                        className="flex items-center gap-4 p-2 border border-transparent hover:bg-white/[0.02] hover:border-white/[0.04] rounded-md transition-colors cursor-pointer group"
+                        className="flex items-center gap-4 p-2 border border-transparent hover:bg-[var(--hover-bg)] hover:border-[var(--border-primary)] rounded-md transition-colors cursor-pointer group"
                       >
                         <div className="flex-shrink-0">
                           <span
@@ -524,11 +524,11 @@ const TeamDetail = () => {
                             {issue.status}
                           </span>
                         </div>
-                        <div className="flex-shrink-0 text-[#8A8F98] text-[11px] font-mono w-16">
+                        <div className="flex-shrink-0 text-[var(--text-tertiary)] text-[11px] font-mono w-16">
                           {issue.identifier}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[#E8E8E8] text-[13px] font-medium truncate">
+                          <p className="text-[var(--text-primary)] text-[13px] font-medium truncate">
                             {issue.title}
                           </p>
                         </div>
@@ -572,13 +572,13 @@ const TeamDetail = () => {
           <div className="p-4">
             {projects.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 text-center">
-                <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
-                  <FolderKanban className="w-5 h-5 text-[#8A8F98]" />
+                <div className="w-12 h-12 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-primary)] flex items-center justify-center mb-4 shadow-sm">
+                  <FolderKanban className="w-5 h-5 text-[var(--text-tertiary)]" />
                 </div>
-                <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">
+                <h3 className="text-[var(--text-primary)] text-[15px] font-medium mb-1">
                   No projects yet
                 </h3>
-                <p className="text-[#8A8F98] text-[13px] max-w-sm mb-4">
+                <p className="text-[var(--text-tertiary)] text-[13px] max-w-sm mb-4">
                   There are no active projects for this team.
                 </p>
                 <button className="btn-secondary">Create first project</button>
@@ -590,7 +590,7 @@ const TeamDetail = () => {
                     key={project._id}
                     whileHover={{ y: -2 }}
                     transition={{ duration: 0.15 }}
-                    className="bg-[#131518] rounded-md p-4 border border-white/[0.06] hover:bg-white/[0.02] hover:border-white/[0.12] shadow-sm cursor-pointer group"
+                    className="bg-[var(--bg-primary)] rounded-md p-4 border border-[var(--border-primary)] hover:bg-[var(--hover-bg)] hover:border-[var(--accent-primary)]/50 shadow-sm cursor-pointer group"
                   >
                     <div className="flex items-start justify-between mb-4">
                       <h3 className="text-white font-medium">{project.name}</h3>

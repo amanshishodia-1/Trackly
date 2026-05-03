@@ -129,9 +129,9 @@ const MyIssues = () => {
     <div className="h-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-semibold text-white">My Issues</h1>
+        <h1 className="text-xl font-semibold text-[var(--text-primary)]">My Issues</h1>
         <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 bg-[#1A1D24] hover:bg-[#2D3139] text-gray-400 hover:text-white rounded-lg text-sm transition-colors">
+          <button className="flex items-center gap-2 px-4 py-2 bg-[var(--bg-secondary)] hover:bg-[var(--hover-bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-lg text-sm transition-colors border border-[var(--border-primary)]">
             <Filter className="w-4 h-4" />
             Filter
           </button>
@@ -139,7 +139,7 @@ const MyIssues = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-1 mb-6 border-b border-[#1F2328]">
+      <div className="flex items-center gap-1 mb-6 border-b border-[var(--border-primary)]">
         {TABS.map((tab) => {
           const Icon = tab.icon;
           return (
@@ -165,13 +165,13 @@ const MyIssues = () => {
       {/* Filters Row */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
         <div className="relative flex-1 w-full sm:max-w-md">
-          <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-500" />
+          <Search className="absolute left-3 top-2.5 w-4 h-4 text-[var(--text-tertiary)]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search issues..."
-            className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-2 pl-10 pr-4 text-sm text-white placeholder-gray-500 focus:border-purple-500 transition-colors"
+            className="w-full bg-[var(--bg-primary)] border border-[var(--border-primary)] rounded-lg py-2 pl-10 pr-4 text-sm text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--accent-primary)] transition-colors"
           />
         </div>
 
@@ -179,31 +179,31 @@ const MyIssues = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full sm:w-auto appearance-none bg-[#0F1115] border border-[#1F2328] rounded-lg py-2 pl-4 pr-10 text-sm text-white focus:border-purple-500 transition-colors cursor-pointer"
+            className="w-full sm:w-auto appearance-none bg-[var(--bg-primary)] border border-[var(--border-primary)] rounded-lg py-2 pl-4 pr-10 text-sm text-[var(--text-primary)] focus:border-[var(--accent-primary)] transition-colors cursor-pointer"
           >
             <option value="all">All statuses</option>
             <option value="Todo">Todo</option>
             <option value="In Progress">In Progress</option>
             <option value="Done">Done</option>
           </select>
-          <ChevronDown className="absolute right-3 top-2.5 w-4 h-4 text-gray-500 pointer-events-none" />
+          <ChevronDown className="absolute right-3 top-2.5 w-4 h-4 text-[var(--text-tertiary)] pointer-events-none" />
         </div>
       </div>
 
       {/* Issues List */}
-      <div className="bg-[#161922] rounded-xl border border-[#1F2328] overflow-hidden">
+      <div className="bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-primary)] overflow-hidden">
         {loading ? (
           <div className="flex flex-col w-full">
             {[1, 2, 3, 4, 5].map((i) => (
               <div
                 key={i}
-                className="flex items-center gap-4 px-4 py-4 border-b border-white/[0.04] last:border-0"
+                className="flex items-center gap-4 px-4 py-4 border-b border-[var(--border-primary)] last:border-0"
               >
-                <div className="w-16 h-5 rounded-[4px] bg-white/[0.04] animate-pulse" />
-                <div className="w-12 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
-                <div className="flex-1 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
-                <div className="w-20 h-5 rounded-[4px] bg-white/[0.04] animate-pulse" />
-                <div className="w-6 h-6 rounded-full bg-white/[0.04] animate-pulse ml-auto" />
+                <div className="w-16 h-5 rounded-[4px] bg-[var(--skeleton-bg)] animate-pulse" />
+                <div className="w-12 h-4 rounded-[4px] bg-[var(--skeleton-bg)] animate-pulse" />
+                <div className="flex-1 h-4 rounded-[4px] bg-[var(--skeleton-bg)] animate-pulse" />
+                <div className="w-20 h-5 rounded-[4px] bg-[var(--skeleton-bg)] animate-pulse" />
+                <div className="w-6 h-6 rounded-full bg-[var(--skeleton-bg)] animate-pulse ml-auto" />
               </div>
             ))}
           </div>
@@ -226,20 +226,20 @@ const MyIssues = () => {
             {/* Desktop Table View */}
             <table className="w-full hidden md:table">
               <thead>
-                <tr className="border-b border-[#1F2328] bg-[#0F1115]">
-                  <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider">
+                <tr className="border-b border-[var(--border-primary)] bg-[var(--bg-primary)]">
+                  <th className="text-left py-4 px-4 text-[var(--text-tertiary)] font-medium text-xs uppercase tracking-wider">
                     Issue
                   </th>
-                  <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider w-32">
+                  <th className="text-left py-4 px-4 text-[var(--text-tertiary)] font-medium text-xs uppercase tracking-wider w-32">
                     Status
                   </th>
-                  <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider w-28">
+                  <th className="text-left py-4 px-4 text-[var(--text-tertiary)] font-medium text-xs uppercase tracking-wider w-28">
                     Priority
                   </th>
-                  <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider">
+                  <th className="text-left py-4 px-4 text-[var(--text-tertiary)] font-medium text-xs uppercase tracking-wider">
                     Team
                   </th>
-                  <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider">
+                  <th className="text-left py-4 px-4 text-[var(--text-tertiary)] font-medium text-xs uppercase tracking-wider">
                     Created
                   </th>
                 </tr>
@@ -248,7 +248,7 @@ const MyIssues = () => {
                 {filteredIssues.map((issue) => (
                   <tr
                     key={issue._id}
-                    className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors group cursor-pointer"
+                    className="border-b border-[var(--border-primary)] hover:bg-[var(--hover-bg)] transition-colors group cursor-pointer"
                   >
                     <td className="py-2 px-4">
                       <div className="flex items-center gap-4">
@@ -256,11 +256,11 @@ const MyIssues = () => {
                           {getPriorityIcon(issue.priority)}
                         </div>
                         <div className="min-w-0">
-                          <p className="text-[#E8E8E8] font-medium text-[13px] truncate">
+                          <p className="text-[var(--text-primary)] font-medium text-[13px] truncate">
                             {issue.title}
                           </p>
                           <div className="flex items-center gap-2 mt-1">
-                            <span className="text-[#8A8F98] text-[11px] font-mono">
+                            <span className="text-[var(--text-tertiary)] text-[11px] font-mono">
                               {issue.identifier}
                             </span>
                             {issue.labels?.length > 0 && (
@@ -281,7 +281,7 @@ const MyIssues = () => {
                     </td>
                     <td className="py-2 px-4">
                       <div
-                        className={`flex items-center gap-1 w-fit px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors ${getPriorityColor(issue.priority)}`}
+                        className={`flex items-center gap-1 w-fit px-2 py-1 rounded-[4px] border border-transparent group-hover:border-[var(--border-primary)] transition-colors ${getPriorityColor(issue.priority)}`}
                       >
                         {getPriorityIcon(issue.priority)}
                         <span className="text-[11px] font-medium leading-none tracking-tight">
@@ -290,18 +290,18 @@ const MyIssues = () => {
                       </div>
                     </td>
                     <td className="py-2 px-4">
-                      <div className="flex items-center gap-2 w-fit px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors">
-                        <div className="w-4 h-4 bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/30 rounded flex items-center justify-center">
+                      <div className="flex items-center gap-2 w-fit px-2 py-1 rounded-[4px] border border-transparent group-hover:border-[var(--border-primary)] transition-colors">
+                        <div className="w-4 h-4 bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded flex items-center justify-center">
                           <span className="text-purple-400 text-[9px] font-bold">
                             {issue.team?.key?.charAt(0) || "?"}
                           </span>
                         </div>
-                        <span className="text-[#8A8F98] text-[11px] font-medium">
+                        <span className="text-[var(--text-secondary)] text-[11px] font-medium">
                           {issue.team?.name}
                         </span>
                       </div>
                     </td>
-                    <td className="py-2 px-4 text-[#8A8F98] text-[11px] font-medium">
+                    <td className="py-2 px-4 text-[var(--text-tertiary)] text-[11px] font-medium">
                       {new Date(issue.createdAt).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",
@@ -313,24 +313,24 @@ const MyIssues = () => {
             </table>
 
             {/* Mobile Card View */}
-            <div className="flex flex-col md:hidden divide-y divide-white/[0.04]">
+            <div className="flex flex-col md:hidden divide-y divide-[var(--border-primary)]">
               {filteredIssues.map((issue) => (
                 <div 
                   key={issue._id}
-                  className="p-4 hover:bg-white/[0.02] transition-colors flex flex-col gap-3"
+                  className="p-4 hover:bg-[var(--hover-bg)] transition-colors flex flex-col gap-3"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-[#8A8F98] text-[11px] font-mono">
+                        <span className="text-[var(--text-tertiary)] text-[11px] font-mono">
                           {issue.identifier}
                         </span>
-                        <div className="w-1 h-1 rounded-full bg-[#1F2328]" />
-                        <span className="text-[#8A8F98] text-[11px]">
+                        <div className="w-1 h-1 rounded-full bg-[var(--border-secondary)]" />
+                        <span className="text-[var(--text-tertiary)] text-[11px]">
                           {issue.team?.name}
                         </span>
                       </div>
-                      <h4 className="text-[#E8E8E8] font-medium text-[14px] leading-snug">
+                      <h4 className="text-[var(--text-primary)] font-medium text-[14px] leading-snug">
                         {issue.title}
                       </h4>
                     </div>
@@ -342,7 +342,7 @@ const MyIssues = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span
-                        className={`inline-flex items-center px-2 py-1 rounded-[4px] text-[10px] font-medium border ${getStatusColor(issue.status).replace("bg-", "bg-opacity-10 bg-").replace("border-", "border-opacity-20 border-")}`}
+                        className={`inline-flex items-center px-2 py-1 rounded-[4px] text-[10px] font-medium border ${getStatusColor(issue.status)}`}
                       >
                         {issue.status}
                       </span>
@@ -352,7 +352,7 @@ const MyIssues = () => {
                         <span className="opacity-70">{issue.priority}</span>
                       </div>
                     </div>
-                    <span className="text-[#8A8F98] text-[11px]">
+                    <span className="text-[var(--text-tertiary)] text-[11px]">
                       {new Date(issue.createdAt).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",

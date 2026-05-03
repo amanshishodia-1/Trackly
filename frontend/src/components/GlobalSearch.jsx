@@ -131,11 +131,11 @@ const GlobalSearch = () => {
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 p-2 md:px-4 md:py-2 bg-[#161922] hover:bg-[#1A1D24] border border-[#1F2328] rounded-md text-gray-400 text-sm transition-colors"
+        className="flex items-center gap-2 p-2 md:px-4 md:py-2 bg-[var(--bg-secondary)] hover:bg-[var(--hover-bg)] border border-[var(--border-primary)] rounded-md text-[var(--text-tertiary)] text-sm transition-colors shadow-sm"
       >
         <Search className="w-4 h-4 md:w-4 md:h-4" />
         <span className="hidden md:inline">Search...</span>
-        <div className="hidden md:flex items-center gap-1 ml-2 text-xs">
+        <div className="hidden md:flex items-center gap-1 ml-2 text-xs opacity-60">
           <Command className="w-3 h-3" />
           <span>K</span>
         </div>
@@ -160,27 +160,27 @@ const GlobalSearch = () => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.97, y: 8 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
-              className="relative top-[15vh] w-[600px] max-w-[90vw] h-fit bg-[#131518] border border-white/[0.08] rounded-xl shadow-2xl overflow-hidden"
+              className="relative top-[15vh] w-[600px] max-w-[90vw] h-fit bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-xl shadow-2xl overflow-hidden"
             >
               {/* Search Input */}
-              <div className="flex items-center gap-4 p-4 border-b border-white/[0.04]">
-                <Search className="w-5 h-5 text-gray-400" />
+              <div className="flex items-center gap-4 p-4 border-b border-[var(--border-primary)]">
+                <Search className="w-5 h-5 text-[var(--text-tertiary)]" />
                 <input
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search issues, projects..."
-                  className="flex-1 bg-transparent text-white text-base placeholder-gray-500 focus:outline-none"
+                  className="flex-1 bg-transparent text-[var(--text-primary)] text-base placeholder-[var(--text-tertiary)] focus:outline-none"
                   autoFocus
                 />
                 {loading && (
-                  <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-purple-500" />
+                  <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-[var(--accent-primary)]" />
                 )}
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-1 hover:bg-[#1A1D24] rounded transition-colors"
+                  className="p-1 hover:bg-[var(--hover-bg)] rounded transition-colors"
                 >
-                  <X className="w-4 h-4 text-gray-400" />
+                  <X className="w-4 h-4 text-[var(--text-tertiary)]" />
                 </button>
               </div>
 
@@ -189,7 +189,7 @@ const GlobalSearch = () => {
                 {/* Issues Section */}
                 {results.issues.length > 0 && (
                   <div>
-                    <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide bg-[#0F1115]">
+                    <div className="px-4 py-2 text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wide bg-[var(--bg-primary)]/50">
                       Issues ({results.issues.length})
                     </div>
                     {results.issues.map((issue, index) => {
@@ -202,17 +202,17 @@ const GlobalSearch = () => {
                           onClick={() => handleSelect("issue", issue)}
                           className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${
                             isSelected
-                              ? "bg-purple-500/20"
-                              : "hover:bg-[#1A1D24]"
+                              ? "bg-[var(--accent-primary)]/10"
+                              : "hover:bg-[var(--hover-bg)]"
                           }`}
                         >
-                          <FileText className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                          <FileText className="w-4 h-4 text-[var(--text-tertiary)] flex-shrink-0" />
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <span className="text-gray-500 font-mono text-xs">
+                              <span className="text-[var(--text-tertiary)] font-mono text-xs">
                                 {issue.identifier}
                               </span>
-                              <span className="text-white text-sm truncate">
+                              <span className="text-[var(--text-primary)] text-sm truncate">
                                 {issue.title}
                               </span>
                             </div>
@@ -227,7 +227,7 @@ const GlobalSearch = () => {
                               >
                                 {issue.priority}
                               </span>
-                              <span className="text-gray-500 text-xs">
+                              <span className="text-[var(--text-tertiary)] text-xs">
                                 {issue.team?.name}
                               </span>
                             </div>
@@ -241,7 +241,7 @@ const GlobalSearch = () => {
                 {/* Projects Section */}
                 {results.projects.length > 0 && (
                   <div>
-                    <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide bg-[#0F1115]">
+                    <div className="px-4 py-2 text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wide bg-[var(--bg-primary)]/50">
                       Projects ({results.projects.length})
                     </div>
                     {results.projects.map((project, index) => {
@@ -254,17 +254,17 @@ const GlobalSearch = () => {
                           onClick={() => handleSelect("project", project)}
                           className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${
                             isSelected
-                              ? "bg-purple-500/20"
-                              : "hover:bg-[#1A1D24]"
+                              ? "bg-[var(--accent-primary)]/10"
+                              : "hover:bg-[var(--hover-bg)]"
                           }`}
                         >
-                          <FolderKanban className="w-4 h-4 text-purple-400 flex-shrink-0" />
+                          <FolderKanban className="w-4 h-4 text-[var(--accent-primary)] flex-shrink-0" />
                           <div className="flex-1 min-w-0">
-                            <span className="text-white text-sm">
+                            <span className="text-[var(--text-primary)] text-sm font-medium">
                               {project.name}
                             </span>
                             <div className="flex items-center gap-2 mt-1">
-                              <span className="text-gray-500 text-xs">
+                              <span className="text-[var(--text-tertiary)] text-xs">
                                 {project.team?.name}
                               </span>
                               <span

@@ -106,25 +106,25 @@ const Inbox = () => {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-white">Inbox</h1>
-          <p className="text-gray-400 mt-1">
+          <h1 className="text-2xl font-bold text-[var(--text-primary)]">Inbox</h1>
+          <p className="text-[var(--text-secondary)] mt-1">
             Team invitations and notifications
           </p>
         </div>
       </div>
 
-      <div className="bg-[#161922] rounded-xl border border-[#1F2328]">
+      <div className="bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-primary)] shadow-sm">
         {loading ? (
           <div className="flex flex-col w-full">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-start gap-4 p-4 border-b border-white/[0.04] last:border-0">
-                <div className="w-8 h-8 rounded-full bg-white/[0.04] animate-pulse flex-shrink-0" />
+              <div key={i} className="flex items-start gap-4 p-4 border-b border-[var(--border-primary)] last:border-0">
+                <div className="w-8 h-8 rounded-full bg-[var(--skeleton-bg)] animate-pulse flex-shrink-0" />
                 <div className="flex-1">
-                  <div className="w-1/3 h-4 rounded-[4px] bg-white/[0.04] animate-pulse mb-2" />
-                  <div className="w-1/4 h-3 rounded-[4px] bg-white/[0.04] animate-pulse mb-4" />
+                  <div className="w-1/3 h-4 rounded-[4px] bg-[var(--skeleton-bg)] animate-pulse mb-2" />
+                  <div className="w-1/4 h-3 rounded-[4px] bg-[var(--skeleton-bg)] animate-pulse mb-4" />
                   <div className="flex gap-2">
-                    <div className="w-20 h-7 rounded-md bg-white/[0.04] animate-pulse" />
-                    <div className="w-20 h-7 rounded-md bg-white/[0.04] animate-pulse" />
+                    <div className="w-20 h-7 rounded-md bg-[var(--skeleton-bg)] animate-pulse" />
+                    <div className="w-20 h-7 rounded-md bg-[var(--skeleton-bg)] animate-pulse" />
                   </div>
                 </div>
               </div>
@@ -132,48 +132,48 @@ const Inbox = () => {
           </div>
         ) : invitations.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="w-12 h-12 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center mb-4 shadow-sm">
-              <UserPlus className="w-5 h-5 text-[#8A8F98]" />
+            <div className="w-12 h-12 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-primary)] flex items-center justify-center mb-4 shadow-sm">
+              <UserPlus className="w-5 h-5 text-[var(--text-tertiary)]" />
             </div>
-            <h3 className="text-[#E8E8E8] text-[15px] font-medium mb-1">Inbox zero</h3>
-            <p className="text-[#8A8F98] text-[13px] max-w-sm">
+            <h3 className="text-[var(--text-primary)] text-[15px] font-medium mb-1">Inbox zero</h3>
+            <p className="text-[var(--text-tertiary)] text-[13px] max-w-sm">
               You don't have any pending team invitations.
             </p>
           </div>
         ) : (
-          <div className="divide-y divide-[#1F2328]">
+          <div className="divide-y divide-[var(--border-primary)]">
             {invitations.map((invitation) => (
               <div
                 key={invitation._id}
-                className="p-4 hover:bg-[#1A1D24] transition-colors"
+                className="p-4 hover:bg-[var(--hover-bg)] transition-colors"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Users className="w-4 h-4 text-purple-400" />
+                  <div className="w-8 h-8 bg-[var(--accent-primary)]/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Users className="w-4 h-4 text-[var(--accent-primary)]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
-                      <h3 className="text-white font-medium text-sm sm:text-base truncate">
+                      <h3 className="text-[var(--text-primary)] font-medium text-sm sm:text-base truncate">
                         {invitation.sender?.name || "Someone"} invited you to{" "}
                         {invitation.team?.name}
                       </h3>
-                      <span className="hidden sm:block w-2 h-2 bg-purple-500 rounded-full"></span>
+                      <span className="hidden sm:block w-2 h-2 bg-[var(--accent-primary)] rounded-full"></span>
                     </div>
-                    <p className="text-gray-400 text-xs sm:text-sm mb-3">
+                    <p className="text-[var(--text-secondary)] text-xs sm:text-sm mb-3">
                       Role: {invitation.role} •{" "}
                       {formatTime(invitation.createdAt)}
                     </p>
                     <div className="flex flex-wrap items-center gap-2">
                       <button
                         onClick={() => handleAccept(invitation._id)}
-                        className="flex-1 sm:flex-none px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1"
+                        className="flex-1 sm:flex-none px-4 py-2 bg-[var(--accent-primary)] hover:opacity-90 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1"
                       >
                         <Check className="w-3 h-3" />
                         Accept
                       </button>
                       <button
                         onClick={() => handleDecline(invitation._id)}
-                        className="flex-1 sm:flex-none px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1"
+                        className="flex-1 sm:flex-none px-4 py-2 bg-[var(--bg-tertiary)] hover:bg-[var(--border-primary)] text-[var(--text-primary)] text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1 border border-[var(--border-primary)]"
                       >
                         <X className="w-3 h-3" />
                         Decline

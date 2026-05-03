@@ -90,31 +90,31 @@ const KanbanCard = ({ issue, isOverlay, onClick }) => {
       <motion.div
         whileHover={{ y: -2 }}
         transition={{ duration: 0.15 }}
-        className={`bg-[#0F1115] rounded-md p-2 border border-white/[0.06] hover:bg-white/[0.02] hover:border-white/[0.12] transition-colors shadow-sm group ${isOverlay ? "shadow-xl rotate-2 scale-105 border-white/[0.2]" : ""
+        className={`bg-[var(--bg-primary)] rounded-md p-2 border border-[var(--border-primary)] hover:bg-[var(--hover-bg)] hover:border-[var(--accent-primary)]/50 transition-colors shadow-sm group ${isOverlay ? "shadow-xl rotate-2 scale-105 border-[var(--accent-primary)]/50" : ""
           }`}
       >
         <div className="flex items-start gap-2">
-          <GripVertical className="w-3.5 h-3.5 text-[#5F6368] mt-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <GripVertical className="w-3.5 h-3.5 text-[var(--text-tertiary)] mt-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
           <div className="flex-1 min-w-0">
-            <p className="text-[#E8E8E8] text-[13px] font-medium line-clamp-2 leading-snug">
+            <p className="text-[var(--text-primary)] text-[13px] font-medium line-clamp-2 leading-snug">
               {issue.title}
             </p>
             <div className="flex items-center flex-wrap gap-x-2 gap-y-1 mt-2">
-              <span className="text-[#8A8F98] text-[11px] font-mono leading-none">{issue.identifier}</span>
-              <div className={`flex items-center gap-1 px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors ${getPriorityColor(issue.priority)}`}>
+              <span className="text-[var(--text-tertiary)] text-[11px] font-mono leading-none">{issue.identifier}</span>
+              <div className={`flex items-center gap-1 px-2 py-1 rounded-[4px] border border-transparent group-hover:border-[var(--border-primary)] transition-colors ${getPriorityColor(issue.priority)}`}>
                 {getPriorityIcon(issue.priority)}
                 <span className="text-[11px] font-medium leading-none tracking-tight">
                   {issue.priority}
                 </span>
               </div>
               {issue.assignee && (
-                <div className="flex items-center gap-2 px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors ml-auto">
+                <div className="flex items-center gap-2 px-2 py-1 rounded-[4px] border border-transparent group-hover:border-[var(--border-primary)] transition-colors ml-auto">
                   <div className="w-4 h-4 bg-gradient-to-br from-[#5E6AD2] to-[#8C98F2] rounded-full flex items-center justify-center shadow-sm">
                     <span className="text-white text-[9px] font-bold leading-none">
                       {issue.assignee.name?.charAt(0) || "?"}
                     </span>
                   </div>
-                  <span className="text-[#8A8F98] text-[11px] font-medium leading-none truncate max-w-[80px]">
+                  <span className="text-[var(--text-tertiary)] text-[11px] font-medium leading-none truncate max-w-[80px]">
                     {issue.assignee.name}
                   </span>
                 </div>
@@ -150,18 +150,18 @@ const KanbanColumn = ({ title, status, issues, count, onCardClick }) => {
   return (
     <div className="flex flex-col h-full">
       <div
-        className={`bg-[#161922] rounded-t-lg border-t-4 ${getColumnColor()} p-4 border-l border-r border-b border-[#1F2328]`}
+        className={`bg-[var(--bg-secondary)] rounded-t-lg border-t-4 ${getColumnColor()} p-4 border-l border-r border-b border-[var(--border-primary)] shadow-sm`}
       >
         <div className="flex items-center justify-between">
-          <h3 className="text-white font-semibold text-sm">{title}</h3>
-          <span className="bg-[#0F1115] text-gray-400 text-xs px-2 py-1 rounded-full">
+          <h3 className="text-[var(--text-primary)] font-semibold text-sm">{title}</h3>
+          <span className="bg-[var(--bg-primary)] text-[var(--text-tertiary)] text-xs px-2 py-1 rounded-full border border-[var(--border-primary)]">
             {count}
           </span>
         </div>
       </div>
       <div
         ref={setNodeRef}
-        className="flex-1 bg-[#161922] rounded-b-lg border-l border-r border-b border-[#1F2328] p-2 space-y-2 min-h-[200px]"
+        className="flex-1 bg-[var(--bg-secondary)]/50 rounded-b-lg border-l border-r border-b border-[var(--border-primary)] p-2 space-y-2 min-h-[200px]"
       >
         <SortableContext
           items={issues.map((i) => i._id)}
