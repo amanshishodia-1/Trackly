@@ -13,33 +13,47 @@ const Logo = ({ size = 28, className = "" }) => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <defs>
-          <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#8B5CF6" />
-            <stop offset="100%" stopColor="#3B82F6" />
-          </linearGradient>
-        </defs>
-        
-        {/* Simplified Geometric Mark - Two overlapping bars for a modern "T" */}
+        {/* Rounded square background similar to the image */}
         <rect 
-          x="6" 
-          y="6" 
-          width="20" 
+          x="2" 
+          y="2" 
+          width="28" 
+          height="28" 
+          rx="8" 
+          fill="#161922" 
+          stroke="#1F2328"
+          strokeWidth="1"
+        />
+        
+        {/* Horizontal Top Bar */}
+        <rect 
+          x="8" 
+          y="9" 
+          width="16" 
+          height="3.5" 
+          rx="1.75" 
+          fill="white" 
+        />
+        
+        {/* Vertical Stem - Segment 1 (Short) */}
+        <rect 
+          x="14.25" 
+          y="13.5" 
+          width="3.5" 
           height="5" 
-          rx="2.5" 
-          fill="url(#logo-gradient)" 
-        />
-        <rect 
-          x="13.5" 
-          y="6" 
-          width="5" 
-          height="20" 
-          rx="2.5" 
-          fill="url(#logo-gradient)" 
+          rx="1.75" 
+          fill="white" 
         />
         
-        {/* Subtle dot to add character but keep it simple */}
-        <circle cx="24" cy="24" r="2.5" fill="#8B5CF6" />
+        {/* Vertical Stem - Segment 2 (Longer) */}
+        <rect 
+          x="14.25" 
+          y="19.5" 
+          width="3.5" 
+          height="7" 
+          rx="1.75" 
+          fill="white" 
+        />
       </svg>
     </div>
   );
