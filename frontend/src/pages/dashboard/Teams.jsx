@@ -117,19 +117,19 @@ const Teams = () => {
       </div>
 
       {/* Search and Filters */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="relative flex-1 max-w-md">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <div className="relative flex-1 w-full sm:max-w-md">
           <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-500" />
           <input
             type="text"
             placeholder="Search teams..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-2 pl-8 pr-4 text-sm text-white placeholder-gray-500 focus:border-purple-500 transition-colors"
+            className="w-full bg-[#0F1115] border border-[#1F2328] rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-gray-500 focus:border-purple-500 transition-colors"
           />
         </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-lg p-0.5 shadow-sm">
+        <div className="flex items-center gap-3 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+          <div className="flex items-center bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-lg p-0.5 shadow-sm shrink-0">
             <button 
               onClick={() => setFilterJoined(false)}
               className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${!filterJoined ? 'bg-white/5 text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
@@ -144,7 +144,7 @@ const Teams = () => {
             </button>
           </div>
 
-          <div className="relative">
+          <div className="relative shrink-0">
             <button 
               onClick={() => setShowSortMenu(!showSortMenu)}
               className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all text-xs font-medium ${
@@ -154,7 +154,8 @@ const Teams = () => {
               }`}
             >
               <ArrowUpDown className="w-3.5 h-3.5" />
-              <span>Sort: {sortBy.charAt(0).toUpperCase() + sortBy.slice(1)}</span>
+              <span className="hidden xs:inline">Sort: {sortBy.charAt(0).toUpperCase() + sortBy.slice(1)}</span>
+              <span className="xs:hidden">Sort</span>
             </button>
 
             {showSortMenu && (
@@ -192,7 +193,7 @@ const Teams = () => {
         </div>
       </div>
 
-      {/* Teams Table */}
+      {/* Teams Table/Cards */}
       {loading ? (
         <div className="flex flex-col w-full bg-[#161922] rounded-lg border border-[#1F2328] overflow-hidden">
           {[1, 2, 3, 4, 5].map((i) => (
@@ -204,15 +205,16 @@ const Teams = () => {
                 <div className="w-6 h-6 rounded bg-white/[0.04] animate-pulse" />
                 <div className="w-24 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
               </div>
-              <div className="w-16 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
+              <div className="hidden md:block w-16 h-4 rounded-[4px] bg-white/[0.04] animate-pulse" />
               <div className="w-16 h-6 rounded-full bg-white/[0.04] animate-pulse ml-4" />
-              <div className="w-8 h-4 rounded-[4px] bg-white/[0.04] animate-pulse ml-8" />
+              <div className="hidden sm:block w-8 h-4 rounded-[4px] bg-white/[0.04] animate-pulse ml-8" />
             </div>
           ))}
         </div>
       ) : (
         <div className="bg-[#161922] rounded-lg border border-[#1F2328] overflow-hidden">
-          <table className="w-full">
+          {/* Desktop View */}
+          <table className="w-full hidden md:table">
             <thead>
               <tr className="border-b border-[#1F2328]">
                 <th className="text-left py-4 px-4 text-gray-500 text-xs font-medium uppercase tracking-wider">
@@ -276,12 +278,11 @@ const Teams = () => {
                     <td className="py-4 px-4">
                       <span className="text-gray-500 text-xs">0</span>
                     </td>
-                    <td className="py-4 px-4">
+                    <td className="py-4 px-4 text-right">
                       <button
                         className="text-gray-500 hover:text-white"
                         onClick={(e) => {
                           e.stopPropagation();
-                          // Show menu
                         }}
                       >
                         <MoreHorizontal className="w-4 h-4" />
@@ -292,6 +293,68 @@ const Teams = () => {
               })}
             </tbody>
           </table>
+
+          {/* Mobile View */}
+          <div className="flex flex-col md:hidden divide-y divide-white/[0.04]">
+            {filteredTeams.map((team) => {
+              const iconStyle = getTeamIcon(team.key);
+              const isMember = isUserMember(team);
+
+              return (
+                <div
+                  key={team._id}
+                  className="p-4 hover:bg-[#1A1D24] transition-colors cursor-pointer flex flex-col gap-3"
+                  onClick={() => navigate(`/app/teams/${team._id}`)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-6 h-6 ${iconStyle.color} rounded flex items-center justify-center flex-shrink-0`}
+                      >
+                        <span className={`${iconStyle.text} text-xs font-bold`}>
+                          {team.key.charAt(0)}
+                        </span>
+                      </div>
+                      <div>
+                        <h4 className="text-white text-[14px] font-medium leading-none">
+                          {team.name}
+                        </h4>
+                        <span className="text-gray-500 text-[11px] mt-1 block">
+                          {team.key}
+                        </span>
+                      </div>
+                    </div>
+                    {isMember && (
+                      <span className="inline-flex items-center gap-1 text-indigo-400 text-[11px] font-medium bg-indigo-500/10 px-2 py-0.5 rounded-full border border-indigo-500/20">
+                        Joined
+                      </span>
+                    )}
+                  </div>
+                  
+                  <div className="flex items-center justify-between pt-1">
+                    <div className="flex items-center gap-4">
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-[10px] text-gray-500 uppercase tracking-wider font-semibold">Members</span>
+                        {renderAvatarStack(team.members)}
+                      </div>
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-[10px] text-gray-500 uppercase tracking-wider font-semibold">Projects</span>
+                        <span className="text-gray-300 text-xs font-medium">0</span>
+                      </div>
+                    </div>
+                    <button
+                      className="p-2 text-gray-500 hover:text-white"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      <MoreHorizontal className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
 

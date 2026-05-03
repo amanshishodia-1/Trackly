@@ -151,29 +151,29 @@ const Inbox = () => {
                   <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center flex-shrink-0">
                     <Users className="w-4 h-4 text-purple-400" />
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-white font-medium">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
+                      <h3 className="text-white font-medium text-sm sm:text-base truncate">
                         {invitation.sender?.name || "Someone"} invited you to{" "}
                         {invitation.team?.name}
                       </h3>
-                      <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                      <span className="hidden sm:block w-2 h-2 bg-purple-500 rounded-full"></span>
                     </div>
-                    <p className="text-gray-400 text-sm mb-2">
+                    <p className="text-gray-400 text-xs sm:text-sm mb-3">
                       Role: {invitation.role} •{" "}
                       {formatTime(invitation.createdAt)}
                     </p>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <button
                         onClick={() => handleAccept(invitation._id)}
-                        className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-1"
+                        className="flex-1 sm:flex-none px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1"
                       >
                         <Check className="w-3 h-3" />
                         Accept
                       </button>
                       <button
                         onClick={() => handleDecline(invitation._id)}
-                        className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-1"
+                        className="flex-1 sm:flex-none px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1"
                       >
                         <X className="w-3 h-3" />
                         Decline

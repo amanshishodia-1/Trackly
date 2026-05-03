@@ -95,15 +95,16 @@ app.use(
       
       const isAllowed = allowedOrigins.some(allowed => {
         if (!allowed) return false;
-        // Check exact match or match without trailing slash
-        return origin === allowed.replace(/\/$/, "") || origin === allowed;
+        const normalizedOrigin = origin.replace(/\/$/, "");
+        const normalizedAllowed = allowed.replace(/\/$/, "");
+        return normalizedOrigin === normalizedAllowed;
       });
 
-      if (isAllowed || origin.endsWith(".vercel.app")) {
+      if (isAllowed || origin.endsWith(".vercel.app") || origin.endsWith(".onrender.com")) {
         callback(null, true);
       } else {
-        console.log("CORS blocked origin:", origin);
-        callback(null, false); // Block other origins
+        console.warn(`[CORS] Blocked origin: ${origin}. Allowed origins:`, allowedOrigins);
+        callback(new Error('Not allowed by CORS'));
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],

@@ -54,7 +54,7 @@ const CreateTeam = () => {
       {/* Back Button */}
       <button
         onClick={() => navigate("/app/teams")}
-        className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
+        className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 mt-1 md:mt-0 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span className="text-sm">Back to teams</span>
