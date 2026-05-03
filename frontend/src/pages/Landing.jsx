@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import BackgroundPattern from "../components/landing/BackgroundPattern";
 import ProductSection from "../components/landing/ProductSection";
+import PricingSection from "../components/landing/PricingSection";
 
 const Landing = () => {
   const location = useLocation();
@@ -528,6 +529,8 @@ const Landing = () => {
           </div>
         </div>
       </section>
+
+      <PricingSection />
 
       {/* Footer */}
       <footer className="relative z-10 pt-16 pb-8 px-4 sm:px-6 lg:px-8 bg-[#0A0C0F] border-t border-white/[0.03]">

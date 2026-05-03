@@ -27,6 +27,7 @@ import TeamDetail from "./pages/dashboard/TeamDetail";
 import CreateTeam from "./pages/dashboard/CreateTeam";
 import Settings from "./pages/dashboard/Settings";
 import Contact from "./pages/Contact";
+import Pricing from "./pages/Pricing";
 import AcceptInvite from "./pages/AcceptInvite";
 import CommandPalette from "./components/CommandPalette";
 import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
@@ -116,6 +117,7 @@ const AppContent = () => {
 
         <Route path="/invite/:token" element={<AcceptInvite />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/pricing" element={<Pricing />} />
 
         {/* Protected Dashboard Routes under /app */}
         <Route
