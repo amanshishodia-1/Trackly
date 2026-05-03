@@ -36,7 +36,7 @@ const ProductSection = () => {
       ].map((item, i) => (
         <div key={i} className="h-16 bg-white/[0.01] border border-white/[0.04] rounded-xl flex items-center px-5 gap-4 hover:bg-white/[0.02] transition-colors group/row">
           <div className="w-5 h-5 rounded-md border border-gray-700 flex items-center justify-center">
-             <div className="w-2 h-2 rounded-full bg-gray-800" />
+            <div className="w-2 h-2 rounded-full bg-gray-800" />
           </div>
           <div className="flex-1 space-y-1.5">
             <div className="text-sm text-[#f5f5f5] font-medium tracking-tight">{item.title}</div>
@@ -49,8 +49,8 @@ const ProductSection = () => {
             </div>
           </div>
           <div className="flex -space-x-2">
-             <div className="w-6 h-6 rounded-full bg-purple-500/20 border border-white/[0.05]" />
-             <div className="w-6 h-6 rounded-full bg-blue-500/20 border border-white/[0.05]" />
+            <div className="w-6 h-6 rounded-full bg-purple-500/20 border border-white/[0.05]" />
+            <div className="w-6 h-6 rounded-full bg-blue-500/20 border border-white/[0.05]" />
           </div>
         </div>
       ))}
@@ -87,9 +87,9 @@ const ProductSection = () => {
   const MockTableRows = () => (
     <div className="space-y-px bg-white/[0.01] rounded-2xl border border-white/[0.04] overflow-hidden shadow-2xl">
       <div className="h-12 bg-white/[0.02] border-b border-white/[0.04] flex items-center px-6 gap-8">
-         <div className="w-4 h-4 bg-white/[0.1] rounded" />
-         <div className="w-1/3 h-2 bg-white/[0.05] rounded-full" />
-         <div className="w-20 h-2 bg-white/[0.05] rounded-full ml-auto" />
+        <div className="w-4 h-4 bg-white/[0.1] rounded" />
+        <div className="w-1/3 h-2 bg-white/[0.05] rounded-full" />
+        <div className="w-20 h-2 bg-white/[0.05] rounded-full ml-auto" />
       </div>
       {[
         { t: "Frontend Dashboard", p: "High", s: "Active" },
@@ -103,7 +103,7 @@ const ProductSection = () => {
           <div className="flex items-center gap-4 ml-auto">
             <span className="text-[10px] text-gray-600 font-semibold uppercase">{item.p}</span>
             <div className="w-20 h-1.5 bg-white/[0.03] rounded-full overflow-hidden">
-               <div className="h-full bg-purple-500/30 w-2/3" />
+              <div className="h-full bg-purple-500/30 w-2/3" />
             </div>
           </div>
         </div>
@@ -124,11 +124,11 @@ const ProductSection = () => {
       <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.25]">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:40px_40px]" />
       </div>
-      
+
       <div className="max-w-7xl mx-auto space-y-40 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -136,7 +136,7 @@ const ProductSection = () => {
           >
             Built for focus
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -149,12 +149,12 @@ const ProductSection = () => {
 
         {/* Feature Rows */}
         {highlights.map((item, idx) => (
-          <div 
+          <div
             key={item.title}
             className={`flex flex-col lg:flex-row items-center gap-16 lg:gap-32 ${idx % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}
           >
             {/* Text Side */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -172,7 +172,7 @@ const ProductSection = () => {
             </motion.div>
 
             {/* Visual Side (Mock UI) */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: idx % 2 === 0 ? 20 : -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               whileHover={{ y: -8 }}
@@ -182,7 +182,7 @@ const ProductSection = () => {
               <div className="relative group cursor-default">
                 <div className="absolute -inset-4 bg-white/[0.01] rounded-3xl blur-2xl -z-10 group-hover:bg-white/[0.03] transition-colors" />
                 <div className="relative bg-[#111113] border border-white/[0.03] group-hover:border-white/[0.1] rounded-2xl p-8 shadow-2xl overflow-hidden min-h-[320px] flex flex-col justify-center transition-all duration-500">
-                   {visuals[idx]}
+                  {visuals[idx]}
                 </div>
               </div>
             </motion.div>

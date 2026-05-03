@@ -127,7 +127,7 @@ const Landing = () => {
               </div>
 
               {/* Headline */}
-              <motion.h1 
+              <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
@@ -142,7 +142,7 @@ const Landing = () => {
               </motion.h1>
 
               {/* Subheadline */}
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
@@ -153,7 +153,7 @@ const Landing = () => {
               </motion.p>
 
               {/* CTAs */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
@@ -192,7 +192,7 @@ const Landing = () => {
             </div>
 
             {/* Product Preview - Full App Mockup */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 40 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
@@ -476,7 +476,7 @@ const Landing = () => {
         </div>
 
         {/* Scroll Indicator */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 1 }}
@@ -494,7 +494,7 @@ const Landing = () => {
 
       <ProductSection />
 
-            {/* Features Section */}
+      {/* Features Section */}
       <section
         id="features"
         className="relative z-10 py-48 px-4 sm:px-6 lg:px-8 border-t border-white/[0.02]"
@@ -539,19 +539,19 @@ const Landing = () => {
                 <span className="font-semibold text-white text-xl tracking-tight">Trackly</span>
               </div>
               <p className="text-gray-500 text-[15px] leading-relaxed max-w-xs mb-8">
-                The issue tracking system for high-performance teams. 
+                The issue tracking system for high-performance teams.
                 Fast, beautiful, and built for clarity.
               </p>
               <div className="flex items-center gap-4">
-                 <div className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.05] flex items-center justify-center hover:bg-white/[0.08] transition-colors cursor-pointer">
-                    <div className="w-4 h-4 bg-gray-500" /> {/* Social Placeholder */}
-                 </div>
-                 <div className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.05] flex items-center justify-center hover:bg-white/[0.08] transition-colors cursor-pointer">
-                    <div className="w-4 h-4 bg-gray-500" /> {/* Social Placeholder */}
-                 </div>
+                <div className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.05] flex items-center justify-center hover:bg-white/[0.08] transition-colors cursor-pointer">
+                  <div className="w-4 h-4 bg-gray-500" /> {/* Social Placeholder */}
+                </div>
+                <div className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.05] flex items-center justify-center hover:bg-white/[0.08] transition-colors cursor-pointer">
+                  <div className="w-4 h-4 bg-gray-500" /> {/* Social Placeholder */}
+                </div>
               </div>
             </div>
-            
+
             <div>
               <h4 className="text-sm font-semibold text-white mb-6 uppercase tracking-wider">Product</h4>
               <ul className="space-y-4 text-sm text-gray-500">
