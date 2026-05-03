@@ -131,11 +131,11 @@ const GlobalSearch = () => {
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 px-4 py-2 bg-[#161922] hover:bg-[#1A1D24] border border-[#1F2328] rounded-md text-gray-400 text-sm transition-colors"
+        className="flex items-center gap-2 p-2 md:px-4 md:py-2 bg-[#161922] hover:bg-[#1A1D24] border border-[#1F2328] rounded-md text-gray-400 text-sm transition-colors"
       >
-        <Search className="w-4 h-4" />
-        <span>Search...</span>
-        <div className="flex items-center gap-1 ml-2 text-xs">
+        <Search className="w-4 h-4 md:w-4 md:h-4" />
+        <span className="hidden md:inline">Search...</span>
+        <div className="hidden md:flex items-center gap-1 ml-2 text-xs">
           <Command className="w-3 h-3" />
           <span>K</span>
         </div>

@@ -18,7 +18,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onClose }) => {
   const { user, logout } = useAuth();
   const { teams, fetchTeams } = useTeams();
   const {
@@ -44,7 +44,15 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-64 h-screen bg-[var(--bg-secondary)] border-r border-[var(--border-primary)] flex flex-col font-sans relative z-20 shadow-[4px_0_24px_rgba(0,0,0,0.05)]">
+    <aside className={`fixed inset-y-0 left-0 z-40 w-64 bg-[var(--bg-secondary)] border-r border-[var(--border-primary)] flex flex-col font-sans transition-transform duration-300 ease-in-out transform ${isOpen ? "translate-x-0" : "-translate-x-full"} md:relative md:translate-x-0 md:z-20 shadow-[4px_0_24px_rgba(0,0,0,0.05)]`}>
+      {/* Mobile Close Button */}
+      <button 
+        onClick={onClose}
+        className="absolute top-4 right-[-40px] p-2 bg-[var(--bg-secondary)] border border-[var(--border-primary)] border-l-0 rounded-r-md text-[var(--text-secondary)] md:hidden"
+      >
+        <ChevronDown className="w-4 h-4 rotate-90" />
+      </button>
+
       {/* Workspace Header */}
       <div className="p-4 border-b border-[var(--border-primary)]">
         <div className="flex items-center gap-2 px-2 py-2 mb-4 hover:bg-[var(--hover-bg)] rounded-md cursor-pointer transition-colors group">

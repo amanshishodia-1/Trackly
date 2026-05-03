@@ -290,32 +290,38 @@ const KanbanBoard = ({ issues, onStatusChange }) => {
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
-        <div className="grid grid-cols-3 gap-4 h-[calc(100vh-300px)] min-h-[500px]">
+        <div className="flex md:grid md:grid-cols-3 gap-4 h-[calc(100vh-300px)] min-h-[500px] overflow-x-auto pb-4 md:pb-0 scrollbar-hide">
           <SortableContext
             items={["Todo", "In Progress", "Done"]}
             strategy={verticalListSortingStrategy}
           >
-            <KanbanColumn
-              title="Todo"
-              status="Todo"
-              issues={columns.Todo}
-              count={columns.Todo.length}
-              onCardClick={handleCardClick}
-            />
-            <KanbanColumn
-              title="In Progress"
-              status="In Progress"
-              issues={columns["In Progress"]}
-              count={columns["In Progress"].length}
-              onCardClick={handleCardClick}
-            />
-            <KanbanColumn
-              title="Done"
-              status="Done"
-              issues={columns.Done}
-              count={columns.Done.length}
-              onCardClick={handleCardClick}
-            />
+            <div className="min-w-[280px] flex-1">
+              <KanbanColumn
+                title="Todo"
+                status="Todo"
+                issues={columns.Todo}
+                count={columns.Todo.length}
+                onCardClick={handleCardClick}
+              />
+            </div>
+            <div className="min-w-[280px] flex-1">
+              <KanbanColumn
+                title="In Progress"
+                status="In Progress"
+                issues={columns["In Progress"]}
+                count={columns["In Progress"].length}
+                onCardClick={handleCardClick}
+              />
+            </div>
+            <div className="min-w-[280px] flex-1">
+              <KanbanColumn
+                title="Done"
+                status="Done"
+                issues={columns.Done}
+                count={columns.Done.length}
+                onCardClick={handleCardClick}
+              />
+            </div>
           </SortableContext>
         </div>
 

@@ -163,8 +163,8 @@ const MyIssues = () => {
       </div>
 
       {/* Filters Row */}
-      <div className="flex items-center gap-4 mb-4">
-        <div className="relative flex-1 max-w-md">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
+        <div className="relative flex-1 w-full sm:max-w-md">
           <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-500" />
           <input
             type="text"
@@ -175,11 +175,11 @@ const MyIssues = () => {
           />
         </div>
 
-        <div className="relative">
+        <div className="relative w-full sm:w-auto">
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="appearance-none bg-[#0F1115] border border-[#1F2328] rounded-lg py-2 pl-4 pr-10 text-sm text-white focus:border-purple-500 transition-colors cursor-pointer"
+            className="w-full sm:w-auto appearance-none bg-[#0F1115] border border-[#1F2328] rounded-lg py-2 pl-4 pr-10 text-sm text-white focus:border-purple-500 transition-colors cursor-pointer"
           >
             <option value="all">All statuses</option>
             <option value="Todo">Todo</option>
@@ -222,93 +222,147 @@ const MyIssues = () => {
             </p>
           </div>
         ) : (
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-[#1F2328] bg-[#0F1115]">
-                <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider">
-                  Issue
-                </th>
-                <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider w-32">
-                  Status
-                </th>
-                <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider w-28">
-                  Priority
-                </th>
-                <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider">
-                  Team
-                </th>
-                <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider">
-                  Created
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredIssues.map((issue) => (
-                <tr
-                  key={issue._id}
-                  className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors group cursor-pointer"
-                >
-                  <td className="py-2 px-4">
-                    <div className="flex items-center gap-4">
-                      <div className="flex-shrink-0 opacity-70 group-hover:opacity-100 transition-opacity">
-                        {getPriorityIcon(issue.priority)}
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-[#E8E8E8] font-medium text-[13px] truncate">
-                          {issue.title}
-                        </p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="text-[#8A8F98] text-[11px] font-mono">
-                            {issue.identifier}
-                          </span>
-                          {issue.labels?.length > 0 && (
-                            <span className="text-[#8A8F98] text-[11px]">
-                              +{issue.labels.length} labels
+          <>
+            {/* Desktop Table View */}
+            <table className="w-full hidden md:table">
+              <thead>
+                <tr className="border-b border-[#1F2328] bg-[#0F1115]">
+                  <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider">
+                    Issue
+                  </th>
+                  <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider w-32">
+                    Status
+                  </th>
+                  <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider w-28">
+                    Priority
+                  </th>
+                  <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider">
+                    Team
+                  </th>
+                  <th className="text-left py-4 px-4 text-gray-500 font-medium text-xs uppercase tracking-wider">
+                    Created
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredIssues.map((issue) => (
+                  <tr
+                    key={issue._id}
+                    className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors group cursor-pointer"
+                  >
+                    <td className="py-2 px-4">
+                      <div className="flex items-center gap-4">
+                        <div className="flex-shrink-0 opacity-70 group-hover:opacity-100 transition-opacity">
+                          {getPriorityIcon(issue.priority)}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-[#E8E8E8] font-medium text-[13px] truncate">
+                            {issue.title}
+                          </p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-[#8A8F98] text-[11px] font-mono">
+                              {issue.identifier}
                             </span>
-                          )}
+                            {issue.labels?.length > 0 && (
+                              <span className="text-[#8A8F98] text-[11px]">
+                                +{issue.labels.length} labels
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="py-2 px-4">
-                    <span
-                      className={`inline-flex items-center px-2 py-1 rounded-[4px] text-[11px] font-medium border ${getStatusColor(issue.status).replace("bg-", "bg-opacity-10 bg-").replace("border-", "border-opacity-20 border-")}`}
-                    >
-                      {issue.status}
-                    </span>
-                  </td>
-                  <td className="py-2 px-4">
-                    <div
-                      className={`flex items-center gap-1 w-fit px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors ${getPriorityColor(issue.priority)}`}
-                    >
-                      {getPriorityIcon(issue.priority)}
-                      <span className="text-[11px] font-medium leading-none tracking-tight">
-                        {issue.priority}
+                    </td>
+                    <td className="py-2 px-4">
+                      <span
+                        className={`inline-flex items-center px-2 py-1 rounded-[4px] text-[11px] font-medium border ${getStatusColor(issue.status).replace("bg-", "bg-opacity-10 bg-").replace("border-", "border-opacity-20 border-")}`}
+                      >
+                        {issue.status}
                       </span>
-                    </div>
-                  </td>
-                  <td className="py-2 px-4">
-                    <div className="flex items-center gap-2 w-fit px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors">
-                      <div className="w-4 h-4 bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/30 rounded flex items-center justify-center">
-                        <span className="text-purple-400 text-[9px] font-bold">
-                          {issue.team?.key?.charAt(0) || "?"}
+                    </td>
+                    <td className="py-2 px-4">
+                      <div
+                        className={`flex items-center gap-1 w-fit px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors ${getPriorityColor(issue.priority)}`}
+                      >
+                        {getPriorityIcon(issue.priority)}
+                        <span className="text-[11px] font-medium leading-none tracking-tight">
+                          {issue.priority}
                         </span>
                       </div>
-                      <span className="text-[#8A8F98] text-[11px] font-medium">
-                        {issue.team?.name}
-                      </span>
+                    </td>
+                    <td className="py-2 px-4">
+                      <div className="flex items-center gap-2 w-fit px-2 py-1 rounded-[4px] border border-transparent group-hover:border-white/[0.06] transition-colors">
+                        <div className="w-4 h-4 bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/30 rounded flex items-center justify-center">
+                          <span className="text-purple-400 text-[9px] font-bold">
+                            {issue.team?.key?.charAt(0) || "?"}
+                          </span>
+                        </div>
+                        <span className="text-[#8A8F98] text-[11px] font-medium">
+                          {issue.team?.name}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-2 px-4 text-[#8A8F98] text-[11px] font-medium">
+                      {new Date(issue.createdAt).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* Mobile Card View */}
+            <div className="flex flex-col md:hidden divide-y divide-white/[0.04]">
+              {filteredIssues.map((issue) => (
+                <div 
+                  key={issue._id}
+                  className="p-4 hover:bg-white/[0.02] transition-colors flex flex-col gap-3"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[#8A8F98] text-[11px] font-mono">
+                          {issue.identifier}
+                        </span>
+                        <div className="w-1 h-1 rounded-full bg-[#1F2328]" />
+                        <span className="text-[#8A8F98] text-[11px]">
+                          {issue.team?.name}
+                        </span>
+                      </div>
+                      <h4 className="text-[#E8E8E8] font-medium text-[14px] leading-snug">
+                        {issue.title}
+                      </h4>
                     </div>
-                  </td>
-                  <td className="py-2 px-4 text-[#8A8F98] text-[11px] font-medium">
-                    {new Date(issue.createdAt).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </td>
-                </tr>
+                    <div className="flex-shrink-0">
+                      {getPriorityIcon(issue.priority)}
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`inline-flex items-center px-2 py-1 rounded-[4px] text-[10px] font-medium border ${getStatusColor(issue.status).replace("bg-", "bg-opacity-10 bg-").replace("border-", "border-opacity-20 border-")}`}
+                      >
+                        {issue.status}
+                      </span>
+                      <div
+                        className={`flex items-center gap-1 text-[10px] font-medium ${getPriorityColor(issue.priority)}`}
+                      >
+                        <span className="opacity-70">{issue.priority}</span>
+                      </div>
+                    </div>
+                    <span className="text-[#8A8F98] text-[11px]">
+                      {new Date(issue.createdAt).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </span>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+          </>
         )}
       </div>
     </div>
