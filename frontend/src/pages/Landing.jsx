@@ -165,9 +165,7 @@ const Landing = () => {
               <div className="bg-[#0F1115] rounded-xl border border-[#1F2328] overflow-hidden shadow-2xl">
                 {/* App Mockup Header */}
                 <div className="flex items-center gap-2 px-4 py-3 border-b border-[#1F2328] bg-[#161922]">
-                  <div className="w-5 h-5 rounded bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">T</span>
-                  </div>
+                  <Logo size={20} />
                   <span className="text-sm font-medium text-gray-200">
                     Trackly
                   </span>
@@ -475,13 +473,11 @@ const Landing = () => {
           <div className="grid md:grid-cols-5 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-6 h-6 rounded bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">T</span>
-                </div>
+                <Logo size={24} />
                 <span className="font-semibold text-gray-200">Trackly</span>
               </div>
               <p className="text-sm text-gray-500">
-                © 2024 Trackly, Inc.
+                © 2026 Trackly, Inc.
                 <br />
                 All rights reserved.
               </p>

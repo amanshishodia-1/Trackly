@@ -81,9 +81,7 @@ const Login = () => {
         <div className="w-full max-w-md relative z-10">
           {/* Mobile Logo */}
           <div className="flex lg:hidden items-center justify-center gap-2 text-[var(--text-primary)] font-bold text-xl mb-10 mt-8 sm:mt-0">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
-              <span className="text-white text-sm">T</span>
-            </div>
+            <Logo size={32} />
             Trackly
           </div>
 

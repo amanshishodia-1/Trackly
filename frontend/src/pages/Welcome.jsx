@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../lib/axios";
+import Logo from "../components/Logo";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const slides = [
@@ -200,8 +201,8 @@ const Welcome = () => {
       <div className="w-full max-w-2xl relative z-10 flex flex-col items-center text-center">
         
         {/* Logo */}
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/20 mb-10 transform hover:scale-105 transition-transform duration-300">
-          <span className="text-white text-2xl font-bold">T</span>
+        <div className="mb-10 transform hover:scale-105 transition-transform duration-300">
+          <Logo size={56} />
         </div>
 
         {/* Content */}
