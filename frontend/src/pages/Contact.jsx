@@ -16,14 +16,14 @@ const Contact = () => {
     {
       icon: Linkedin,
       label: 'LinkedIn',
-      value: 'linkedin.com/in/amanshishodia',
-      href: 'https://linkedin.com/in/amanshishodia',
+      value: 'aman-shishodia',
+      href: 'https://www.linkedin.com/in/aman-shishodia-231b11300/',
       color: 'text-indigo-400'
     },
     {
       icon: Github,
       label: 'GitHub',
-      value: 'github.com/amanshishodia-1',
+      value: 'amanshishodia-1',
       href: 'https://github.com/amanshishodia-1',
       color: 'text-purple-400'
     },
