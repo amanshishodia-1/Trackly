@@ -62,10 +62,15 @@ export const ThemeProvider = ({ children }) => {
       try {
         const { data } = await api.get("/settings/appearance");
         if (data) {
-          setTheme(data.theme || savedTheme);
-          setDensity(data.density || savedDensity);
-          applyTheme(data.theme || savedTheme);
-          applyDensity(data.density || savedDensity);
+          // Only update if server value is different to avoid flickering or overwriting local changes
+          if (data.theme && data.theme !== savedTheme) {
+            setTheme(data.theme);
+            applyTheme(data.theme);
+          }
+          if (data.density && data.density !== savedDensity) {
+            setDensity(data.density);
+            applyDensity(data.density);
+          }
         }
       } catch (err) {
         // Silently fail if not authorized - user is likely logging out or has an expired session
@@ -95,7 +100,8 @@ export const ThemeProvider = ({ children }) => {
     setTheme(newTheme);
     applyTheme(newTheme);
     try {
-      await api.patch("/settings/appearance", { theme: newTheme, density });
+      // Only send the theme to avoid stale density state
+      await api.patch("/settings/appearance", { theme: newTheme });
     } catch (err) {
       console.error("Failed to save theme:", err);
     }
@@ -105,7 +111,8 @@ export const ThemeProvider = ({ children }) => {
     setDensity(newDensity);
     applyDensity(newDensity);
     try {
-      await api.patch("/settings/appearance", { theme, density: newDensity });
+      // Only send the density to avoid stale theme state
+      await api.patch("/settings/appearance", { density: newDensity });
     } catch (err) {
       console.error("Failed to save density:", err);
     }
