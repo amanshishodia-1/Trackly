@@ -50,7 +50,7 @@ const CreateTeam = () => {
   };
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-2xl mx-auto">
       {/* Back Button */}
       <button
         onClick={() => navigate("/app/teams")}
