@@ -1,123 +1,103 @@
-# MERN Authentication System with Workspaces
+# Trackly
 
-A full-stack authentication system built with MongoDB, Express, React, and Node.js featuring:
+Trackly is a high-performance, premium issue tracking system inspired by the minimalist and keyboard-first philosophy of Linear. Built with the MERN stack, it offers a seamless experience for teams to manage tasks, projects, and cycles with speed and clarity.
 
-- JWT-based authentication
-- Automatic workspace creation on signup
-- Linear-inspired sidebar dashboard
-- Protected routes
+## ✨ Features
 
-## Features
+- **Premium UI/UX**: Minimalist, high-contrast interface with ambient background effects, refined typography, and glassmorphism.
+- **Issue Tracking**: Fast, intuitive management of issues with custom statuses, priorities, and assignees.
+- **Workspace Management**: Automated personal workspace creation upon signup with customizable settings.
+- **Projects & Teams**: Group related issues into initiatives and collaborate seamlessly across different team structures.
+- **Appearance System**: Advanced customization including Light, Dark, and System theme support, alongside "Comfortable" and "Compact" interface density modes.
+- **Global Search**: Powerful command-center style search to navigate and find issues instantly.
+- **Real-time Polish**: Fluid micro-interactions and layout transitions powered by Framer Motion.
+- **Inbox & Activity**: Stay updated on relevant changes with a dedicated notification center.
 
-- **Authentication**: Register, Login, Logout with JWT
-- **Workspace**: Each user gets a personal workspace on signup
-- **Dashboard**: Linear-inspired dark UI with sidebar navigation
-- **Pages**: Inbox, My Issues, Projects, Teams
+## 🚀 Tech Stack
 
-## Database Models
+- **Frontend**: React 18, Vite, Tailwind CSS, Framer Motion, Lucide React, Axios
+- **Backend**: Node.js, Express, MongoDB (Mongoose), JWT Authentication, Bcrypt.js
+- **Deployment**: Configured for Vercel (Frontend) and Render (Backend).
 
-### User
-- name
-- email
-- password
-- workspaceId
-
-### Workspace
-- name
-- owner
-- members[]
-
-## Getting Started
-
-### Prerequisites
-- Node.js 18+
-- MongoDB running locally or MongoDB Atlas URI
-
-### Installation
-
-1. **Install Backend Dependencies**
-```bash
-cd backend
-npm install
-```
-
-2. **Install Frontend Dependencies**
-```bash
-cd frontend
-npm install
-```
-
-3. **Set up Environment Variables**
-Edit `backend/.env` with your MongoDB URI and JWT secret:
-```
-MONGODB_URI=mongodb://localhost:27017/mern_auth
-JWT_SECRET=your_secret_key
-```
-
-### Running the Application
-
-1. **Start the Backend** (from backend directory):
-```bash
-npm run dev
-```
-Server runs on http://localhost:5000
-
-2. **Start the Frontend** (from frontend directory):
-```bash
-npm run dev
-```
-App runs on http://localhost:3000
-
-## Project Structure
+## 📦 Project Structure
 
 ```
 ├── backend/
-│   ├── models/
-│   │   ├── User.js
-│   │   └── Workspace.js
-│   ├── routes/
-│   │   ├── auth.js
-│   │   └── workspace.js
-│   ├── middleware/
-│   │   └── auth.js
-│   ├── server.js
-│   └── .env
+│   ├── models/        # Mongoose schemas (User, Workspace, Team, Project, etc.)
+│   ├── routes/        # API endpoints (Auth, Settings, Workspace, Issues)
+│   ├── middleware/    # Auth protection and error handling
+│   └── server.js      # Entry point
 └── frontend/
     ├── src/
-    │   ├── components/
-    │   │   └── Sidebar.jsx
-    │   ├── context/
-    │   │   └── AuthContext.jsx
-    │   ├── layouts/
-    │   │   └── DashboardLayout.jsx
-    │   ├── pages/
-    │   │   ├── Login.jsx
-    │   │   ├── Register.jsx
-    │   │   └── dashboard/
-    │   │       ├── Inbox.jsx
-    │   │       ├── MyIssues.jsx
-    │   │       ├── Projects.jsx
-    │   │       └── Teams.jsx
-    │   ├── lib/
-    │   │   └── axios.js
-    │   ├── App.jsx
-    │   └── main.jsx
-    └── index.html
+    │   ├── components/# Atomic components and landing page modules
+    │   ├── context/   # Global state (Auth, Theme, Search)
+    │   ├── layouts/   # Dashboard and Authentication layouts
+    │   ├── pages/     # Main feature views (Dashboard, Settings, Pricing)
+    │   ├── lib/       # API configuration and utilities
+    │   └── assets/    # Static assets and design tokens
+    └── index.html     # Entry point with optimized theme-flash prevention
 ```
 
-## API Endpoints
+## 🛠️ Getting Started
 
-### Auth
-- `POST /api/auth/register` - Register new user with workspace
-- `POST /api/auth/login` - Login user
-- `GET /api/auth/me` - Get current user (protected)
+### Prerequisites
 
-### Workspace
-- `GET /api/workspace/me` - Get user's workspace (protected)
-- `PUT /api/workspace/:id` - Update workspace (protected, owner only)
+- Node.js (v18 or higher)
+- MongoDB (Local instance or Atlas URI)
 
-## Tech Stack
+### Installation
 
-- **Backend**: Node.js, Express, MongoDB (Mongoose), JWT, bcryptjs
-- **Frontend**: React, Vite, React Router, Axios, Tailwind CSS, Lucide Icons
-# Trackly
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/amanshishodia-1/Trackly.git
+   cd Trackly
+   ```
+
+2. **Backend Setup**
+   ```bash
+   cd backend
+   npm install
+   ```
+   Create a `.env` file in the `backend` directory:
+   ```env
+   MONGODB_URI=your_mongodb_uri
+   JWT_SECRET=your_jwt_secret
+   PORT=3000
+   ```
+
+3. **Frontend Setup**
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+
+### Running Locally
+
+1. **Start Backend Server**
+   ```bash
+   cd backend
+   npm run dev
+   ```
+
+2. **Start Frontend Development Server**
+   ```bash
+   cd frontend
+   npm run dev
+   ```
+
+## 🔐 API Reference
+
+### Authentication
+- `POST /api/auth/register` - Create account and auto-initialize workspace
+- `POST /api/auth/login` - Authenticate and receive JWT
+- `GET /api/auth/me` - Get current authenticated user
+
+### Settings & Workspace
+- `GET /api/settings/appearance` - Get theme/density preferences
+- `PATCH /api/settings/appearance` - Update appearance settings
+- `PATCH /api/settings/profile` - Update user profile and timezone
+- `GET /api/workspace/me` - Get current workspace details
+
+## 📄 License
+
+Built for high-performance teams. © 2026 Trackly Inc.
