@@ -200,11 +200,10 @@ const GlobalSearch = () => {
                         <button
                           key={issue._id}
                           onClick={() => handleSelect("issue", issue)}
-                          className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${
-                            isSelected
+                          className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${isSelected
                               ? "bg-[var(--accent-primary)]/10"
                               : "hover:bg-[var(--hover-bg)]"
-                          }`}
+                            }`}
                         >
                           <FileText className="w-4 h-4 text-[var(--text-tertiary)] flex-shrink-0" />
                           <div className="flex-1 min-w-0">
@@ -252,11 +251,10 @@ const GlobalSearch = () => {
                         <button
                           key={project._id}
                           onClick={() => handleSelect("project", project)}
-                          className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${
-                            isSelected
+                          className={`w-full flex items-center gap-4 px-4 py-4 text-left transition-colors ${isSelected
                               ? "bg-[var(--accent-primary)]/10"
                               : "hover:bg-[var(--hover-bg)]"
-                          }`}
+                            }`}
                         >
                           <FolderKanban className="w-4 h-4 text-[var(--accent-primary)] flex-shrink-0" />
                           <div className="flex-1 min-w-0">
@@ -268,13 +266,12 @@ const GlobalSearch = () => {
                                 {project.team?.name}
                               </span>
                               <span
-                                className={`text-xs px-2 py-1 rounded border ${
-                                  project.status === "Active"
+                                className={`text-xs px-2 py-1 rounded border ${project.status === "Active"
                                     ? "bg-green-500/20 text-green-400 border-green-500/30"
                                     : project.status === "Archived"
                                       ? "bg-gray-500/20 text-gray-400 border-gray-500/30"
                                       : "bg-blue-500/20 text-blue-400 border-blue-500/30"
-                                }`}
+                                  }`}
                               >
                                 {project.status}
                               </span>

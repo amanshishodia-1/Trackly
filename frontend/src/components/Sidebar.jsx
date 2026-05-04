@@ -48,7 +48,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     <aside className={`fixed inset-y-0 left-0 z-40 w-64 bg-[var(--bg-secondary)] border-r border-[var(--border-primary)] flex flex-col font-sans transition-transform duration-300 ease-in-out transform ${isOpen ? "translate-x-0" : "-translate-x-full"} md:relative md:translate-x-0 md:z-20 shadow-[4px_0_24px_rgba(0,0,0,0.05)]`}>
       {/* Mobile Close Button */}
       {isOpen && (
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-4 right-[-40px] p-2 bg-[var(--bg-secondary)] border border-[var(--border-primary)] border-l-0 rounded-r-md text-[var(--text-secondary)] md:hidden shadow-lg animate-in fade-in slide-in-from-left-2 duration-200"
         >
@@ -100,10 +100,9 @@ const Sidebar = ({ isOpen, onClose }) => {
                 to={item.to}
                 onClick={onClose}
                 className={({ isActive }) =>
-                  `group flex items-center gap-2 px-2 py-2 rounded-md text-[13px] font-medium transition-colors ${
-                    isActive
-                      ? "bg-white/5 text-[var(--text-primary)]"
-                      : "text-[var(--text-secondary)] hover:bg-[var(--hover-bg)] hover:text-[var(--text-primary)]"
+                  `group flex items-center gap-2 px-2 py-2 rounded-md text-[13px] font-medium transition-colors ${isActive
+                    ? "bg-white/5 text-[var(--text-primary)]"
+                    : "text-[var(--text-secondary)] hover:bg-[var(--hover-bg)] hover:text-[var(--text-primary)]"
                   }`
                 }
               >
@@ -143,10 +142,9 @@ const Sidebar = ({ isOpen, onClose }) => {
                   to={`/app/teams/${team._id}`}
                   onClick={onClose}
                   className={({ isActive }) =>
-                    `group flex items-center gap-2 px-2 py-1.5 rounded-md text-[13px] font-medium transition-colors ${
-                      isActive
-                        ? "bg-white/5 text-[var(--text-primary)]"
-                        : "text-[var(--text-secondary)] hover:bg-[var(--hover-bg)] hover:text-[var(--text-primary)]"
+                    `group flex items-center gap-2 px-2 py-1.5 rounded-md text-[13px] font-medium transition-colors ${isActive
+                      ? "bg-white/5 text-[var(--text-primary)]"
+                      : "text-[var(--text-secondary)] hover:bg-[var(--hover-bg)] hover:text-[var(--text-primary)]"
                     }`
                   }
                 >
@@ -173,10 +171,9 @@ const Sidebar = ({ isOpen, onClose }) => {
             to="/app/settings"
             onClick={onClose}
             className={({ isActive }) =>
-              `w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-[13px] font-medium transition-colors mb-0.5 ${
-                isActive
-                  ? "bg-white/5 text-[var(--text-primary)]"
-                  : "text-[var(--text-secondary)] hover:bg-[var(--hover-bg)] hover:text-[var(--text-primary)]"
+              `w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-[13px] font-medium transition-colors mb-0.5 ${isActive
+                ? "bg-white/5 text-[var(--text-primary)]"
+                : "text-[var(--text-secondary)] hover:bg-[var(--hover-bg)] hover:text-[var(--text-primary)]"
               }`
             }
           >

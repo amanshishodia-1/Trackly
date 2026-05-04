@@ -130,13 +130,13 @@ const Teams = () => {
         </div>
         <div className="flex items-center gap-3 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
           <div className="flex items-center bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-lg p-0.5 shadow-sm shrink-0">
-            <button 
+            <button
               onClick={() => setFilterJoined(false)}
               className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${!filterJoined ? 'bg-white/5 text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
             >
               All
             </button>
-            <button 
+            <button
               onClick={() => setFilterJoined(true)}
               className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${filterJoined ? 'bg-white/5 text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
             >
@@ -145,13 +145,12 @@ const Teams = () => {
           </div>
 
           <div className="relative shrink-0">
-            <button 
+            <button
               onClick={() => setShowSortMenu(!showSortMenu)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all text-xs font-medium ${
-                showSortMenu 
-                  ? "border-indigo-500/50 bg-indigo-500/5 text-indigo-400" 
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all text-xs font-medium ${showSortMenu
+                  ? "border-indigo-500/50 bg-indigo-500/5 text-indigo-400"
                   : "border-[var(--border-primary)] bg-[var(--bg-secondary)] text-gray-400 hover:text-gray-200"
-              }`}
+                }`}
             >
               <ArrowUpDown className="w-3.5 h-3.5" />
               <span className="hidden xs:inline">Sort: {sortBy.charAt(0).toUpperCase() + sortBy.slice(1)}</span>
@@ -160,9 +159,9 @@ const Teams = () => {
 
             {showSortMenu && (
               <>
-                <div 
-                  className="fixed inset-0 z-30" 
-                  onClick={() => setShowSortMenu(false)} 
+                <div
+                  className="fixed inset-0 z-30"
+                  onClick={() => setShowSortMenu(false)}
                 />
                 <div className="absolute right-0 mt-2 w-40 bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-xl shadow-2xl py-1.5 z-40 animate-in fade-in zoom-in duration-150 origin-top-right">
                   {[
@@ -176,11 +175,10 @@ const Teams = () => {
                         setSortBy(option.id);
                         setShowSortMenu(false);
                       }}
-                      className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-colors ${
-                        sortBy === option.id 
-                          ? "text-indigo-400 bg-indigo-500/5" 
+                      className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-colors ${sortBy === option.id
+                          ? "text-indigo-400 bg-indigo-500/5"
                           : "text-gray-400 hover:text-gray-200 hover:bg-white/[0.03]"
-                      }`}
+                        }`}
                     >
                       {option.label}
                       {sortBy === option.id && <Check className="w-3 h-3" />}
@@ -330,7 +328,7 @@ const Teams = () => {
                       </span>
                     )}
                   </div>
-                  
+
                   <div className="flex items-center justify-between pt-1">
                     <div className="flex items-center gap-4">
                       <div className="flex flex-col gap-0.5">

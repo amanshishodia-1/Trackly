@@ -74,9 +74,9 @@ const Projects = () => {
             <div className="w-2/3 h-5 bg-[var(--skeleton-bg)] rounded-[4px] animate-pulse mb-2" />
             <div className="w-full h-4 bg-[var(--skeleton-bg)] rounded-[4px] animate-pulse mb-1.5" />
             <div className="w-4/5 h-4 bg-[var(--skeleton-bg)] rounded-[4px] animate-pulse mb-6" />
-            
+
             <div className="w-full h-1.5 bg-[var(--skeleton-bg)] rounded-full animate-pulse mb-6" />
-            
+
             <div className="flex items-center justify-between pt-4 border-t border-[var(--border-primary)]">
               <div className="w-1/4 h-4 bg-[var(--skeleton-bg)] rounded-[4px] animate-pulse" />
               <div className="w-16 h-5 bg-[var(--skeleton-bg)] rounded-full animate-pulse" />

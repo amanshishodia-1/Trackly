@@ -977,26 +977,29 @@ const Settings = () => {
   };
 
   return (
-    <div className="p-10 max-w-6xl">
-      <h1 className="text-3xl font-semibold text-[var(--text-primary)] mb-10">Settings</h1>
+    <div className="max-w-5xl mx-auto py-2">
+      <div className="mb-10">
+        <h1 className="text-2xl font-bold text-[var(--text-primary)] tracking-tight">Settings</h1>
+        <p className="text-[13px] text-[var(--text-tertiary)] mt-1">Manage your account, teams, and workspace preferences.</p>
+      </div>
 
-      <div className="flex gap-10">
-        {/* Sidebar Tabs */}
-        <nav className="w-64 shrink-0">
-          <ul className="space-y-2">
+      <div className="flex flex-col md:flex-row gap-12">
+        {/* Secondary Settings Navigation */}
+        <nav className="w-full md:w-48 shrink-0">
+          <ul className="space-y-1">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <li key={tab.id}>
                   <button
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center gap-4 px-4 py-3 rounded-lg text-lg transition-colors text-left ${
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-all text-left ${
                       activeTab === tab.id
-                        ? "bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]"
+                        ? "bg-white/5 text-[var(--text-primary)] shadow-sm ring-1 ring-white/5"
                         : "text-[var(--text-tertiary)] hover:bg-[var(--hover-bg)] hover:text-[var(--text-primary)]"
                     }`}
                   >
-                    <Icon className="w-6 h-6 shrink-0" />
+                    <Icon className={`w-4 h-4 shrink-0 ${activeTab === tab.id ? 'text-indigo-400' : ''}`} />
                     <span>{tab.label}</span>
                   </button>
                 </li>
@@ -1005,9 +1008,9 @@ const Settings = () => {
           </ul>
         </nav>
 
-        {/* Tab Content */}
+        {/* Settings Panel */}
         <div className="flex-1 min-w-0">
-          <div className="bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-xl p-8">
+          <div className="bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-2xl p-8 shadow-xl shadow-black/20">
             {renderTabContent()}
           </div>
         </div>

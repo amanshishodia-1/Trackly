@@ -545,14 +545,6 @@ const Landing = () => {
                 The issue tracking system for high-performance teams.
                 Fast, beautiful, and built for clarity.
               </p>
-              <div className="flex items-center gap-4">
-                <div className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.05] flex items-center justify-center hover:bg-white/[0.08] transition-colors cursor-pointer">
-                  <div className="w-4 h-4 bg-gray-500" /> {/* Social Placeholder */}
-                </div>
-                <div className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.05] flex items-center justify-center hover:bg-white/[0.08] transition-colors cursor-pointer">
-                  <div className="w-4 h-4 bg-gray-500" /> {/* Social Placeholder */}
-                </div>
-              </div>
             </div>
 
             <div>

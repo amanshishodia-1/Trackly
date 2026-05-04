@@ -57,26 +57,61 @@ const ProductSection = () => {
     </div>
   );
 
-  const MockSidebar = () => (
-    <div className="flex gap-8 h-full">
-      <div className="w-24 space-y-5 border-r border-white/[0.03] pr-8">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-white/[0.05]" />
-        <div className="space-y-3 pt-4">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="w-full h-2 bg-white/[0.03] rounded-full" />
+  const MockTeams = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
+            <Users className="w-4 h-4 text-indigo-400" />
+          </div>
+          <div>
+            <div className="text-[15px] font-semibold text-white tracking-tight">Engineering Team</div>
+            <div className="text-[11px] text-gray-500 font-medium">12 members · 4 active now</div>
+          </div>
+        </div>
+        <div className="flex -space-x-2.5">
+          {[1, 2, 3, 4].map(i => (
+            <div key={i} className={`w-7 h-7 rounded-full border-2 border-[#111113] bg-gradient-to-br shadow-lg ${i % 2 === 0 ? 'from-purple-500/40 to-blue-500/40' : 'from-indigo-500/40 to-cyan-500/40'}`} />
           ))}
+          <div className="w-7 h-7 rounded-full border-2 border-[#111113] bg-[#1A1A1E] flex items-center justify-center text-[9px] font-bold text-gray-400 shadow-lg">+8</div>
         </div>
       </div>
-      <div className="flex-1 space-y-8 pt-2">
-        <div className="flex items-center justify-between">
-          <div className="h-5 bg-white/[0.05] rounded-md w-1/3" />
-          <div className="w-8 h-8 rounded-full bg-white/[0.02] border border-white/[0.05]" />
-        </div>
-        <div className="space-y-4">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="space-y-2">
-              <div className="h-2 bg-white/[0.02] rounded-full w-full" />
-              <div className="h-2 bg-white/[0.01] rounded-full w-2/3" />
+      
+      <div className="grid grid-cols-2 gap-4">
+        {[
+          { name: "Frontend Dashboard", status: "Active", progress: 75, color: "bg-indigo-400" },
+          { name: "API Infrastructure", status: "Review", progress: 40, color: "bg-purple-400" }
+        ].map((team, i) => (
+          <div key={i} className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] space-y-4 hover:bg-white/[0.04] transition-colors group/team">
+            <div className="flex items-center justify-between">
+              <span className="text-[12px] font-semibold text-gray-200 tracking-tight">{team.name}</span>
+              <span className="text-[9px] px-2 py-0.5 rounded-full bg-white/[0.05] text-gray-400 font-bold uppercase tracking-wider">{team.status}</span>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between text-[10px] font-medium text-gray-500 uppercase tracking-widest">
+                <span>Progress</span>
+                <span>{team.progress}%</span>
+              </div>
+              <div className="h-1.5 bg-white/[0.03] rounded-full overflow-hidden border border-white/[0.02]">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${team.progress}%` }}
+                  className={`h-full ${team.color} rounded-full shadow-[0_0_8px_rgba(99,102,241,0.3)]`} 
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="pt-4 border-t border-white/[0.03] space-y-3">
+        <div className="text-[11px] font-bold text-gray-600 uppercase tracking-[0.2em] px-1">Active Cycles</div>
+        <div className="space-y-2.5">
+          {[1, 2].map(i => (
+            <div key={i} className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-white/[0.01] transition-colors">
+              <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
+              <div className="h-2 bg-white/[0.05] rounded-full flex-1" />
+              <div className="h-2 bg-white/[0.03] rounded-full w-16" />
             </div>
           ))}
         </div>
@@ -113,7 +148,7 @@ const ProductSection = () => {
 
   const visuals = [
     <MockIssueList />,
-    <MockSidebar />,
+    <MockTeams />,
     <MockTableRows />,
     <MockIssueList /> // Reusing issue list for "My Issues"
   ];
